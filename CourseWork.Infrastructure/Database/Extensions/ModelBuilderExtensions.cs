@@ -1,11 +1,18 @@
 ﻿namespace CourseWork.Infrastructure.Database.Extensions
 {
-    using Identity;
+    using Domain.Identity;
     using LS.Helpers.Hosting.Extensions;
     using Microsoft.EntityFrameworkCore;
 
+    /// <summary>
+    /// Contains extension methods for <see cref="ModelBuilder"/>.
+    /// </summary>
     public static class ModelBuilderExtensions
     {
+        /// <summary>
+        /// Adds the postgre SQL rules.
+        /// </summary>
+        /// <param name="builder">The builder.</param>
         public static void AddPostgreSqlRules(this ModelBuilder builder)
         {
             foreach (var entity in builder.Model.GetEntityTypes())
@@ -37,6 +44,10 @@
             }
         }
 
+        /// <summary>
+        /// Adds the identity rules.
+        /// </summary>
+        /// <param name="builder">The builder.</param>
         public static void AddIdentityRules(this ModelBuilder builder)
         {
             builder.Entity<AppUser>(e => e.ToTable("Users"));
