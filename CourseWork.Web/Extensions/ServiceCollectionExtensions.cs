@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
-using CourseWork.Application;
 using CourseWork.Domain.Identity;
 using CourseWork.Infrastructure.Database;
 using MediatR;
@@ -10,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using CourseWork.Infrastructure;
 
 namespace CourseWork.Web.Extensions
 {
@@ -104,17 +104,40 @@ namespace CourseWork.Web.Extensions
         }
 
         /// <summary>
+        /// Adds the configurations.
+        /// </summary>
+        /// <param name="services">The services.</param>
+        /// <param name="configuration">The configuration.</param>
+        /// <returns></returns>
+        public static IServiceCollection AddConfigurations(this IServiceCollection services, IConfiguration configuration)
+        {
+            return services;
+        }
+
+        /// <summary>
         /// Adds the application authentication.
         /// </summary>
         /// <param name="services">The services.</param>
+        /// <param name="configuration">The configuration.</param>
         /// <returns></returns>
-        public static IServiceCollection AddAppAuthentication(this IServiceCollection services)
+        public static IServiceCollection AddOpenIdConnectAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddAuthentication(s => s.DefaultAuthenticateScheme = "")
-                .AddCookie(o =>
+            /*services.AddAuthentication(o =>
                 {
+                    o.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                    o.DefaultForbidScheme = GoogleOpenIdConnectDefaults.AuthenticationScheme;
+                    o.DefaultChallengeScheme = GoogleOpenIdConnectDefaults.AuthenticationScheme;
+                })
+                .AddCookie()
+                .AddGoogleOpenIdConnect(o =>
+                {
+                    o.ClientId = configuration["GoogleAuthCredentials:ClientId"];
+                    o.ClientSecret = configuration["GoogleAuthCredentials:ClientSecret"];
+                    o.CallbackPath = new PathString("/signin-google");
+                });*/
 
-                });
+            services.AddAuthentication()
+                .AddCookie();
 
             return services;
         }

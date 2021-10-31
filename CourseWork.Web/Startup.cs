@@ -7,6 +7,8 @@ using Microsoft.Extensions.Hosting;
 
 namespace CourseWork.Web
 {
+    using FluentValidation.AspNetCore;
+
     /// <summary>
     /// Startup class.
     /// </summary>
@@ -35,12 +37,24 @@ namespace CourseWork.Web
         /// <param name="services">The services.</param>
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers()
+                .AddFluentValidation(c =>
+            {
+                c.RegisterValidatorsFromAssemblyContaining<Startup>();
+            });
             services.AddSwagger();
             services.AddIdentity();
             services.AddDataAccess(Configuration);
             services.AddMediatr();
-            services.AddAppAuthentication();
+            services.AddConfigurations(Configuration);
+            services.AddOpenIdConnectAuthentication(Configuration);
+            services.AddAuthorization();
+            services.AddCors(o => o.AddPolicy("SmashedPotatoesPolicy", b =>
+            {
+                b.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            }));
         }
 
         /// <summary>
@@ -64,6 +78,8 @@ namespace CourseWork.Web
             });
 
             app.UseRouting();
+
+            app.UseCors("SmashedPotatoesPolicy");
 
             app.UseAuthentication();
             app.UseAuthorization();

@@ -2,7 +2,7 @@
 // © SmashedPotatoes
 // </copyright>
 
-namespace CourseWork.Application
+namespace CourseWork.Infrastructure
 {
     /// <summary>
     /// Serves as an entry point for MediatR to seek for queries and commands.

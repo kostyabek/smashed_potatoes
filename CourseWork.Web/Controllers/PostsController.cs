@@ -7,7 +7,6 @@ namespace CourseWork.Web.Controllers
     using System;
     using System.Threading.Tasks;
     using LS.Helpers.Hosting.API;
-    using LS.Helpers.Hosting.Extensions;
     using MediatR;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -15,9 +14,9 @@ namespace CourseWork.Web.Controllers
 
     /// <inheritdoc />
     [SwaggerTag("Posts")]
-    [Authorize]
+    [ApiController]
     [ApiExplorerSettings(GroupName = "v1")]
-    public sealed class PostsController : Controller
+    public sealed class PostsController : ControllerBase
     {
         private readonly IMediator _mediator;
 
@@ -39,6 +38,7 @@ namespace CourseWork.Web.Controllers
         /// <response code="400">Bad request.</response>
         /// <response code="500">Server error.</response>
         [HttpPost]
+        [Authorize]
         [SwaggerOperation("Create new post command")]
         [Produces("application/json", "application/xml")]
         [Route("api/posts")]
