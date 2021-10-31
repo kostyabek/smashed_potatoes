@@ -2,12 +2,13 @@
 {
     using System.Threading;
     using System.Threading.Tasks;
+    using Database;
     using LS.Helpers.Hosting.API;
     using MediatR;
     using Microsoft.Extensions.Logging;
 
     /// <summary>
-    /// UserSignInCommand hanlder
+    /// UserSignInCommand handler.
     /// </summary>
     /// <seealso cref="MediatR.IRequestHandler{UserSignInCommand}" />
     public class UserSignInCommandHandler : IRequestHandler<UserSignInCommand, ExecutionResult>
