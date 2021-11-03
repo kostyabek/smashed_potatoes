@@ -1,15 +1,15 @@
 ﻿using System.Linq;
-using CourseWork.Domain.Identity;
-using CourseWork.Infrastructure.Database.Extensions;
+using CourseWork.Core.Database.Entities;
+using CourseWork.Core.Database.Entities.Identity;
+using CourseWork.Core.Database.Extensions;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace CourseWork.Infrastructure.Database
+namespace CourseWork.Core.Database
 {
     /// <summary>
     /// Database context of the application.
     /// </summary>
-    /// <seealso cref="IdentityDbContext&lt;AppUser, AppRole, int, AppUserClaim, AppUserRole, AppUserLogin, AppRoleClaim, AppUserToken&gt;" />
     public class BaseDbContext : IdentityDbContext<
     AppUser,
     AppRole,
@@ -28,6 +28,14 @@ namespace CourseWork.Infrastructure.Database
         {
         }
 
+        /// <summary>
+        /// Gets or sets the images.
+        /// </summary>
+        /// <value>
+        /// The images.
+        /// </value>
+        public DbSet<ImageModel> Images { get; set; }
+
         /// <inheritdoc/>
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -40,6 +48,7 @@ namespace CourseWork.Infrastructure.Database
 
             builder.AddIdentityRules();
             builder.AddPostgreSqlRules();
+            builder.ApplySeed();
         }
     }
 }

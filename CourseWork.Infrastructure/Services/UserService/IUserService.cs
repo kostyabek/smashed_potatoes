@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using CourseWork.Domain.Identity;
+using CourseWork.Core.Database.Entities.Identity;
 
-namespace CourseWork.Application.Interfaces
+namespace CourseWork.Core.Services.UserService
 {
     /// <summary>
     /// Contains method definitions to be implemented by user service.

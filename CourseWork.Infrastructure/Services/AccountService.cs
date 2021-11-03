@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CourseWork.Infrastructure.Services
+﻿namespace CourseWork.Core.Services
 {
-    class AccountService
+    /// <summary>
+    /// Account service.
+    /// </summary>
+    public class AccountService
     {
     }
 }

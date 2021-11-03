@@ -1,4 +1,4 @@
-﻿namespace CourseWork.Domain.Identity
+﻿namespace CourseWork.Core.Database.Entities.Identity
 {
     using Microsoft.AspNetCore.Identity;
 

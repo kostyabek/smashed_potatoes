@@ -40,8 +40,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CourseWork.Application\CourseWork.Application.csproj" />
-    <ProjectReference Include="..\CourseWork.Infrastructure\CourseWork.Infrastructure.csproj" />
+    <ProjectReference Include="..\CourseWork.Application\CourseWork.Common.csproj" />
+    <ProjectReference Include="..\CourseWork.Infrastructure\CourseWork.Core.csproj" />
   </ItemGroup>
 
 </Project>

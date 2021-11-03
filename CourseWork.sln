@@ -3,11 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31624.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourseWork.Domain", "CourseWork.Core\CourseWork.Domain.csproj", "{60BF0255-476F-4E5F-ABC2-CC78F6D1309B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourseWork.Common", "CourseWork.Application\CourseWork.Common.csproj", "{36EF9E84-0570-48CE-9F10-2CE3C0669AFF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourseWork.Application", "CourseWork.Application\CourseWork.Application.csproj", "{36EF9E84-0570-48CE-9F10-2CE3C0669AFF}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourseWork.Infrastructure", "CourseWork.Infrastructure\CourseWork.Infrastructure.csproj", "{B6ACBA81-DC7D-442A-9DD8-80DC90EEFCFC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourseWork.Core", "CourseWork.Infrastructure\CourseWork.Core.csproj", "{B6ACBA81-DC7D-442A-9DD8-80DC90EEFCFC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourseWork.Web", "CourseWork.Web\CourseWork.Web.csproj", "{CE583B21-28D6-4F95-B425-1E50DAF2CC2C}"
 EndProject
@@ -17,10 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{60BF0255-476F-4E5F-ABC2-CC78F6D1309B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{60BF0255-476F-4E5F-ABC2-CC78F6D1309B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{60BF0255-476F-4E5F-ABC2-CC78F6D1309B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{60BF0255-476F-4E5F-ABC2-CC78F6D1309B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{36EF9E84-0570-48CE-9F10-2CE3C0669AFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{36EF9E84-0570-48CE-9F10-2CE3C0669AFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{36EF9E84-0570-48CE-9F10-2CE3C0669AFF}.Release|Any CPU.ActiveCfg = Release|Any CPU

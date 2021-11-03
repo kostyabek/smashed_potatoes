@@ -42,6 +42,7 @@ namespace CourseWork.Web
             {
                 c.RegisterValidatorsFromAssemblyContaining<Startup>();
             });
+            services.AddCustomServices();
             services.AddSwagger();
             services.AddIdentity();
             services.AddDataAccess(Configuration);

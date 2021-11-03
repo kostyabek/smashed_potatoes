@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace CourseWork.Domain.Identity
+namespace CourseWork.Core.Database.Entities.Identity
 {
     /// <summary>
     /// App user role.

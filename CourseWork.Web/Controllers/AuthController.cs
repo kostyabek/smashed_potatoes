@@ -11,7 +11,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace CourseWork.Web.Controllers
 {
-    using Infrastructure.Commands.UserSignUpCommand;
+    using Core.Commands.UserSignUp;
 
     /// <inheritdoc />
     [ApiController]
@@ -25,7 +25,7 @@ namespace CourseWork.Web.Controllers
         /// Initializes a new instance of the <see cref="AuthController"/> class.
         /// </summary>
         /// <param name="mediator">The mediator.</param>
-        /// <exception cref="ArgumentNullException">mediator</exception>
+        /// <exception cref="ArgumentNullException">mediator.</exception>
         public AuthController(IMediator mediator)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));

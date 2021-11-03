@@ -1,13 +1,13 @@
-﻿namespace CourseWork.Domain.Identity
+﻿namespace CourseWork.Core.Database.Entities.Identity
 {
     using System.Collections.Generic;
     using Microsoft.AspNetCore.Identity;
 
     /// <summary>
-    /// App user.
+    /// App role.
     /// </summary>
-    /// <seealso cref="IdentityUser&lt;int&gt;" />
-    public class AppUser : IdentityUser<int>
+    /// <seealso cref="IdentityRole&lt;int&gt;" />
+    public class AppRole : IdentityRole<int>
     {
         /// <summary>
         /// Gets or sets the user roles.

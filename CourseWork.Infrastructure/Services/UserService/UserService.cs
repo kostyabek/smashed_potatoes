@@ -1,12 +1,11 @@
 ﻿using System.Security.Claims;
 using System.Threading.Tasks;
-using CourseWork.Application.Interfaces;
-using CourseWork.Domain.Identity;
-using CourseWork.Infrastructure.Database;
+using CourseWork.Core.Database;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using CourseWork.Core.Database.Entities.Identity;
 
-namespace CourseWork.Infrastructure.Services
+namespace CourseWork.Core.Services.UserService
 {
     /// <summary>
     /// Contains methods for user management.

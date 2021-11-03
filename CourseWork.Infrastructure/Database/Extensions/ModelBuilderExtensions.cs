@@ -1,9 +1,9 @@
-﻿namespace CourseWork.Infrastructure.Database.Extensions
-{
-    using Domain.Identity;
-    using LS.Helpers.Hosting.Extensions;
-    using Microsoft.EntityFrameworkCore;
+﻿using CourseWork.Core.Database.Entities.Identity;
+using LS.Helpers.Hosting.Extensions;
+using Microsoft.EntityFrameworkCore;
 
+namespace CourseWork.Core.Database.Extensions
+{
     /// <summary>
     /// Contains extension methods for <see cref="ModelBuilder"/>.
     /// </summary>

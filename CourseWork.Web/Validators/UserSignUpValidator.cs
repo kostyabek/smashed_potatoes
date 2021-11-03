@@ -1,4 +1,4 @@
-﻿using CourseWork.Infrastructure.Commands.UserSignUpCommand;
+﻿using CourseWork.Core.Commands.UserSignUp;
 using FluentValidation;
 
 namespace CourseWork.Web.Validators

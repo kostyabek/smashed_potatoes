@@ -1,8 +1,8 @@
-﻿using CourseWork.Domain.Identity;
+﻿using CourseWork.Core.Database.Entities.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace CourseWork.Infrastructure.Database.EntityConfigurations
+namespace CourseWork.Core.Database.EntityConfigurations
 {
     /// <summary>
     /// User entity type configuration.
@@ -17,6 +17,10 @@ namespace CourseWork.Infrastructure.Database.EntityConfigurations
                 .WithOne(ur => ur.User)
                 .HasForeignKey(u => u.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasOne(e => e.Avatar)
+                .WithOne()
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

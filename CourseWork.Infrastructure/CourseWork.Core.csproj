@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="LS.Helpers.Hosting" Version="5.0.3" />
+    <PackageReference Include="MediatR" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.11" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
@@ -16,17 +17,18 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <RootNamespace>CourseWork.Infrastructure</RootNamespace>
+    <RootNamespace>CourseWork.Core</RootNamespace>
     <CodeAnalysisRuleSet>../StyleCopRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Database\Entities\" />
     <Folder Include="Queries\" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CourseWork.Application\CourseWork.Application.csproj" />
+    <ProjectReference Include="..\CourseWork.Application\CourseWork.Common.csproj" />
   </ItemGroup>
+
+  
 
 </Project>

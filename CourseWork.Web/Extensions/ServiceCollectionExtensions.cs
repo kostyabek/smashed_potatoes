@@ -1,18 +1,20 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
-using CourseWork.Domain.Identity;
-using CourseWork.Infrastructure.Database;
+using CourseWork.Infrastructure;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
-using CourseWork.Infrastructure;
 
 namespace CourseWork.Web.Extensions
 {
+    using Core.Database;
+    using Core.Database.Entities.Identity;
+    using Core.Services.UserService;
+
     /// <summary>
     /// Contains extension methods for <see cref="IServiceCollection"/>.
     /// </summary>
@@ -138,6 +140,18 @@ namespace CourseWork.Web.Extensions
 
             services.AddAuthentication()
                 .AddCookie();
+
+            return services;
+        }
+
+        /// <summary>
+        /// Adds the custom services.
+        /// </summary>
+        /// <param name="services">The services.</param>
+        /// <returns></returns>
+        public static IServiceCollection AddCustomServices(this IServiceCollection services)
+        {
+            services.AddScoped<IUserService, UserService>();
 
             return services;
         }
