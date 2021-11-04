@@ -19,7 +19,7 @@ namespace CourseWork.Core.Database.EntityConfigurations
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(e => e.Avatar)
-                .WithOne()
+                .WithMany()
                 .OnDelete(DeleteBehavior.SetNull);
         }
     }

@@ -1,5 +1,5 @@
-﻿using CourseWork.Core.Commands.UserSignUp;
-using FluentValidation;
+﻿using FluentValidation;
+using CourseWork.Core.Commands.Auth.UserSignUp;
 
 namespace CourseWork.Web.Validators
 {

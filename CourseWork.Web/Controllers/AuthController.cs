@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using CourseWork.Core.Commands.Auth.UserSignIn;
+using CourseWork.Core.Commands.Auth.UserSignUp;
 using LS.Helpers.Hosting.API;
 using LS.Helpers.Hosting.Extensions;
 using MediatR;
@@ -11,7 +13,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace CourseWork.Web.Controllers
 {
-    using Core.Commands.UserSignUp;
+    using Core.Commands.Auth.UserLogout;
 
     /// <inheritdoc />
     [ApiController]
@@ -32,16 +34,16 @@ namespace CourseWork.Web.Controllers
         }
 
         /// <summary>
-        /// Signs up.
+        /// Sign up.
         /// </summary>
         /// <param name="command">The command.</param>
         /// <returns></returns>
         [HttpPost]
-        [SwaggerOperation("Sign up with e-mail")]
+        [SwaggerOperation("Sign up")]
         [Produces("application/json", "application/xml")]
         [Route("sign-up")]
         [ProducesResponseType(typeof(ExecutionResult), 200)]
-        public async Task<IActionResult> SignUp([FromBody] UserSignUpCommand command)
+        public async Task<IActionResult> SignUp([FromForm] UserSignUpCommand command)
         {
             var result = await _mediator.Send(command);
 
@@ -49,35 +51,37 @@ namespace CourseWork.Web.Controllers
         }
 
         /// <summary>
-        /// Log-in via Google.
+        /// Sign in.
         /// </summary>
-        /// <param name="username">The username.</param>
-        /// <returns>
-        /// IActionResult.
-        /// </returns>
-        /// <response code="400">Bad request.</response>
-        /// <response code="500">Server error.</response>
+        /// <param name="command">The command.</param>
+        /// <returns></returns>
         [HttpPost]
-        [SwaggerOperation("Log-in via Google")]
+        [SwaggerOperation("Sign in")]
         [Produces("application/json", "application/xml")]
-        [Route("api/auth/google")]
+        [Route("sign-in")]
         [ProducesResponseType(typeof(ExecutionResult), 200)]
-        public async Task<IActionResult> LoginViaGoogle([FromBody] string username)
+        public async Task<IActionResult> SignIn([FromBody] UserSignInCommand command)
         {
-            if (username == "kostyabek")
-            {
-                var claims = new List<Claim>
-                {
-                    new (ClaimTypes.Email, "qwer@gmail.com")
-                };
+            var result = await _mediator.Send(command);
 
-                var identity = new ClaimsIdentity(claims);
-                var principal = new ClaimsPrincipal(identity);
-                await HttpContext.SignInAsync(principal);
-                return Ok(principal);
-            }
+            return this.FromExecutionResult(result);
+        }
 
-            return Unauthorized();
+        /// <summary>
+        /// Sign out.
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [SwaggerOperation("Logout")]
+        [Produces("application/json", "application/xml")]
+        [Route("sign-out")]
+        [ProducesResponseType(typeof(ExecutionResult), 200)]
+        public async Task<IActionResult> LogOut()
+        {
+            var command = new UserLogoutCommand();
+            var result = await _mediator.Send(command);
+
+            return this.FromExecutionResult(result);
         }
     }
 }

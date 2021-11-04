@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using CourseWork.Common.Consts;
-using CourseWork.Core.Commands.UserSignIn;
+using CourseWork.Core.Commands.Auth.UserSignIn;
 using CourseWork.Core.Database;
+using CourseWork.Core.Database.Entities;
 using CourseWork.Core.Database.Entities.Identity;
 using CourseWork.Core.Helpers;
 using CourseWork.Core.Models.Auth;
@@ -12,9 +14,8 @@ using LS.Helpers.Hosting.API;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
-using CourseWork.Core.Database.Entities;
 
-namespace CourseWork.Core.Commands.UserSignUp
+namespace CourseWork.Core.Commands.Auth.UserSignUp
 {
     /// <summary>
     /// UserSignUpCommand handler.
@@ -54,9 +55,9 @@ namespace CourseWork.Core.Commands.UserSignUp
         /// <returns>string.</returns>
         public async Task<ExecutionResult<SignedInUser>> Handle(UserSignUpCommand request, CancellationToken cancellationToken)
         {
-            try
+            using (var transaction = await _dbContext.Database.BeginTransactionAsync(cancellationToken))
             {
-                using (var transaction = await _dbContext.Database.BeginTransactionAsync(cancellationToken))
+                try
                 {
                     var fileName = Path.GetFileName(request.Avatar.FileName);
                     var filePath = StoragePathsHelper.GetAvatarStoragePath(fileName);
@@ -83,11 +84,17 @@ namespace CourseWork.Core.Commands.UserSignUp
 
                     await _userManager.CreateAsync(newUser, request.Password);
 
-                    newUser.UserRoles.Add(new AppUserRole
+                    newUser.UserRoles = new List<AppUserRole>
                     {
-                        UserId = newUser.Id,
-                        RoleId = AppConsts.UserRoles.NewUser
-                    });
+                        new ()
+                        {
+                            UserId = newUser.Id,
+                            RoleId = AppConsts.UserRoles.NewUser
+                        }
+                    };
+
+                    await _dbContext.SaveChangesAsync(cancellationToken);
+                    await transaction.CommitAsync(cancellationToken);
 
                     var signInCommand = new UserSignInCommand
                     {
@@ -99,21 +106,18 @@ namespace CourseWork.Core.Commands.UserSignUp
 
                     if (!signInResult.Success)
                     {
-                        await transaction.RollbackAsync(cancellationToken);
                         return new ExecutionResult<SignedInUser>(signInResult);
                     }
 
-                    await _dbContext.SaveChangesAsync(cancellationToken);
-                    await transaction.CommitAsync(cancellationToken);
-
                     return new ExecutionResult<SignedInUser>(new InfoMessage("You have successfully signed up!"));
                 }
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e.Message);
-                return new ExecutionResult<SignedInUser>(
-                    new ErrorInfo($"Error while executing {nameof(UserSignUpCommandHandler)}"));
+                catch (Exception e)
+                {
+                    _logger.LogError(e.Message);
+                    await transaction.RollbackAsync(cancellationToken);
+                    return new ExecutionResult<SignedInUser>(
+                        new ErrorInfo($"Error while executing {nameof(UserSignUpCommandHandler)}"));
+                }
             }
         }
     }

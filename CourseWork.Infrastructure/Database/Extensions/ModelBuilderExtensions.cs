@@ -1,4 +1,5 @@
 ﻿using CourseWork.Core.Database.Entities.Identity;
+using CourseWork.Core.Database.EntityConfigurations;
 using LS.Helpers.Hosting.Extensions;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,6 +10,19 @@ namespace CourseWork.Core.Database.Extensions
     /// </summary>
     public static class ModelBuilderExtensions
     {
+        /// <summary>
+        /// Applies the configurations.
+        /// </summary>
+        /// <param name="modelBuilder">The model builder.</param>
+        /// <returns></returns>
+        public static ModelBuilder ApplyConfigurations(this ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new UserEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new ImageModelEntityTypeConfiguration());
+
+            return modelBuilder;
+        }
+
         /// <summary>
         /// Adds the postgre SQL rules.
         /// </summary>

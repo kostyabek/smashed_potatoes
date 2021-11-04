@@ -8,13 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using CourseWork.Core.Database;
+using CourseWork.Core.Database.Entities.Identity;
+using CourseWork.Core.Services.UserService;
 
 namespace CourseWork.Web.Extensions
 {
-    using Core.Database;
-    using Core.Database.Entities.Identity;
-    using Core.Services.UserService;
-
     /// <summary>
     /// Contains extension methods for <see cref="IServiceCollection"/>.
     /// </summary>
@@ -39,7 +38,7 @@ namespace CourseWork.Web.Extensions
                 o.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(60);
                 o.Lockout.MaxFailedAccessAttempts = 7;
 
-                o.SignIn.RequireConfirmedEmail = true;
+                o.SignIn.RequireConfirmedEmail = false;
             });
 
             return services;

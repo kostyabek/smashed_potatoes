@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using CourseWork.Common.CQRS;
-using CourseWork.Core.Models.Auth;
 using LS.Helpers.Hosting.API;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using CourseWork.Core.Models.Auth;
 
-namespace CourseWork.Core.Commands.UserSignUp
+namespace CourseWork.Core.Commands.Auth.UserSignUp
 {
     /// <summary>
     /// User Sign Up Command.

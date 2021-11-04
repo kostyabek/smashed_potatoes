@@ -33,12 +33,13 @@ namespace CourseWork.Web.Controllers
         /// <summary>
         /// CreatePostCommand.
         /// </summary>
-        /// <param name="request">request</param>
-        /// <returns>IActionResult</returns>
+        /// <returns>
+        /// IActionResult.
+        /// </returns>
         /// <response code="400">Bad request.</response>
         /// <response code="500">Server error.</response>
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles="New user")]
         [SwaggerOperation("Create new post command")]
         [Produces("application/json", "application/xml")]
         [Route("api/posts")]

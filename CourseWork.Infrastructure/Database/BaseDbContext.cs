@@ -46,6 +46,7 @@ namespace CourseWork.Core.Database
                 rel.DeleteBehavior = DeleteBehavior.Restrict;
             }
 
+            builder.ApplyConfigurations();
             builder.AddIdentityRules();
             builder.AddPostgreSqlRules();
             builder.ApplySeed();

@@ -23,8 +23,15 @@ namespace CourseWork.Core.Database.Extensions
                 new ()
                 {
                     Id = AppConsts.UserRoles.Admin,
-                    Name = "New user",
-                    NormalizedName = "New user".ToUpper(),
+                    Name = "Admin",
+                    NormalizedName = "Admin".ToUpper(),
+                    ConcurrencyStamp = Guid.NewGuid().ToString(),
+                },
+                new ()
+                {
+                    Id = AppConsts.UserRoles.Moderator,
+                    Name = "Moderator",
+                    NormalizedName = "Moderator".ToUpper(),
                     ConcurrencyStamp = Guid.NewGuid().ToString(),
                 },
                 new ()
@@ -37,24 +44,13 @@ namespace CourseWork.Core.Database.Extensions
                 new ()
                 {
                     Id = AppConsts.UserRoles.NewUser,
-                    Name = "Moderator",
-                    NormalizedName = "Moderator".ToUpper(),
-                    ConcurrencyStamp = Guid.NewGuid().ToString(),
-                },
-                new ()
-                {
-                    Id = AppConsts.UserRoles.Admin,
-                    Name = "Admin",
-                    NormalizedName = "Admin".ToUpper(),
+                    Name = "New user",
+                    NormalizedName = "New user".ToUpper(),
                     ConcurrencyStamp = Guid.NewGuid().ToString(),
                 },
             }.ToArray();
 
             modelBuilder.Entity<AppRole>().HasData(roles);
-
-            modelBuilder.Entity<AppRole>()
-                .Property(b => b.Id)
-                .HasIdentityOptions(roles.Length + 1);
 
             return modelBuilder;
         }

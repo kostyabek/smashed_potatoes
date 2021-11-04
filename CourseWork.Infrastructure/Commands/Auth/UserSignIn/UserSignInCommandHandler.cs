@@ -3,17 +3,17 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CourseWork.Core.Database;
+using CourseWork.Core.Database.Entities.Identity;
 using CourseWork.Core.Models.Auth;
+using CourseWork.Core.Services.UserService;
 using LS.Helpers.Hosting.API;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace CourseWork.Core.Commands.UserSignIn
+namespace CourseWork.Core.Commands.Auth.UserSignIn
 {
-    using Database.Entities.Identity;
-    using Services.UserService;
-
     /// <summary>
     /// UserSignInCommand handler.
     /// </summary>
@@ -23,7 +23,7 @@ namespace CourseWork.Core.Commands.UserSignIn
         private readonly ILogger<UserSignInCommandHandler> _logger;
         private readonly BaseDbContext _dbContext;
         private readonly SignInManager<AppUser> _signInManager;
-        private readonly IUserService _userService;
+        private readonly UserManager<AppUser> _userManager;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserSignInCommandHandler" /> class.
@@ -32,16 +32,18 @@ namespace CourseWork.Core.Commands.UserSignIn
         /// <param name="dbContext">The database context.</param>
         /// <param name="signInManager">The sign in manager.</param>
         /// <param name="userService">The user service.</param>
+        /// <param name="userManager">The user manager.</param>
         public UserSignInCommandHandler(
             ILogger<UserSignInCommandHandler> logger,
             BaseDbContext dbContext,
             SignInManager<AppUser> signInManager,
-            IUserService userService)
+            IUserService userService,
+            UserManager<AppUser> userManager)
         {
             _logger = logger;
             _dbContext = dbContext;
             _signInManager = signInManager;
-            _userService = userService;
+            _userManager = userManager;
         }
 
         /// <summary>
@@ -54,19 +56,25 @@ namespace CourseWork.Core.Commands.UserSignIn
         {
             try
             {
-                var user = await _userService.GetCurrentUserAsync();
+                var userInitial = await _userManager.FindByNameAsync(request.Username);
 
-                if (user is null)
+                if (userInitial is null)
                 {
                     return new ExecutionResult<SignedInUser>(new ErrorInfo("No such user found!"));
                 }
 
-                var signInResult = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
+                var signInResult = await _signInManager.PasswordSignInAsync(userInitial, request.Password, true, false);
 
                 if (!signInResult.Succeeded)
                 {
                     return new ExecutionResult<SignedInUser>(new ErrorInfo("Wrong credentials."));
                 }
+
+                var user = await _dbContext
+                    .Users
+                    .Include(u => u.UserRoles)
+                    .ThenInclude(r => r.Role)
+                    .SingleOrDefaultAsync(u => u.Id == userInitial.Id, cancellationToken);
 
                 var result = new SignedInUser
                 {
