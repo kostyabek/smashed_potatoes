@@ -3,15 +3,17 @@ using System;
 using CourseWork.Core.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace CourseWork.Web.Migrations
 {
     [DbContext(typeof(BaseDbContext))]
-    partial class BaseDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211105214328_AddedUserToThreadRelationship")]
+    partial class AddedUserToThreadRelationship
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -360,10 +362,6 @@ namespace CourseWork.Web.Migrations
                         .HasColumnName("id")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<bool>("IsThreadStarter")
-                        .HasColumnType("boolean")
-                        .HasColumnName("is_thread_starter");
-
                     b.Property<int?>("PicRelatedId")
                         .HasColumnType("integer")
                         .HasColumnName("pic_related_id");
@@ -402,12 +400,12 @@ namespace CourseWork.Web.Migrations
                         .HasColumnName("pointed_reply_id");
 
                     b.HasKey("PointingReplyId", "PointedReplyId")
-                        .HasName("pk_reply_replies");
+                        .HasName("pk_reply_reply");
 
                     b.HasIndex("PointedReplyId")
-                        .HasDatabaseName("ix_reply_replies_pointed_reply_id");
+                        .HasDatabaseName("ix_reply_reply_pointed_reply_id");
 
-                    b.ToTable("reply_replies");
+                    b.ToTable("reply_reply");
                 });
 
             modelBuilder.Entity("CourseWork.Core.Database.Entities.Threads.PotatoThread", b =>
@@ -564,14 +562,14 @@ namespace CourseWork.Web.Migrations
                     b.HasOne("CourseWork.Core.Database.Entities.Replies.PotatoReply", "PointedReply")
                         .WithMany()
                         .HasForeignKey("PointedReplyId")
-                        .HasConstraintName("fk_reply_replies_replies_pointed_reply_id")
+                        .HasConstraintName("fk_reply_reply_replies_pointed_reply_id")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("CourseWork.Core.Database.Entities.Replies.PotatoReply", "PointingReply")
                         .WithMany("ReplyReplies")
                         .HasForeignKey("PointingReplyId")
-                        .HasConstraintName("fk_reply_replies_replies_pointing_reply_id")
+                        .HasConstraintName("fk_reply_reply_replies_pointing_reply_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

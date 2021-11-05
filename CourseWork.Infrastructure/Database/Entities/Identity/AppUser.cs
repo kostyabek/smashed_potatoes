@@ -5,6 +5,8 @@ using CourseWork.Core.Database.Entities.Replies;
 
 namespace CourseWork.Core.Database.Entities.Identity
 {
+    using Threads;
+
     /// <summary>
     /// App user.
     /// </summary>
@@ -42,6 +44,14 @@ namespace CourseWork.Core.Database.Entities.Identity
         /// The display name.
         /// </value>
         public string DisplayName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the threads.
+        /// </summary>
+        /// <value>
+        /// The threads.
+        /// </value>
+        public List<PotatoThread> Threads { get; set; }
 
         /// <summary>
         /// Gets or sets the replies.

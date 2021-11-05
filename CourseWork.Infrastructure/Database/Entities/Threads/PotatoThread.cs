@@ -6,6 +6,8 @@ using CourseWork.Core.Database.Entities.Boards;
 
 namespace CourseWork.Core.Database.Entities.Threads
 {
+    using Identity;
+
     /// <summary>
     /// Represents a thread.
     /// </summary>
@@ -66,5 +68,21 @@ namespace CourseWork.Core.Database.Entities.Threads
         /// The description.
         /// </value>
         public string Description { get; set; }
+
+        /// <summary>
+        /// Gets or sets the user identifier.
+        /// </summary>
+        /// <value>
+        /// The user identifier.
+        /// </value>
+        public int UserId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the user.
+        /// </summary>
+        /// <value>
+        /// The user.
+        /// </value>
+        public AppUser User { get; set; }
     }
 }

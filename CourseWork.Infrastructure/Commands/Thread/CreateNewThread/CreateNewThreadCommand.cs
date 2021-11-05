@@ -1,6 +1,7 @@
 ﻿namespace CourseWork.Core.Commands.Thread.CreateNewThread
 {
     using CQRS;
+    using Database.Entities.Identity;
     using LS.Helpers.Hosting.API;
     using Microsoft.AspNetCore.Http;
 
@@ -42,5 +43,13 @@
         /// The main picture.
         /// </value>
         public IFormFile MainPicture { get; set; }
+
+        /// <summary>
+        /// Gets or sets the user identifier.
+        /// </summary>
+        /// <value>
+        /// The user identifier.
+        /// </value>
+        public int UserId { get; set; }
     }
 }

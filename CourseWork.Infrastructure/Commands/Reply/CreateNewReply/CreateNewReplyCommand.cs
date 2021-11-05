@@ -35,5 +35,6 @@
         /// The replied to ids.
         /// </value>
         public List<int> RepliedToIds { get; set; }
+            = new ();
     }
 }

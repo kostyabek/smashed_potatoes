@@ -11,6 +11,7 @@ using CourseWork.Core.Services.UserService;
 using LS.Helpers.Hosting.API;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using CourseWork.Core.Database.Entities.Replies;
 
 namespace CourseWork.Core.Commands.Thread.CreateNewThread
 {
@@ -66,34 +67,45 @@ namespace CourseWork.Core.Commands.Thread.CreateNewThread
                         Created = DateTime.UtcNow,
                         Description = request.Description,
                         Name = request.Name,
+                        UserId = request.UserId,
                     };
 
-                    if (request.MainPicture != null)
+                    if (request.MainPicture is null)
                     {
-                        var fileNameBuilder = new StringBuilder(Path.GetFileNameWithoutExtension(request.MainPicture.FileName).Replace(' ', '-'));
-                        fileNameBuilder.Append(DateTime.UtcNow.ToString("yymmssfff"));
-                        fileNameBuilder.Append(Path.GetExtension(request.MainPicture.FileName));
-                        var fileName = fileNameBuilder.ToString();
-
-                        var filePath = StoragePathsHelper.GetAvatarStoragePath(fileName);
-
-                        using (var fileStream = new FileStream(filePath, FileMode.Create))
-                        {
-                            await request.MainPicture.CopyToAsync(fileStream, cancellationToken);
-                        }
-
-                        var pictureDbRecord = new ImageModel
-                        {
-                            FileName = fileName
-                        };
-
-                        _dbContext.Images.Add(pictureDbRecord);
-                        await _dbContext.SaveChangesAsync(cancellationToken);
-
-                        newThreadRecord.MainPictureId = pictureDbRecord.Id;
+                        return new ExecutionResult(new ErrorInfo("Every thread must have a main picture."));
                     }
 
+                    var fileNameBuilder = new StringBuilder(Path.GetFileNameWithoutExtension(request.MainPicture.FileName).Replace(' ', '-'));
+                    fileNameBuilder.Append(DateTime.UtcNow.ToString("yymmssfff"));
+                    fileNameBuilder.Append(Path.GetExtension(request.MainPicture.FileName));
+                    var fileName = fileNameBuilder.ToString();
+
+                    var filePath = StoragePathsHelper.GetAvatarStoragePath(fileName);
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await request.MainPicture.CopyToAsync(fileStream, cancellationToken);
+                    }
+
+                    var pictureDbRecord = new ImageModel
+                    {
+                        FileName = fileName
+                    };
+
+                    _dbContext.Images.Add(pictureDbRecord);
+                    await _dbContext.SaveChangesAsync(cancellationToken);
+
+                    newThreadRecord.MainPictureId = pictureDbRecord.Id;
+
                     _dbContext.Threads.Add(newThreadRecord);
+                    await _dbContext.SaveChangesAsync(cancellationToken);
+
+                    _dbContext.Replies.Add(new PotatoReply
+                    {
+                        UserId = user.Id,
+                        ThreadId = newThreadRecord.Id,
+                        IsThreadStarter = true
+                    });
                     await _dbContext.SaveChangesAsync(cancellationToken);
 
                     await transaction.CommitAsync(cancellationToken);

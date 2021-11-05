@@ -62,6 +62,12 @@
                         return new ExecutionResult(new ErrorInfo("The user is not authorized"));
                     }
 
+                    if (!request.RepliedToIds.Any())
+                    {
+                        return new ExecutionResult(
+                            new ErrorInfo("Every reply must refer to at least one post on the thread!"));
+                    }
+
                     var newReplyRecord = new PotatoReply
                     {
                         UserId = user.Id,
@@ -88,30 +94,28 @@
                         };
 
                         _dbContext.Images.Add(pictureDbRecord);
+                        await _dbContext.SaveChangesAsync(cancellationToken);
 
                         newReplyRecord.PicRelatedId = pictureDbRecord.Id;
                     }
 
                     _dbContext.Replies.Add(newReplyRecord);
 
-                    if (request.RepliedToIds.Any())
+                    newReplyRecord.ReplyReplies = new List<ReplyReply>();
+                    foreach (var repliedToId in request.RepliedToIds)
                     {
-                        newReplyRecord.ReplyReplies = new List<ReplyReply>();
-                        foreach (var repliedToId in request.RepliedToIds)
+                        newReplyRecord.ReplyReplies.Add(new ReplyReply
                         {
-                            newReplyRecord.ReplyReplies.Add(new ReplyReply
-                            {
-                                PointingReplyId = newReplyRecord.Id,
-                                PointedReplyId = repliedToId
-                            });
-                        }
+                            PointingReplyId = newReplyRecord.Id,
+                            PointedReplyId = repliedToId
+                        });
                     }
 
                     await _dbContext.SaveChangesAsync(cancellationToken);
 
                     await transaction.CommitAsync(cancellationToken);
 
-                    return new ExecutionResult(new InfoMessage("Thread has been created successfully."));
+                    return new ExecutionResult(new InfoMessage("Reply has been created successfully."));
                 }
                 catch (Exception e)
                 {

@@ -26,6 +26,9 @@ namespace CourseWork.Core.Database.EntityConfigurations
             builder.HasMany(e => e.Replies)
                 .WithOne(e => e.Thread)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasOne(e => e.User)
+                .WithMany(e => e.Threads);
         }
     }
 }

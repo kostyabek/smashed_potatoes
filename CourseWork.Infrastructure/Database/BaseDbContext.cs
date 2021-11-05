@@ -65,6 +65,14 @@ namespace CourseWork.Core.Database
         /// </value>
         public DbSet<PotatoReply> Replies { get; set; }
 
+        /// <summary>
+        /// Gets or sets the reply replies.
+        /// </summary>
+        /// <value>
+        /// The reply replies.
+        /// </value>
+        public DbSet<ReplyReply> ReplyReplies { get; set; }
+
         /// <inheritdoc/>
         protected override void OnModelCreating(ModelBuilder builder)
         {
