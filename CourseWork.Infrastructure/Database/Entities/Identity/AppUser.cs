@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
+using CourseWork.Core.Database.Entities.Files;
+using CourseWork.Core.Database.Entities.Replies;
 
 namespace CourseWork.Core.Database.Entities.Identity
 {
@@ -40,5 +42,13 @@ namespace CourseWork.Core.Database.Entities.Identity
         /// The display name.
         /// </value>
         public string DisplayName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the replies.
+        /// </summary>
+        /// <value>
+        /// The replies.
+        /// </value>
+        public List<PotatoReply> Replies { get; set; }
     }
 }

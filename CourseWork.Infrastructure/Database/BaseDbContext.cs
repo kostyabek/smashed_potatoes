@@ -7,6 +7,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CourseWork.Core.Database
 {
+    using Entities.Boards;
+    using Entities.Files;
+    using Entities.Replies;
+    using Entities.Threads;
+
     /// <summary>
     /// Database context of the application.
     /// </summary>
@@ -35,6 +40,30 @@ namespace CourseWork.Core.Database
         /// The images.
         /// </value>
         public DbSet<ImageModel> Images { get; set; }
+
+        /// <summary>
+        /// Gets or sets the boards.
+        /// </summary>
+        /// <value>
+        /// The boards.
+        /// </value>
+        public DbSet<PotatoBoard> Boards { get; set; }
+
+        /// <summary>
+        /// Gets or sets the threads.
+        /// </summary>
+        /// <value>
+        /// The threads.
+        /// </value>
+        public DbSet<PotatoThread> Threads { get; set; }
+
+        /// <summary>
+        /// Gets or sets the replies.
+        /// </summary>
+        /// <value>
+        /// The replies.
+        /// </value>
+        public DbSet<PotatoReply> Replies { get; set; }
 
         /// <inheritdoc/>
         protected override void OnModelCreating(ModelBuilder builder)

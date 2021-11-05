@@ -1,4 +1,4 @@
-﻿namespace CourseWork.Web.Validators
+﻿namespace CourseWork.Web.Validators.Profile
 {
     using Core.Commands.Profile.ChangeAvatar;
     using FluentValidation;

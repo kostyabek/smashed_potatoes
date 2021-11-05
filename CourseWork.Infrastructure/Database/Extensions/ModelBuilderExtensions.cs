@@ -19,6 +19,10 @@ namespace CourseWork.Core.Database.Extensions
         {
             modelBuilder.ApplyConfiguration(new UserEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new ImageModelEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new PotatoBoardEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new PotatoThreadEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new PotatoReplyEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new ReplyReplyEntityTypeConfiguration());
 
             return modelBuilder;
         }

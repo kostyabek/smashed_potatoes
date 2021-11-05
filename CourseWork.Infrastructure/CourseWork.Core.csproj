@@ -24,6 +24,8 @@
   <ItemGroup>
     <Folder Include="Commands\Auth\UserLogout\" />
     <Folder Include="Commands\Profile\ChangeAvatar\" />
+    <Folder Include="Commands\Reply\CreateNewReply\" />
+    <Folder Include="Commands\Thread\CreateNewThread\" />
   </ItemGroup>
 
   <ItemGroup>

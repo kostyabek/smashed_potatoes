@@ -1,8 +1,8 @@
-﻿using CourseWork.Core.Commands.Auth.UserSignIn;
-using FluentValidation;
-
-namespace CourseWork.Web.Validators
+﻿namespace CourseWork.Web.Validators.Auth
 {
+    using Core.Commands.Auth.UserSignIn;
+    using FluentValidation;
+
     /// <summary>
     /// User sign in command validator.
     /// </summary>

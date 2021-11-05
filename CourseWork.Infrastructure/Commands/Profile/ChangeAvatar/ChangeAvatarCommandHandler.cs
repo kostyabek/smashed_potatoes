@@ -1,22 +1,18 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using CourseWork.Core.Database;
-using CourseWork.Core.Database.Entities;
+using CourseWork.Core.Database.Entities.Files;
 using CourseWork.Core.Helpers;
+using CourseWork.Core.Services.UserService;
 using LS.Helpers.Hosting.API;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using CourseWork.Core.Services.UserService;
 
 namespace CourseWork.Core.Commands.Profile.ChangeAvatar
 {
-    using System.Security.Cryptography;
-    using System.Text;
-    using Common.Configurations;
-    using Microsoft.Extensions.Options;
-
     /// <summary>
     /// ChangeAvatarCommand handler.
     /// </summary>
@@ -26,7 +22,6 @@ namespace CourseWork.Core.Commands.Profile.ChangeAvatar
         private readonly ILogger<ChangeAvatarCommandHandler> _logger;
         private readonly BaseDbContext _dbContext;
         private readonly IUserService _userService;
-        private readonly IOptions<HashingSecrets> _hashingSecrets;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ChangeAvatarCommandHandler" /> class.

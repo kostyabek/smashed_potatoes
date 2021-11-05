@@ -18,6 +18,7 @@ using Microsoft.Extensions.Logging;
 namespace CourseWork.Core.Commands.Auth.UserSignUp
 {
     using System.Text;
+    using Database.Entities.Files;
 
     /// <summary>
     /// UserSignUpCommand handler.

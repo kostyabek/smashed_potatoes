@@ -21,6 +21,10 @@ namespace CourseWork.Core.Database.EntityConfigurations
             builder.HasOne(e => e.Avatar)
                 .WithMany()
                 .OnDelete(DeleteBehavior.SetNull);
+
+            builder.HasMany(e => e.Replies)
+                .WithOne(e => e.User)
+                .HasForeignKey(e => e.UserId);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace CourseWork.Core.Database.Entities
+﻿namespace CourseWork.Core.Database.Entities.Files
 {
     /// <summary>
     /// Stored image model.
