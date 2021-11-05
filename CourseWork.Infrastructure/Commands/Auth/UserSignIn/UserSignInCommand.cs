@@ -1,14 +1,15 @@
-﻿using CourseWork.Common.CQRS;
-using CourseWork.Core.Models.Auth;
+﻿using CourseWork.Core.Models.Auth;
 using LS.Helpers.Hosting.API;
 using MediatR;
 
 namespace CourseWork.Core.Commands.Auth.UserSignIn
 {
+    using CQRS;
+
     /// <summary>
     /// User Sign In Command.
     /// </summary>
-    /// <seealso cref="ICommand{ExecutionResult}" />
+    /// <seealso cref="ICommand{T}" />
     /// <inheritdoc />
     public sealed class UserSignInCommand : IRequest<ExecutionResult<SignedInUser>>
     {

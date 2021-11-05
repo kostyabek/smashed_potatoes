@@ -23,7 +23,7 @@ namespace CourseWork.Core.Database.Entities.Identity
         /// <value>
         /// The avatar identifier.
         /// </value>
-        public int AvatarId { get; set; }
+        public int? AvatarId { get; set; }
 
         /// <summary>
         /// Gets or sets the avatar.
@@ -32,5 +32,13 @@ namespace CourseWork.Core.Database.Entities.Identity
         /// The avatar.
         /// </value>
         public ImageModel Avatar { get; set; }
+
+        /// <summary>
+        /// Gets or sets the display name.
+        /// </summary>
+        /// <value>
+        /// The display name.
+        /// </value>
+        public string DisplayName { get; set; }
     }
 }

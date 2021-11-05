@@ -14,6 +14,8 @@ using CourseWork.Core.Services.UserService;
 
 namespace CourseWork.Web.Extensions
 {
+    using Common.Configurations;
+
     /// <summary>
     /// Contains extension methods for <see cref="IServiceCollection"/>.
     /// </summary>
@@ -112,6 +114,7 @@ namespace CourseWork.Web.Extensions
         /// <returns></returns>
         public static IServiceCollection AddConfigurations(this IServiceCollection services, IConfiguration configuration)
         {
+            services.Configure<HashingSecrets>(configuration.GetSection("HashingSecrets"));
             return services;
         }
 

@@ -1,0 +1,100 @@
+﻿using System;
+using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
+using CourseWork.Core.Database;
+using CourseWork.Core.Database.Entities;
+using CourseWork.Core.Helpers;
+using LS.Helpers.Hosting.API;
+using MediatR;
+using Microsoft.Extensions.Logging;
+using CourseWork.Core.Services.UserService;
+
+namespace CourseWork.Core.Commands.Profile.ChangeAvatar
+{
+    using System.Security.Cryptography;
+    using System.Text;
+    using Common.Configurations;
+    using Microsoft.Extensions.Options;
+
+    /// <summary>
+    /// ChangeAvatarCommand handler.
+    /// </summary>
+    /// <seealso cref="IRequestHandler{ChangeAvatarCommand}" />
+    public class ChangeAvatarCommandHandler : IRequestHandler<ChangeAvatarCommand, ExecutionResult>
+    {
+        private readonly ILogger<ChangeAvatarCommandHandler> _logger;
+        private readonly BaseDbContext _dbContext;
+        private readonly IUserService _userService;
+        private readonly IOptions<HashingSecrets> _hashingSecrets;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ChangeAvatarCommandHandler" /> class.
+        /// </summary>
+        /// <param name="logger">The logger.</param>
+        /// <param name="dbContext">The database context.</param>
+        /// <param name="userService">The user service.</param>
+        public ChangeAvatarCommandHandler(
+            ILogger<ChangeAvatarCommandHandler> logger,
+            BaseDbContext dbContext,
+            IUserService userService)
+        {
+            _logger = logger;
+            _dbContext = dbContext;
+            _userService = userService;
+        }
+
+        /// <summary>
+        /// Handles the specified request.
+        /// </summary>
+        /// <param name="request">The request: ChangeAvatarCommand</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>
+        /// string
+        /// </returns>
+        public async Task<ExecutionResult> Handle(ChangeAvatarCommand request,
+            CancellationToken cancellationToken)
+        {
+            try
+            {
+                var user = await _userService.GetCurrentUserAsync();
+
+                if (user is null)
+                {
+                    return new ExecutionResult(new ErrorInfo("The user is not authorized"));
+                }
+
+                var fileNameBuilder = new StringBuilder(Path.GetFileNameWithoutExtension(request.Avatar.FileName).Replace(' ', '-'));
+                fileNameBuilder.Append(DateTime.UtcNow.ToString("yymmssfff"));
+                fileNameBuilder.Append(Path.GetExtension(request.Avatar.FileName));
+                var fileName = fileNameBuilder.ToString();
+
+                var filePath = StoragePathsHelper.GetAvatarStoragePath(fileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await request.Avatar.CopyToAsync(fileStream, cancellationToken);
+                }
+
+                var avatarDbRecord = new ImageModel
+                {
+                    FileName = fileName
+                };
+
+                _dbContext.Images.Add(avatarDbRecord);
+
+                user.AvatarId = avatarDbRecord.Id;
+
+                await _dbContext.SaveChangesAsync(cancellationToken);
+
+                return new ExecutionResult(new InfoMessage("New avatar has been set successfully."));
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return new ExecutionResult(
+                    new ErrorInfo($"Error while executing {nameof(ChangeAvatarCommandHandler)}"));
+            }
+        }
+    }
+}

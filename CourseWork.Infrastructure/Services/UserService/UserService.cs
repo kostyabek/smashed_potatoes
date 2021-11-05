@@ -27,12 +27,7 @@ namespace CourseWork.Core.Services.UserService
             _dbContext = dbContext;
         }
 
-        /// <summary>
-        /// Gets the user identifier.
-        /// </summary>
-        /// <value>
-        /// The user identifier.
-        /// </value>
+        /// <inheritdoc/>
         public int UserId
         {
             get

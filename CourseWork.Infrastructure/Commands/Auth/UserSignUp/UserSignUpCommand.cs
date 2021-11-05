@@ -1,16 +1,16 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using CourseWork.Common.CQRS;
+using CourseWork.Core.CQRS;
+using CourseWork.Core.Models.Auth;
 using LS.Helpers.Hosting.API;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using CourseWork.Core.Models.Auth;
 
 namespace CourseWork.Core.Commands.Auth.UserSignUp
 {
     /// <summary>
     /// User Sign Up Command.
     /// </summary>
-    /// <seealso cref="ICommand{ExecutionResult}" />
+    /// <seealso cref="ICommand{T}" />
     /// <inheritdoc />
     public sealed class UserSignUpCommand : IRequest<ExecutionResult<SignedInUser>>
     {
@@ -21,6 +21,14 @@ namespace CourseWork.Core.Commands.Auth.UserSignUp
         /// The username.
         /// </value>
         public string Username { get; set; }
+
+        /// <summary>
+        /// Gets or sets the display name.
+        /// </summary>
+        /// <value>
+        /// The display name.
+        /// </value>
+        public string DisplayName { get; set; }
 
         /// <summary>
         /// Gets or sets the email.

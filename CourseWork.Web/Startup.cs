@@ -7,7 +7,9 @@ using Microsoft.Extensions.Hosting;
 
 namespace CourseWork.Web
 {
+    using Core.Helpers;
     using FluentValidation.AspNetCore;
+    using Microsoft.Extensions.FileProviders;
 
     /// <summary>
     /// Startup class.
@@ -69,6 +71,12 @@ namespace CourseWork.Web
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(StoragePathsHelper.GetAvatarsStoragePath()),
+                RequestPath = "/images"
+            });
 
             app.UseHttpsRedirection();
 

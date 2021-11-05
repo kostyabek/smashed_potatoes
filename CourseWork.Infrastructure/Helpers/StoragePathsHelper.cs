@@ -22,7 +22,11 @@ namespace CourseWork.Core.Helpers
             return avatarPath;
         }
 
-        private static string GetAvatarsStoragePath()
+        /// <summary>
+        /// Gets the avatars storage path.
+        /// </summary>
+        /// <returns></returns>
+        public static string GetAvatarsStoragePath()
         {
             var imagesPath = GetImagesPath();
             var avatarImagesDir = Path.Combine(imagesPath, AppConsts.StoragePaths.Avatars);
@@ -48,6 +52,10 @@ namespace CourseWork.Core.Helpers
             return imagesDir;
         }
 
+        /// <summary>
+        /// Gets the base storage path.
+        /// </summary>
+        /// <returns></returns>
         private static string GetBaseStoragePath()
         {
             var homePath = Environment.ExpandEnvironmentVariables("%HOMEDRIVE%%HOMEPATH%");

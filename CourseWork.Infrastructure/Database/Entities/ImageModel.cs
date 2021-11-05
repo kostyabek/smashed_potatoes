@@ -7,11 +7,11 @@
     public class ImageModel : BaseIdentityEntity
     {
         /// <summary>
-        /// Gets or sets the file path.
+        /// Gets or sets the name of the file.
         /// </summary>
         /// <value>
-        /// The file path.
+        /// The name of the file.
         /// </value>
-        public string FilePath { get; set; }
+        public string FileName { get; set; }
     }
 }

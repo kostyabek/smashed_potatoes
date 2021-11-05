@@ -1,5 +1,5 @@
-﻿using FluentValidation;
-using CourseWork.Core.Commands.Auth.UserSignUp;
+﻿using CourseWork.Core.Commands.Auth.UserSignUp;
+using FluentValidation;
 
 namespace CourseWork.Web.Validators
 {
@@ -7,16 +7,20 @@ namespace CourseWork.Web.Validators
     /// User sign up data validator.
     /// </summary>
     /// <seealso cref="UserSignUpCommand" />
-    public class UserSignUpValidator : AbstractValidator<UserSignUpCommand>
+    public class UserSignUpRequestValidator : AbstractValidator<UserSignUpCommand>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="UserSignUpValidator"/> class.
+        /// Initializes a new instance of the <see cref="UserSignUpRequestValidator"/> class.
         /// </summary>
-        public UserSignUpValidator()
+        public UserSignUpRequestValidator()
         {
-            RuleFor(u => u.Username)
+            RuleFor(e => e.Username)
                 .Matches("^(?=.{4,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$")
-                .WithMessage("Username must contain letters, numbers, underscores or dots and be from 4 to 20 characters long.");
+                .WithMessage("Username can contain letters, numbers, underscores or dots and be from 4 to 20 characters long.");
+
+            RuleFor(e => e.DisplayName)
+                .Matches("^(?=.{4,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$")
+                .WithMessage("Display name can contain letters, numbers, underscores or dots and be from 4 to 20 characters long.");
 
             RuleFor(e => e.Email)
                 .Matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")

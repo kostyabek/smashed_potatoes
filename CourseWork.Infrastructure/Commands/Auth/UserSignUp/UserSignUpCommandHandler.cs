@@ -17,6 +17,8 @@ using Microsoft.Extensions.Logging;
 
 namespace CourseWork.Core.Commands.Auth.UserSignUp
 {
+    using System.Text;
+
     /// <summary>
     /// UserSignUpCommand handler.
     /// </summary>
@@ -59,28 +61,36 @@ namespace CourseWork.Core.Commands.Auth.UserSignUp
             {
                 try
                 {
-                    var fileName = Path.GetFileName(request.Avatar.FileName);
-                    var filePath = StoragePathsHelper.GetAvatarStoragePath(fileName);
-
-                    using (var fileStream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await request.Avatar.CopyToAsync(fileStream, cancellationToken);
-                    }
-
-                    var avatarDbRecord = new ImageModel
-                    {
-                        FilePath = filePath
-                    };
-
-                    _dbContext.Images.Add(avatarDbRecord);
-                    await _dbContext.SaveChangesAsync(cancellationToken);
-
                     var newUser = new AppUser
                     {
                         Email = request.Email,
                         UserName = request.Username,
-                        AvatarId = avatarDbRecord.Id,
                     };
+
+                    if (request.Avatar != null)
+                    {
+                        var fileNameBuilder = new StringBuilder(Path.GetFileNameWithoutExtension(request.Avatar.FileName).Replace(' ', '-'));
+                        fileNameBuilder.Append(DateTime.UtcNow.ToString("yymmssfff"));
+                        fileNameBuilder.Append(Path.GetExtension(request.Avatar.FileName));
+                        var fileName = fileNameBuilder.ToString();
+
+                        var filePath = StoragePathsHelper.GetAvatarStoragePath(fileName);
+
+                        using (var fileStream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await request.Avatar.CopyToAsync(fileStream, cancellationToken);
+                        }
+
+                        var avatarDbRecord = new ImageModel
+                        {
+                            FileName = fileName
+                        };
+
+                        _dbContext.Images.Add(avatarDbRecord);
+                        await _dbContext.SaveChangesAsync(cancellationToken);
+
+                        newUser.AvatarId = avatarDbRecord.Id;
+                    }
 
                     await _userManager.CreateAsync(newUser, request.Password);
 

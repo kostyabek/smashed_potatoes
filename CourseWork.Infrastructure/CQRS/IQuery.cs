@@ -1,4 +1,4 @@
-﻿namespace CourseWork.Common.CQRS
+﻿namespace CourseWork.Core.CQRS
 {
     using MediatR;
 

@@ -9,6 +9,14 @@ namespace CourseWork.Core.Services.UserService
     public interface IUserService
     {
         /// <summary>
+        /// Gets the user identifier.
+        /// </summary>
+        /// <value>
+        /// The user identifier.
+        /// </value>
+        public int UserId { get; }
+
+        /// <summary>
         /// Gets the current user asynchronously.
         /// </summary>
         /// <returns></returns>

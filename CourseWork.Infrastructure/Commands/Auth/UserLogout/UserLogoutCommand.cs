@@ -1,8 +1,9 @@
-﻿using CourseWork.Common.CQRS;
-using LS.Helpers.Hosting.API;
+﻿using LS.Helpers.Hosting.API;
 
 namespace CourseWork.Core.Commands.Auth.UserLogout
 {
+    using CQRS;
+
     /// <summary>
     /// UserLogoutCommand.
     /// </summary>
