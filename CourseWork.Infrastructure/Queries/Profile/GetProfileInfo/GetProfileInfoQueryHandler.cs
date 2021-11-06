@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 
 namespace CourseWork.Core.Queries.Profile.GetProfileInfo
 {
-    using System.Linq;
+    using Helpers;
     using Microsoft.AspNetCore.Http;
     using Microsoft.EntityFrameworkCore;
     using Services.UserService;
@@ -25,7 +25,7 @@ namespace CourseWork.Core.Queries.Profile.GetProfileInfo
         private readonly ILogger<GetProfileInfoQueryHandler> _logger;
         private readonly BaseDbContext _dbContext;
         private readonly IUserService _userService;
-        private readonly IHttpContextAccessor _httpContext;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GetProfileInfoQueryHandler" /> class.
@@ -33,17 +33,17 @@ namespace CourseWork.Core.Queries.Profile.GetProfileInfo
         /// <param name="logger">The logger.</param>
         /// <param name="dbContext">The database context.</param>
         /// <param name="userService">The user service.</param>
-        /// <param name="httpContext">The HTTP context.</param>
+        /// <param name="httpContextAccessor">The HTTP context.</param>
         public GetProfileInfoQueryHandler(
             ILogger<GetProfileInfoQueryHandler> logger,
             BaseDbContext dbContext,
             IUserService userService,
-            IHttpContextAccessor httpContext)
+            IHttpContextAccessor httpContextAccessor)
         {
             _logger = logger;
             _dbContext = dbContext;
             _userService = userService;
-            _httpContext = httpContext;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         /// <summary>
@@ -71,13 +71,16 @@ namespace CourseWork.Core.Queries.Profile.GetProfileInfo
                     return new ExecutionResult<GetProfileInfoQueryResult>(new ErrorInfo("The user is not authorized"));
                 }
 
-                var httpRequest = _httpContext.HttpContext.Request;
+                var httpRequest = _httpContextAccessor.HttpContext.Request;
+                var avatarPathBuilder = StoragePathsHelper.GetImagesStaticFilesPath(httpRequest);
+                var avatarPath = avatarPathBuilder.Append($"{user.Avatar.FileName}").ToString();
+
                 var result = new GetProfileInfoQueryResult
                 {
                     Id = userId,
                     Email = user.Email,
                     DisplayName = user.DisplayName,
-                    AvatarPath = $"{httpRequest.Scheme}://{httpRequest.Host}{httpRequest.PathBase}/images/{user.Avatar.FileName}",
+                    AvatarPath = avatarPath,
                 };
 
                 return new ExecutionResult<GetProfileInfoQueryResult>(result);
