@@ -4,11 +4,24 @@ using CourseWork.Common.Consts;
 
 namespace CourseWork.Core.Helpers
 {
+    using System.Text;
+    using Microsoft.AspNetCore.Http;
+
     /// <summary>
     /// Contains methods for getting image storage paths.
     /// </summary>
     public class StoragePathsHelper
     {
+        /// <summary>
+        /// Gets the images static files path.
+        /// </summary>
+        /// <param name="httpRequest">The HTTP request.</param>
+        /// <returns></returns>
+        public static StringBuilder GetImagesStaticFilesPath(HttpRequest httpRequest)
+        {
+            return new StringBuilder($"{httpRequest.Scheme}://{httpRequest.Host}{httpRequest.PathBase}/images/");
+        }
+
         /// <summary>
         /// Gets the avatar storage path.
         /// </summary>
