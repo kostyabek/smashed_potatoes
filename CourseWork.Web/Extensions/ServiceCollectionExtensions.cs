@@ -15,6 +15,7 @@ using CourseWork.Core.Services.UserService;
 namespace CourseWork.Web.Extensions
 {
     using Common.Configurations;
+    using Core.Database.DatabaseConnectionHelper;
 
     /// <summary>
     /// Contains extension methods for <see cref="IServiceCollection"/>.
@@ -154,6 +155,7 @@ namespace CourseWork.Web.Extensions
         public static IServiceCollection AddCustomServices(this IServiceCollection services)
         {
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IDatabaseConnectionHelper, DatabaseConnectionHelper>();
 
             return services;
         }
