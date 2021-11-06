@@ -5,6 +5,8 @@ using CourseWork.Core.Database.Entities.Threads;
 
 namespace CourseWork.Core.Database.Entities.Replies
 {
+    using System;
+
     /// <summary>
     /// Represents a reply in a thread.
     /// </summary>
@@ -65,6 +67,14 @@ namespace CourseWork.Core.Database.Entities.Replies
         /// The pic related.
         /// </value>
         public ImageModel PicRelated { get; set; }
+
+        /// <summary>
+        /// Gets or sets the created.
+        /// </summary>
+        /// <value>
+        /// The created.
+        /// </value>
+        public DateTime Created { get; set; }
 
         /// <summary>
         /// Gets or sets the reply replies.
