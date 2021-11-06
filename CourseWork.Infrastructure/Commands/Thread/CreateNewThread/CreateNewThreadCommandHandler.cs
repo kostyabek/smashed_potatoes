@@ -46,7 +46,7 @@ namespace CourseWork.Core.Commands.Thread.CreateNewThread
         /// </summary>
         /// <param name="request">The request: CreateNewThreadCommand</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>string</returns>
+        /// <returns>string.</returns>
         public async Task<ExecutionResult> Handle(CreateNewThreadCommand request,
             CancellationToken cancellationToken)
         {

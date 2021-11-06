@@ -45,50 +45,55 @@ namespace CourseWork.Core.Commands.Profile.ChangeAvatar
         /// <param name="request">The request: ChangeAvatarCommand</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>
-        /// string
+        /// string.
         /// </returns>
         public async Task<ExecutionResult> Handle(ChangeAvatarCommand request,
             CancellationToken cancellationToken)
         {
-            try
+            using (var transaction = await _dbContext.Database.BeginTransactionAsync(cancellationToken))
             {
-                var user = await _userService.GetCurrentUserAsync();
-
-                if (user is null)
+                try
                 {
-                    return new ExecutionResult(new ErrorInfo("The user is not authorized"));
+                    var user = await _userService.GetCurrentUserAsync();
+
+                    if (user is null)
+                    {
+                        return new ExecutionResult(new ErrorInfo("The user is not authorized"));
+                    }
+
+                    var fileNameBuilder = new StringBuilder(Path.GetFileNameWithoutExtension(request.Avatar.FileName).Replace(' ', '-'));
+                    fileNameBuilder.Append(DateTime.UtcNow.ToString("yymmssfff"));
+                    fileNameBuilder.Append(Path.GetExtension(request.Avatar.FileName));
+                    var fileName = fileNameBuilder.ToString();
+
+                    var avatarDbRecord = new ImageModel
+                    {
+                        FileName = fileName,
+                        Created = DateTime.UtcNow
+                    };
+
+                    _dbContext.Images.Add(avatarDbRecord);
+                    await _dbContext.SaveChangesAsync(cancellationToken);
+
+                    user.AvatarId = avatarDbRecord.Id;
+                    await _dbContext.SaveChangesAsync(cancellationToken);
+
+                    var filePath = StoragePathsHelper.GetAvatarStoragePath(fileName);
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await request.Avatar.CopyToAsync(fileStream, cancellationToken);
+                    }
+
+                    await transaction.CommitAsync(cancellationToken);
+                    return new ExecutionResult(new InfoMessage("New avatar has been set successfully."));
                 }
-
-                var fileNameBuilder = new StringBuilder(Path.GetFileNameWithoutExtension(request.Avatar.FileName).Replace(' ', '-'));
-                fileNameBuilder.Append(DateTime.UtcNow.ToString("yymmssfff"));
-                fileNameBuilder.Append(Path.GetExtension(request.Avatar.FileName));
-                var fileName = fileNameBuilder.ToString();
-
-                var filePath = StoragePathsHelper.GetAvatarStoragePath(fileName);
-
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                catch (Exception e)
                 {
-                    await request.Avatar.CopyToAsync(fileStream, cancellationToken);
+                    await transaction.RollbackAsync(cancellationToken);
+                    _logger.LogError(e.Message);
+                    return new ExecutionResult(
+                        new ErrorInfo($"Error while executing {nameof(ChangeAvatarCommandHandler)}"));
                 }
-
-                var avatarDbRecord = new ImageModel
-                {
-                    FileName = fileName
-                };
-
-                _dbContext.Images.Add(avatarDbRecord);
-
-                user.AvatarId = avatarDbRecord.Id;
-
-                await _dbContext.SaveChangesAsync(cancellationToken);
-
-                return new ExecutionResult(new InfoMessage("New avatar has been set successfully."));
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e.Message);
-                return new ExecutionResult(
-                    new ErrorInfo($"Error while executing {nameof(ChangeAvatarCommandHandler)}"));
             }
         }
     }

@@ -4,14 +4,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using CourseWork.Core.Helpers;
+using FluentValidation.AspNetCore;
+using Microsoft.Extensions.FileProviders;
 
 namespace CourseWork.Web
 {
-    using Core.Helpers;
-    using FluentValidation.AspNetCore;
-    using Infrastructure;
-    using Microsoft.Extensions.FileProviders;
-
     /// <summary>
     /// Startup class.
     /// </summary>

@@ -13,7 +13,7 @@ namespace CourseWork.Core.Commands.Board.CreateNewBoard
     /// <summary>
     /// CreateNewBoardCommand handler.
     /// </summary>
-    /// <seealso cref="MediatR.IRequestHandler{CreateNewBoardCommand}" />
+    /// <seealso cref="IRequestHandler{CreateNewBoardCommand}" />
     public class CreateNewBoardCommandHandler : IRequestHandler<CreateNewBoardCommand, ExecutionResult>
     {
         private readonly ILogger<CreateNewBoardCommandHandler> _logger;
@@ -57,7 +57,8 @@ namespace CourseWork.Core.Commands.Board.CreateNewBoard
                 var newBoardRecord = new PotatoBoard
                 {
                     Name = request.Name,
-                    DisplayName = request.DisplayName
+                    DisplayName = request.DisplayName,
+                    Created = DateTime.UtcNow
                 };
 
                 _dbContext.Boards.Add(newBoardRecord);

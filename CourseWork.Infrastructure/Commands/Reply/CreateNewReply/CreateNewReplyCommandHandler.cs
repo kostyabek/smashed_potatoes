@@ -72,6 +72,9 @@
                     {
                         UserId = user.Id,
                         ThreadId = request.ThreadId,
+                        Created = DateTime.UtcNow,
+                        Content = request.Content,
+                        IsThreadStarter = false
                     };
 
                     if (request.PicRelated != null)

@@ -66,7 +66,21 @@ namespace CourseWork.Core.Commands.Auth.UserSignUp
                     {
                         Email = request.Email,
                         UserName = request.Username,
+                        DisplayName = request.DisplayName,
                     };
+
+                    await _userManager.CreateAsync(newUser, request.Password);
+
+                    newUser.UserRoles = new List<AppUserRole>
+                    {
+                        new ()
+                        {
+                            UserId = newUser.Id,
+                            RoleId = AppConsts.UserRoles.NewUser
+                        }
+                    };
+
+                    await _dbContext.SaveChangesAsync(cancellationToken);
 
                     if (request.Avatar != null)
                     {
@@ -93,18 +107,6 @@ namespace CourseWork.Core.Commands.Auth.UserSignUp
                         newUser.AvatarId = avatarDbRecord.Id;
                     }
 
-                    await _userManager.CreateAsync(newUser, request.Password);
-
-                    newUser.UserRoles = new List<AppUserRole>
-                    {
-                        new ()
-                        {
-                            UserId = newUser.Id,
-                            RoleId = AppConsts.UserRoles.NewUser
-                        }
-                    };
-
-                    await _dbContext.SaveChangesAsync(cancellationToken);
                     await transaction.CommitAsync(cancellationToken);
 
                     var signInCommand = new UserSignInCommand
