@@ -88,7 +88,7 @@ select distinct t.id           as Id,
                     select count(r1.id)
                     from {nameof(BaseDbContext.Replies).ToSnakeCase()} r1
                     where r1.{nameof(PotatoReply.ThreadId).ToSnakeCase()} = t.id
-                      and r1.{nameof(PotatoReply.Created).ToSnakeCase()} <= now() - INTERVAL '24 HOURS'
+                      and r1.{nameof(PotatoReply.Created).ToSnakeCase()} >= now() - INTERVAL '24 HOURS'
                 )              as NumberOfReplies
 from {nameof(BaseDbContext.Threads).ToSnakeCase()} t
          inner join {nameof(BaseDbContext.Replies).ToSnakeCase()} r
