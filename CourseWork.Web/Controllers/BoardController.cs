@@ -3,6 +3,7 @@
     using System;
     using System.Threading.Tasks;
     using Core.Commands.Board.CreateNewBoard;
+    using Core.Queries.Board.GetAllBoards;
     using LS.Helpers.Hosting.API;
     using LS.Helpers.Hosting.Extensions;
     using MediatR;
@@ -43,6 +44,23 @@
         public async Task<IActionResult> CreateNewBoard([FromBody] CreateNewBoardCommand request)
         {
             var result = await _mediator.Send(request);
+
+            return this.FromExecutionResult(result);
+        }
+
+        /// <summary>
+        /// Get all boards.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [SwaggerOperation("Get all boards.")]
+        [Produces("application/json", "application/xml")]
+        [Route("boards")]
+        [ProducesResponseType(typeof(ExecutionResult), 200)]
+        public async Task<IActionResult> GetAllBoards()
+        {
+            var query = new GetAllBoardsQuery();
+            var result = await _mediator.Send(query);
 
             return this.FromExecutionResult(result);
         }
