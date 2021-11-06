@@ -9,6 +9,7 @@ namespace CourseWork.Web
 {
     using Core.Helpers;
     using FluentValidation.AspNetCore;
+    using Infrastructure;
     using Microsoft.Extensions.FileProviders;
 
     /// <summary>

@@ -1,5 +1,6 @@
 ﻿namespace CourseWork.Core.Commands.Profile.ChangeAvatar
 {
+    using Attributes;
     using CQRS;
     using LS.Helpers.Hosting.API;
     using Microsoft.AspNetCore.Http;
@@ -17,6 +18,7 @@
         /// <value>
         /// The avatar.
         /// </value>
+        [AllowedFiles(new[] { ".jpg", ".jpeg", ".png", ".gif" }, 10485760)]
         public IFormFile Avatar { get; set; }
     }
 }

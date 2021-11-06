@@ -67,7 +67,7 @@ namespace CourseWork.Core.Commands.Thread.CreateNewThread
                         Created = DateTime.UtcNow,
                         Description = request.Description,
                         Name = request.Name,
-                        UserId = request.UserId,
+                        UserId = user.Id,
                     };
 
                     if (request.MainPicture is null)

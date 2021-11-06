@@ -8,13 +8,13 @@
     using LS.Helpers.Hosting.Extensions;
     using MediatR;
     using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Swashbuckle.AspNetCore.Annotations;
 
     /// <inheritdoc />
     [SwaggerTag("Profile")]
     [Authorize]
+    [ApiController]
     [ApiExplorerSettings(GroupName = "v1")]
     public sealed class ProfileController : Controller
     {

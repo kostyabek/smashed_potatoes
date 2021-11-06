@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using CourseWork.Core.Commands.Auth.UserSignIn;
 using CourseWork.Core.Commands.Auth.UserSignUp;
 using LS.Helpers.Hosting.API;
 using LS.Helpers.Hosting.Extensions;
 using MediatR;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 

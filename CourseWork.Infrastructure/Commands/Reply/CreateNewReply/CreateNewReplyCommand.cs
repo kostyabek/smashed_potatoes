@@ -1,6 +1,7 @@
 ﻿namespace CourseWork.Core.Commands.Reply.CreateNewReply
 {
     using System.Collections.Generic;
+    using Attributes;
     using CQRS;
     using LS.Helpers.Hosting.API;
     using Microsoft.AspNetCore.Http;
@@ -26,7 +27,16 @@
         /// <value>
         /// The pic related.
         /// </value>
+        [AllowedFiles(new[] { ".jpg", ".jpeg", ".png", ".gif" }, 10485760)]
         public IFormFile PicRelated { get; set; }
+
+        /// <summary>
+        /// Gets or sets the content.
+        /// </summary>
+        /// <value>
+        /// The content.
+        /// </value>
+        public string Content { get; set; }
 
         /// <summary>
         /// Gets or sets the replied to ids.

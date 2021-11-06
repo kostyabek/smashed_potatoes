@@ -69,6 +69,14 @@ namespace CourseWork.Core.Database.Entities.Replies
         public ImageModel PicRelated { get; set; }
 
         /// <summary>
+        /// Gets or sets the content.
+        /// </summary>
+        /// <value>
+        /// The content.
+        /// </value>
+        public string Content { get; set; }
+
+        /// <summary>
         /// Gets or sets the created.
         /// </summary>
         /// <value>

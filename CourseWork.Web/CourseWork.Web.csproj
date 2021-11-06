@@ -44,4 +44,8 @@
     <ProjectReference Include="..\CourseWork.Infrastructure\CourseWork.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Validators\Profile\" />
+  </ItemGroup>
+
 </Project>

@@ -13,6 +13,7 @@
 
     /// <inheritdoc />
     [SwaggerTag("Board")]
+    [ApiController]
     [Authorize]
     [ApiExplorerSettings(GroupName = "v1")]
     public sealed class BoardController : Controller
@@ -23,7 +24,7 @@
         /// Initializes a new instance of the <see cref="BoardController"/> class.
         /// </summary>
         /// <param name="mediator">The mediator.</param>
-        /// <exception cref="ArgumentNullException">mediator</exception>
+        /// <exception cref="ArgumentNullException">mediator.</exception>
         public BoardController(IMediator mediator)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));

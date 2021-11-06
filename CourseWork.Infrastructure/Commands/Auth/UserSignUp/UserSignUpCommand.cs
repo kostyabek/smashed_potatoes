@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Http;
 
 namespace CourseWork.Core.Commands.Auth.UserSignUp
 {
+    using Attributes;
+
     /// <summary>
     /// User Sign Up Command.
     /// </summary>
@@ -61,6 +63,7 @@ namespace CourseWork.Core.Commands.Auth.UserSignUp
         /// <value>
         /// The avatar.
         /// </value>
+        [AllowedFiles(new[] { ".jpg", ".jpeg", ".png", ".gif" }, 10485760)]
         public IFormFile Avatar { get; set; }
     }
 }

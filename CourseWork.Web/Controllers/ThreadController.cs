@@ -14,6 +14,7 @@ namespace CourseWork.Web.Controllers
     /// <inheritdoc />
     [SwaggerTag("Thread")]
     [Authorize]
+    [ApiController]
     [ApiExplorerSettings(GroupName = "v1")]
     public sealed class ThreadController : Controller
     {
@@ -23,7 +24,7 @@ namespace CourseWork.Web.Controllers
         /// Initializes a new instance of the <see cref="ThreadController"/> class.
         /// </summary>
         /// <param name="mediator">The mediator.</param>
-        /// <exception cref="ArgumentNullException">mediator</exception>
+        /// <exception cref="ArgumentNullException">mediator.</exception>
         public ThreadController(IMediator mediator)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
