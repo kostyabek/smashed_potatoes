@@ -14,6 +14,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Validators\Profile\**" />
+    <Content Remove="Validators\Profile\**" />
+    <EmbeddedResource Remove="Validators\Profile\**" />
+    <None Remove="Validators\Profile\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FluentValidation" Version="10.3.4" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="10.3.4" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="10.3.4" />
@@ -42,10 +49,6 @@
   <ItemGroup>
     <ProjectReference Include="..\CourseWork.Application\CourseWork.Common.csproj" />
     <ProjectReference Include="..\CourseWork.Infrastructure\CourseWork.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Validators\Profile\" />
   </ItemGroup>
 
 </Project>
