@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using CourseWork.Core.Database.Entities.Files;
 using CourseWork.Core.Database.Entities.Replies;
 using CourseWork.Core.Database.Entities.Boards;
+using CourseWork.Core.Database.Entities.Identity;
 
 namespace CourseWork.Core.Database.Entities.Threads
 {
-    using Identity;
-
     /// <summary>
     /// Represents a thread.
     /// </summary>

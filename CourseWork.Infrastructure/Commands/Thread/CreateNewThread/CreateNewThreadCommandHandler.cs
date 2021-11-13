@@ -104,7 +104,8 @@ namespace CourseWork.Core.Commands.Thread.CreateNewThread
                     {
                         UserId = user.Id,
                         ThreadId = newThreadRecord.Id,
-                        IsThreadStarter = true
+                        IsThreadStarter = true,
+                        Created = newThreadRecord.Created,
                     });
                     await _dbContext.SaveChangesAsync(cancellationToken);
 

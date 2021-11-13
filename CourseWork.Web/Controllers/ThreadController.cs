@@ -11,6 +11,9 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace CourseWork.Web.Controllers
 {
+    using Application.Pagination;
+    using Core.Queries.Thread.GetRepliesForThread;
+
     /// <inheritdoc />
     [SwaggerTag("Thread")]
     [Authorize]
@@ -52,13 +55,40 @@ namespace CourseWork.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [SwaggerOperation("Gets popular threads.")]
+        [SwaggerOperation("Get popular threads.")]
         [Produces("application/json", "application/xml")]
         [Route("threads/popular")]
         [ProducesResponseType(typeof(ExecutionResult), 200)]
         public async Task<IActionResult> GetPopularThreads()
         {
             var query = new GetPopularThreadsQuery();
+            var result = await _mediator.Send(query);
+
+            return this.FromExecutionResult(result);
+        }
+
+        /// <summary>
+        /// Gets the replies for thread.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="paginationFilter">The pagination filter.</param>
+        /// <returns></returns>
+        [HttpGet]
+        [SwaggerOperation("Get replies for thread.")]
+        [Produces("application/json", "application/xml")]
+        [Route("threads/{id:int}/replies")]
+        [ProducesResponseType(typeof(ExecutionResult), 200)]
+        public async Task<IActionResult> GetRepliesForThread(
+            [FromRoute] int id,
+            [FromQuery] PaginatedQuery paginationFilter)
+        {
+            var query = new GetRepliesForThreadQuery
+            {
+                ThreadId = id,
+                PageSize = paginationFilter.PageSize,
+                PageNumber = paginationFilter.PageNumber,
+            };
+
             var result = await _mediator.Send(query);
 
             return this.FromExecutionResult(result);

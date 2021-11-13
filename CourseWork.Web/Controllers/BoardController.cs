@@ -1,15 +1,17 @@
-﻿namespace CourseWork.Web.Controllers
+﻿using System;
+using System.Threading.Tasks;
+using CourseWork.Core.Commands.Board.CreateNewBoard;
+using CourseWork.Core.Queries.Board.GetAllBoards;
+using LS.Helpers.Hosting.API;
+using LS.Helpers.Hosting.Extensions;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
+
+namespace CourseWork.Web.Controllers
 {
-    using System;
-    using System.Threading.Tasks;
-    using Core.Commands.Board.CreateNewBoard;
-    using Core.Queries.Board.GetAllBoards;
-    using LS.Helpers.Hosting.API;
-    using LS.Helpers.Hosting.Extensions;
-    using MediatR;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Mvc;
-    using Swashbuckle.AspNetCore.Annotations;
+    using Core.Queries.Board.GetThreadsForBoard;
 
     /// <inheritdoc />
     [SwaggerTag("Board")]
@@ -31,25 +33,6 @@
         }
 
         /// <summary>
-        /// Create new board.
-        /// </summary>
-        /// <param name="request">request.</param>
-        /// <returns>IActionResult.</returns>
-        /// <response code="400">Bad request.</response>
-        /// <response code="500">Server error.</response>
-        [HttpPost]
-        [SwaggerOperation("Create new board.")]
-        [Produces("application/json", "application/xml")]
-        [Route("boards")]
-        [ProducesResponseType(typeof(ExecutionResult), 200)]
-        public async Task<IActionResult> CreateNewBoard([FromBody] CreateNewBoardCommand request)
-        {
-            var result = await _mediator.Send(request);
-
-            return this.FromExecutionResult(result);
-        }
-
-        /// <summary>
         /// Get all boards.
         /// </summary>
         /// <returns></returns>
@@ -61,6 +44,34 @@
         public async Task<IActionResult> GetAllBoards()
         {
             var query = new GetAllBoardsQuery();
+            var result = await _mediator.Send(query);
+
+            return this.FromExecutionResult(result);
+        }
+
+        /// <summary>
+        /// Gets the threads for board.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="pageNumber">The page number.</param>
+        /// <param name="pageSize">Size of the page.</param>
+        /// <returns></returns>
+        [HttpGet]
+        [SwaggerOperation("Gets threads for board.")]
+        [Produces("application/json", "application/xml")]
+        [Route("boards/{id:int}/threads")]
+        [ProducesResponseType(typeof(ExecutionResult), 200)]
+        public async Task<IActionResult> GetThreadsForBoard(
+            [FromRoute] int id,
+            [FromQuery] int pageNumber,
+            [FromQuery] int pageSize)
+        {
+            var query = new GetThreadsForBoardQuery
+            {
+                BoardId = id,
+                PageSize = pageSize,
+                PageNumber = pageNumber
+            };
             var result = await _mediator.Send(query);
 
             return this.FromExecutionResult(result);
