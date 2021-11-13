@@ -51,13 +51,13 @@
         }
 
         /// <summary>
-        /// Bans the user.
+        /// Ban or remove ban from user.
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <param name="data">The data.</param>
         /// <returns></returns>
         [HttpPatch]
-        [SwaggerOperation("Ban user.")]
+        [SwaggerOperation("Ban or remove ban from user.")]
         [Produces("application/json", "application/xml")]
         [Route("admin/users/{id:int}/ban-status")]
         [ProducesResponseType(typeof(ExecutionResult), 200)]

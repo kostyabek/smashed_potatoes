@@ -7,6 +7,8 @@ using CourseWork.Core.Database.Entities.Identity;
 
 namespace CourseWork.Core.Services.UserService
 {
+    using System.Linq;
+
     /// <summary>
     /// Contains methods for user management.
     /// </summary>
@@ -41,6 +43,39 @@ namespace CourseWork.Core.Services.UserService
         public async Task<AppUser> GetCurrentUserAsync()
         {
             return await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == UserId);
+        }
+
+        /// <summary>
+        /// Gets the user by identifier.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns></returns>
+        public async Task<AppUser> GetUserById(int userId)
+        {
+            return await _dbContext.Users.SingleOrDefaultAsync(e => e.Id == userId);
+        }
+
+        /// <summary>
+        /// Determines whether [is user banned] [the specified user identifier].
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>
+        ///   <c>true</c> if [is user banned] [the specified user identifier]; otherwise, <c>false</c>.
+        /// </returns>
+        public async Task<bool> IsGivenUserBanned(int userId)
+        {
+            return await _dbContext.Users.AnyAsync(e => e.Id == userId && e.Bans.Any(b => b.IsActive));
+        }
+
+        /// <summary>
+        /// Determines whether [is user banned] [the specified user identifier].
+        /// </summary>
+        /// <returns>
+        ///   <c>true</c> if [is user banned] [the specified user identifier]; otherwise, <c>false</c>.
+        /// </returns>
+        public async Task<bool> IsCurrentUserBanned()
+        {
+            return await _dbContext.Users.AnyAsync(e => e.Id == UserId && e.Bans.Any(b => b.IsActive));
         }
     }
 }

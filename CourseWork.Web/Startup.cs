@@ -10,6 +10,8 @@ using Microsoft.Extensions.FileProviders;
 
 namespace CourseWork.Web
 {
+    using Middlewares;
+
     /// <summary>
     /// Startup class.
     /// </summary>
@@ -90,6 +92,7 @@ namespace CourseWork.Web
             app.UseCors("SmashedPotatoesPolicy");
 
             app.UseAuthentication();
+            app.UseMiddleware<BanMiddleware>();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
