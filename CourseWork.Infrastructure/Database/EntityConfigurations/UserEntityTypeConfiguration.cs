@@ -22,10 +22,6 @@ namespace CourseWork.Core.Database.EntityConfigurations
                 .WithMany()
                 .OnDelete(DeleteBehavior.SetNull);
 
-            builder.HasMany(e => e.Replies)
-                .WithOne(e => e.User)
-                .HasForeignKey(e => e.UserId);
-
             builder.HasMany(e => e.Threads)
                 .WithOne(e => e.User)
                 .HasForeignKey(e => e.UserId)
@@ -34,6 +30,11 @@ namespace CourseWork.Core.Database.EntityConfigurations
             builder.HasMany(e => e.Replies)
                 .WithOne(e => e.User)
                 .HasForeignKey(e => e.UserId);
+
+            builder.HasMany(e => e.Bans)
+                .WithOne(e => e.User)
+                .HasForeignKey(e => e.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

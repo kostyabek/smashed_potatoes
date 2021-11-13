@@ -23,6 +23,7 @@ namespace CourseWork.Core.Database.Extensions
             modelBuilder.ApplyConfiguration(new PotatoThreadEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new PotatoReplyEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new ReplyReplyEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new BanEntityTypeConfiguration());
 
             return modelBuilder;
         }

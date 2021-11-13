@@ -1,17 +1,16 @@
 ﻿using System.Linq;
-using CourseWork.Core.Database.Entities;
 using CourseWork.Core.Database.Entities.Identity;
 using CourseWork.Core.Database.Extensions;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using CourseWork.Core.Database.Entities.Admin;
+using CourseWork.Core.Database.Entities.Boards;
+using CourseWork.Core.Database.Entities.Files;
+using CourseWork.Core.Database.Entities.Replies;
+using CourseWork.Core.Database.Entities.Threads;
 
 namespace CourseWork.Core.Database
 {
-    using Entities.Boards;
-    using Entities.Files;
-    using Entities.Replies;
-    using Entities.Threads;
-
     /// <summary>
     /// Database context of the application.
     /// </summary>
@@ -72,6 +71,14 @@ namespace CourseWork.Core.Database
         /// The reply replies.
         /// </value>
         public DbSet<ReplyReply> ReplyReplies { get; set; }
+
+        /// <summary>
+        /// Gets or sets the bans.
+        /// </summary>
+        /// <value>
+        /// The bans.
+        /// </value>
+        public DbSet<Ban> Bans { get; set; }
 
         /// <inheritdoc/>
         protected override void OnModelCreating(ModelBuilder builder)

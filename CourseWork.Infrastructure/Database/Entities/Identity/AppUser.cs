@@ -5,6 +5,8 @@ using CourseWork.Core.Database.Entities.Replies;
 
 namespace CourseWork.Core.Database.Entities.Identity
 {
+    using System;
+    using Admin;
     using Threads;
 
     /// <summary>
@@ -60,5 +62,13 @@ namespace CourseWork.Core.Database.Entities.Identity
         /// The replies.
         /// </value>
         public List<PotatoReply> Replies { get; set; }
+
+        /// <summary>
+        /// Gets or sets the bans.
+        /// </summary>
+        /// <value>
+        /// The bans.
+        /// </value>
+        public List<Ban> Bans { get; set; }
     }
 }
