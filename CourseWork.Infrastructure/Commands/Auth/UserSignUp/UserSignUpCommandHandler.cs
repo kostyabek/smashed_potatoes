@@ -105,6 +105,8 @@ namespace CourseWork.Core.Commands.Auth.UserSignUp
                         await _dbContext.SaveChangesAsync(cancellationToken);
 
                         newUser.AvatarId = avatarDbRecord.Id;
+
+                        await _dbContext.SaveChangesAsync(cancellationToken);
                     }
 
                     await transaction.CommitAsync(cancellationToken);

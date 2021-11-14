@@ -2,6 +2,7 @@
 {
     using System;
     using System.Linq;
+    using System.Net;
     using System.Threading;
     using System.Threading.Tasks;
     using Common.Consts;
@@ -9,6 +10,8 @@
     using Database.Entities.Admin;
     using LS.Helpers.Hosting.API;
     using MediatR;
+    using Microsoft.AspNetCore.Authentication.Cookies;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
     using Services.UserService;
@@ -22,6 +25,7 @@
         private readonly ILogger<BanUserCommandHandler> _logger;
         private readonly BaseDbContext _dbContext;
         private readonly IUserService _userService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BanUserCommandHandler" /> class.
@@ -29,14 +33,17 @@
         /// <param name="logger">The logger.</param>
         /// <param name="dbContext">The database context.</param>
         /// <param name="userService">The user service.</param>
+        /// <param name="httpContextAccessor">The HTTP context accessor.</param>
         public BanUserCommandHandler(
             ILogger<BanUserCommandHandler> logger,
             BaseDbContext dbContext,
-            IUserService userService)
+            IUserService userService,
+            IHttpContextAccessor httpContextAccessor)
         {
             _logger = logger;
             _dbContext = dbContext;
             _userService = userService;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         /// <summary>
@@ -53,6 +60,7 @@
 
                 var userToBan = await _dbContext
                     .Users
+                    .Include(e => e.UserRoles)
                     .SingleOrDefaultAsync(e => e.Id == request.UserId, cancellationToken);
 
                 if (userToBan is null)
