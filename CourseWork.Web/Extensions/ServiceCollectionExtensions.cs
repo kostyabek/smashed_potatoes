@@ -16,6 +16,7 @@ namespace CourseWork.Web.Extensions
 {
     using Common.Configurations;
     using Core.Database.DatabaseConnectionHelper;
+    using Microsoft.AspNetCore.Authentication.Cookies;
 
     /// <summary>
     /// Contains extension methods for <see cref="IServiceCollection"/>.
@@ -141,8 +142,10 @@ namespace CourseWork.Web.Extensions
                     o.CallbackPath = new PathString("/signin-google");
                 });*/
 
-            services.AddAuthentication()
-                .AddCookie();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, o =>
+                {
+                });
 
             return services;
         }

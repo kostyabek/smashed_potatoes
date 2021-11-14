@@ -14,6 +14,8 @@ using Microsoft.Extensions.Logging;
 
 namespace CourseWork.Core.Commands.Auth.UserSignIn
 {
+    using Extensions;
+
     /// <summary>
     /// UserSignInCommand handler.
     /// </summary>
@@ -56,14 +58,22 @@ namespace CourseWork.Core.Commands.Auth.UserSignIn
         {
             try
             {
-                var userInitial = await _userManager.FindByNameAsync(request.Username);
+                var userInitial = await _dbContext
+                    .Users
+                    .Include(e => e.Bans)
+                    .SingleOrDefaultAsync(e => e.UserName == request.Username, cancellationToken);
 
                 if (userInitial is null)
                 {
                     return new ExecutionResult<SignedInUser>(new ErrorInfo("No such user found!"));
                 }
 
-                var signInResult = await _signInManager.PasswordSignInAsync(userInitial, request.Password, true, false);
+                var signInResult = await _signInManager.PasswordSignInWithBanCheckAsync(userInitial, request.Password, true, false);
+
+                if (signInResult.IsNotAllowed)
+                {
+                    return new ExecutionResult<SignedInUser>(new ErrorInfo("The user is banned."));
+                }
 
                 if (!signInResult.Succeeded)
                 {
