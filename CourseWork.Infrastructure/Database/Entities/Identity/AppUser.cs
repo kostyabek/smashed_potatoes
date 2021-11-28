@@ -7,6 +7,7 @@ namespace CourseWork.Core.Database.Entities.Identity
 {
     using System;
     using Admin;
+    using Profile;
     using Threads;
 
     /// <summary>
@@ -70,5 +71,13 @@ namespace CourseWork.Core.Database.Entities.Identity
         /// The bans.
         /// </value>
         public List<Ban> Bans { get; set; }
+
+        /// <summary>
+        /// Gets or sets the board subscriptions.
+        /// </summary>
+        /// <value>
+        /// The board subscriptions.
+        /// </value>
+        public List<UserBoardSubscription> BoardSubscriptions { get; set; }
     }
 }

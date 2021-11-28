@@ -26,6 +26,7 @@ namespace CourseWork.Core.Database.Extensions
             modelBuilder.ApplyConfiguration(new BanEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new ReplyReportEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new ReportReasonEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new UserBoardSubscriptionEntityTypeConfiguration());
 
             return modelBuilder;
         }

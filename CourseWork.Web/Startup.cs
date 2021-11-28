@@ -1,17 +1,20 @@
+using CourseWork.Core.Helpers;
+using CourseWork.Core.Quartz;
+using CourseWork.Core.Quartz.Jobs;
+using CourseWork.Core.Services.BannedUsersDeletionService;
 using CourseWork.Web.Extensions;
+using CourseWork.Web.Middlewares;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using CourseWork.Core.Helpers;
-using FluentValidation.AspNetCore;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Hosting;
+using Quartz.Spi;
 
 namespace CourseWork.Web
 {
-    using Middlewares;
-
     /// <summary>
     /// Startup class.
     /// </summary>
@@ -59,6 +62,10 @@ namespace CourseWork.Web
                     .AllowAnyMethod()
                     .AllowAnyHeader();
             }));
+
+            services.AddTransient<IJobFactory, QuartzJobFactory>();
+            services.AddScoped<WeeklySummaryEmailJob>();
+            services.AddScoped<IWeeklySummaryEmailService, WeeklySummaryEmailService>();
         }
 
         /// <summary>

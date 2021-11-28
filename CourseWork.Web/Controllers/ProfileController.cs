@@ -1,8 +1,10 @@
 ﻿namespace CourseWork.Web.Controllers
 {
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using Core.Commands.Profile.ChangeAvatar;
+    using Core.Commands.Profile.SetBoardsEmailSubscription;
     using Core.Queries.Profile.GetProfileInfo;
     using LS.Helpers.Hosting.API;
     using LS.Helpers.Hosting.Extensions;
@@ -68,6 +70,24 @@
             var requestResult = await _mediator.Send(query);
 
             return this.FromExecutionResult(requestResult);
+        }
+
+        /// <summary>
+        /// Set board email subscriptions.
+        /// </summary>
+        /// <param name="boardIds">The board ids.</param>
+        /// <returns></returns>
+        [HttpPost]
+        [SwaggerOperation("Set board email subscriptions")]
+        [Produces("application/json", "application/xml")]
+        [Route("profile/subscription")]
+        [ProducesResponseType(typeof(ExecutionResult), 200)]
+        public async Task<IActionResult> SetBoardEmailSubscriptions([FromBody] List<int> boardIds)
+        {
+            var request = new SetBoardsEmailSubscriptionCommand { BoardIds = boardIds };
+            var result = await _mediator.Send(request);
+
+            return this.FromExecutionResult(result);
         }
     }
 }
