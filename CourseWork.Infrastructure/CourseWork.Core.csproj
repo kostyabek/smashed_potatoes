@@ -23,6 +23,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Commands\Admin\DeleteReply\" />
     <Folder Include="Commands\Auth\UserLogout\" />
     <Folder Include="Commands\Profile\ChangeAvatar\" />
     <Folder Include="Commands\Reply\CreateNewReply\" />

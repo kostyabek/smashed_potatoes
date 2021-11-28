@@ -22,6 +22,11 @@
                 .WithMany()
                 .HasForeignKey(e => e.ReportReasonId)
                 .OnDelete(DeleteBehavior.SetNull);
+
+            builder.HasOne(e => e.Reporter)
+                .WithMany()
+                .HasForeignKey(e => e.ReporterId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

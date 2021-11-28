@@ -1,5 +1,7 @@
 ﻿namespace CourseWork.Core.Database.Entities.Replies
 {
+    using System;
+    using Identity;
     using Reports;
 
     /// <summary>
@@ -40,11 +42,35 @@
         public ReportReason ReportReason { get; set; }
 
         /// <summary>
+        /// Gets or sets the reporter identifier.
+        /// </summary>
+        /// <value>
+        /// The reporter identifier.
+        /// </value>
+        public int ReporterId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the reporter.
+        /// </summary>
+        /// <value>
+        /// The reporter.
+        /// </value>
+        public AppUser Reporter { get; set; }
+
+        /// <summary>
         /// Gets or sets the explanation.
         /// </summary>
         /// <value>
         /// The explanation.
         /// </value>
         public string Explanation { get; set; }
+
+        /// <summary>
+        /// Gets or sets the created at.
+        /// </summary>
+        /// <value>
+        /// The created at.
+        /// </value>
+        public DateTime CreatedAt { get; set; }
     }
 }

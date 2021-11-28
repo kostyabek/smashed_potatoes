@@ -3,15 +3,17 @@ using System;
 using CourseWork.Core.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace CourseWork.Web.Migrations
 {
     [DbContext(typeof(BaseDbContext))]
-    partial class BaseDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211128103233_AddedTimeStampToReportModel")]
+    partial class AddedTimeStampToReportModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -491,10 +493,6 @@ namespace CourseWork.Web.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("report_reason_id");
 
-                    b.Property<int>("ReporterId")
-                        .HasColumnType("integer")
-                        .HasColumnName("reporter_id");
-
                     b.HasKey("Id")
                         .HasName("pk_reply_reports");
 
@@ -503,9 +501,6 @@ namespace CourseWork.Web.Migrations
 
                     b.HasIndex("ReportReasonId")
                         .HasDatabaseName("ix_reply_reports_report_reason_id");
-
-                    b.HasIndex("ReporterId")
-                        .HasDatabaseName("ix_reply_reports_reporter_id");
 
                     b.ToTable("reply_reports");
                 });
@@ -744,16 +739,7 @@ namespace CourseWork.Web.Migrations
                         .OnDelete(DeleteBehavior.SetNull)
                         .IsRequired();
 
-                    b.HasOne("CourseWork.Core.Database.Entities.Identity.AppUser", "Reporter")
-                        .WithMany()
-                        .HasForeignKey("ReporterId")
-                        .HasConstraintName("fk_reply_reports_users_reporter_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Reply");
-
-                    b.Navigation("Reporter");
 
                     b.Navigation("ReportReason");
                 });
