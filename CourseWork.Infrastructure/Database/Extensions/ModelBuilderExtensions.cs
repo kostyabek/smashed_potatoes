@@ -1,14 +1,36 @@
-﻿namespace CourseWork.Infrastructure.Database.Extensions
-{
-    using Domain.Identity;
-    using LS.Helpers.Hosting.Extensions;
-    using Microsoft.EntityFrameworkCore;
+﻿using CourseWork.Core.Database.Entities.Identity;
+using CourseWork.Core.Database.EntityConfigurations;
+using LS.Helpers.Hosting.Extensions;
+using Microsoft.EntityFrameworkCore;
 
+namespace CourseWork.Core.Database.Extensions
+{
     /// <summary>
     /// Contains extension methods for <see cref="ModelBuilder"/>.
     /// </summary>
     public static class ModelBuilderExtensions
     {
+        /// <summary>
+        /// Applies the configurations.
+        /// </summary>
+        /// <param name="modelBuilder">The model builder.</param>
+        /// <returns></returns>
+        public static ModelBuilder ApplyConfigurations(this ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new UserEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new ImageModelEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new PotatoBoardEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new PotatoThreadEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new PotatoReplyEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new ReplyReplyEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new BanEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new ReplyReportEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new ReportReasonEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new UserBoardSubscriptionEntityTypeConfiguration());
+
+            return modelBuilder;
+        }
+
         /// <summary>
         /// Adds the postgre SQL rules.
         /// </summary>

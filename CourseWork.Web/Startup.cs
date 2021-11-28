@@ -1,9 +1,17 @@
+using CourseWork.Core.Helpers;
+using CourseWork.Core.Quartz;
+using CourseWork.Core.Quartz.Jobs;
+using CourseWork.Core.Services.BannedUsersDeletionService;
 using CourseWork.Web.Extensions;
+using CourseWork.Web.Middlewares;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
+using Quartz.Spi;
 
 namespace CourseWork.Web
 {
@@ -35,12 +43,29 @@ namespace CourseWork.Web
         /// <param name="services">The services.</param>
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers()
+                .AddFluentValidation(c =>
+            {
+                c.RegisterValidatorsFromAssemblyContaining<Startup>();
+            });
+            services.AddCustomServices();
             services.AddSwagger();
             services.AddIdentity();
             services.AddDataAccess(Configuration);
             services.AddMediatr();
-            services.AddAppAuthentication();
+            services.AddConfigurations(Configuration);
+            services.AddOpenIdConnectAuthentication(Configuration);
+            services.AddAuthorization();
+            services.AddCors(o => o.AddPolicy("SmashedPotatoesPolicy", b =>
+            {
+                b.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            }));
+
+            services.AddTransient<IJobFactory, QuartzJobFactory>();
+            services.AddScoped<WeeklySummaryEmailJob>();
+            services.AddScoped<IWeeklySummaryEmailService, WeeklySummaryEmailService>();
         }
 
         /// <summary>
@@ -55,6 +80,12 @@ namespace CourseWork.Web
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(StoragePathsHelper.GetAvatarsStoragePath()),
+                RequestPath = "/images"
+            });
+
             app.UseHttpsRedirection();
 
             app.UseSwagger();
@@ -65,7 +96,10 @@ namespace CourseWork.Web
 
             app.UseRouting();
 
+            app.UseCors("SmashedPotatoesPolicy");
+
             app.UseAuthentication();
+            app.UseMiddleware<BanMiddleware>();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

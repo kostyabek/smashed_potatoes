@@ -4,8 +4,13 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace CourseWork.Web.Migrations
 {
+    /// <summary>
+    /// Initial migraiton.
+    /// </summary>
+    /// <seealso cref="Migration" />
     public partial class Initial : Migration
     {
+        /// <inheritdoc/>
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -193,6 +198,7 @@ namespace CourseWork.Web.Migrations
                 column: "role_id");
         }
 
+        /// <inheritdoc/>
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(

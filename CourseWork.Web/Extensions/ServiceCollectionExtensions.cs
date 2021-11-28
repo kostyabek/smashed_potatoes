@@ -1,18 +1,23 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
-using CourseWork.Application;
-using CourseWork.Domain.Identity;
-using CourseWork.Infrastructure.Database;
+using CourseWork.Infrastructure;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using CourseWork.Core.Database;
+using CourseWork.Core.Database.Entities.Identity;
+using CourseWork.Core.Services.UserService;
 
 namespace CourseWork.Web.Extensions
 {
+    using Common.Configurations;
+    using Core.Database.DatabaseConnectionHelper;
+    using Microsoft.AspNetCore.Authentication.Cookies;
+
     /// <summary>
     /// Contains extension methods for <see cref="IServiceCollection"/>.
     /// </summary>
@@ -37,7 +42,7 @@ namespace CourseWork.Web.Extensions
                 o.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(60);
                 o.Lockout.MaxFailedAccessAttempts = 7;
 
-                o.SignIn.RequireConfirmedEmail = true;
+                o.SignIn.RequireConfirmedEmail = false;
             });
 
             return services;
@@ -104,17 +109,57 @@ namespace CourseWork.Web.Extensions
         }
 
         /// <summary>
+        /// Adds the configurations.
+        /// </summary>
+        /// <param name="services">The services.</param>
+        /// <param name="configuration">The configuration.</param>
+        /// <returns></returns>
+        public static IServiceCollection AddConfigurations(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.Configure<HashingSecrets>(configuration.GetSection("HashingSecrets"));
+            services.Configure<SmtpClientCredentials>(configuration.GetSection("SmtpClientCredentials"));
+            return services;
+        }
+
+        /// <summary>
         /// Adds the application authentication.
         /// </summary>
         /// <param name="services">The services.</param>
+        /// <param name="configuration">The configuration.</param>
         /// <returns></returns>
-        public static IServiceCollection AddAppAuthentication(this IServiceCollection services)
+        public static IServiceCollection AddOpenIdConnectAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddAuthentication(s => s.DefaultAuthenticateScheme = "")
-                .AddCookie(o =>
+            /*services.AddAuthentication(o =>
                 {
+                    o.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                    o.DefaultForbidScheme = GoogleOpenIdConnectDefaults.AuthenticationScheme;
+                    o.DefaultChallengeScheme = GoogleOpenIdConnectDefaults.AuthenticationScheme;
+                })
+                .AddCookie()
+                .AddGoogleOpenIdConnect(o =>
+                {
+                    o.ClientId = configuration["GoogleAuthCredentials:ClientId"];
+                    o.ClientSecret = configuration["GoogleAuthCredentials:ClientSecret"];
+                    o.CallbackPath = new PathString("/signin-google");
+                });*/
 
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, o =>
+                {
                 });
+
+            return services;
+        }
+
+        /// <summary>
+        /// Adds the custom services.
+        /// </summary>
+        /// <param name="services">The services.</param>
+        /// <returns></returns>
+        public static IServiceCollection AddCustomServices(this IServiceCollection services)
+        {
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IDatabaseConnectionHelper, DatabaseConnectionHelper>();
 
             return services;
         }

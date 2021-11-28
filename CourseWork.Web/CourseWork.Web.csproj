@@ -14,8 +14,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Validators\Profile\**" />
+    <Content Remove="Validators\Profile\**" />
+    <EmbeddedResource Remove="Validators\Profile\**" />
+    <None Remove="Validators\Profile\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="10.3.4" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="10.3.4" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="10.3.4" />
+    <PackageReference Include="Google.Apis.Auth.AspNetCore3" Version="1.55.0" />
     <PackageReference Include="LS.Helpers.Hosting" Version="5.0.3" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="5.0.11" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.11">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -25,6 +38,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.10" />
+    <PackageReference Include="Quartz" Version="3.3.3" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -34,8 +48,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CourseWork.Application\CourseWork.Application.csproj" />
-    <ProjectReference Include="..\CourseWork.Infrastructure\CourseWork.Infrastructure.csproj" />
+    <ProjectReference Include="..\CourseWork.Application\CourseWork.Common.csproj" />
+    <ProjectReference Include="..\CourseWork.Infrastructure\CourseWork.Core.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.0.123" />
+    <PackageReference Include="LS.Helpers.Hosting" Version="5.0.3" />
+    <PackageReference Include="MediatR" Version="9.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.11" />
+    <PackageReference Include="Quartz" Version="3.3.3" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>CourseWork.Core</RootNamespace>
+    <CodeAnalysisRuleSet>../StyleCopRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Commands\Admin\DeleteReply\" />
+    <Folder Include="Commands\Auth\UserLogout\" />
+    <Folder Include="Commands\Profile\ChangeAvatar\" />
+    <Folder Include="Commands\Reply\CreateNewReply\" />
+    <Folder Include="Commands\Reply\ReportReply\" />
+    <Folder Include="Commands\Thread\CreateNewThread\" />
+    <Folder Include="Queries\Thread\GetRepliesForThread\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CourseWork.Application\CourseWork.Common.csproj" />
+  </ItemGroup>
+
+  
+
+</Project>
