@@ -41,5 +41,26 @@
             /// </summary>
             public static int NewUser = 4;
         }
+
+        /// <summary>
+        /// Reply Report Reasons.
+        /// </summary>
+        public static class ReplyReportReasons
+        {
+            /// <summary>
+            /// The inappropriate.
+            /// </summary>
+            public static int Inappropriate = 1;
+
+            /// <summary>
+            /// The bullying.
+            /// </summary>
+            public static int Bullying = 2;
+
+            /// <summary>
+            /// The other.
+            /// </summary>
+            public static int Other = 3;
+        }
     }
 }

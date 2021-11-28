@@ -26,6 +26,7 @@
     <Folder Include="Commands\Auth\UserLogout\" />
     <Folder Include="Commands\Profile\ChangeAvatar\" />
     <Folder Include="Commands\Reply\CreateNewReply\" />
+    <Folder Include="Commands\Reply\ReportReply\" />
     <Folder Include="Commands\Thread\CreateNewThread\" />
     <Folder Include="Queries\Thread\GetRepliesForThread\" />
   </ItemGroup>

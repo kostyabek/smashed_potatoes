@@ -15,7 +15,8 @@
         public static ModelBuilder ApplySeed(this ModelBuilder modelBuilder)
         {
             modelBuilder
-                .AddRolesSeed();
+                .AddRolesSeed()
+                .AddReplyReportReasonsSeed();
 
             return modelBuilder;
         }

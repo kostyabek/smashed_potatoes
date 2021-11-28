@@ -80,6 +80,14 @@ namespace CourseWork.Core.Database
         /// </value>
         public DbSet<Ban> Bans { get; set; }
 
+        /// <summary>
+        /// Gets or sets the reply reports.
+        /// </summary>
+        /// <value>
+        /// The reply reports.
+        /// </value>
+        public DbSet<ReplyReport> ReplyReports { get; set; }
+
         /// <inheritdoc/>
         protected override void OnModelCreating(ModelBuilder builder)
         {

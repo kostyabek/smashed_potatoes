@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CourseWork.Core.Database.Extensions
 {
+    using Entities.Reports;
+
     /// <summary>
     /// Contains methods for database seed.
     /// </summary>
@@ -51,6 +53,37 @@ namespace CourseWork.Core.Database.Extensions
             }.ToArray();
 
             modelBuilder.Entity<AppRole>().HasData(roles);
+
+            return modelBuilder;
+        }
+
+        /// <summary>
+        /// Adds the reply report reasons seed.
+        /// </summary>
+        /// <param name="modelBuilder">The model builder.</param>
+        /// <returns></returns>
+        public static ModelBuilder AddReplyReportReasonsSeed(this ModelBuilder modelBuilder)
+        {
+            var reportReasons = new List<ReportReason>
+            {
+                new ()
+                {
+                    Id = AppConsts.ReplyReportReasons.Inappropriate,
+                    Name = "Inappropriate",
+                },
+                new ()
+                {
+                    Id = AppConsts.ReplyReportReasons.Bullying,
+                    Name = "Bullying",
+                },
+                new ()
+                {
+                    Id = AppConsts.ReplyReportReasons.Other,
+                    Name = "Other",
+                },
+            }.ToArray();
+
+            modelBuilder.Entity<ReportReason>().HasData(reportReasons);
 
             return modelBuilder;
         }

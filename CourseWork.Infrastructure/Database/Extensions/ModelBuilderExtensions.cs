@@ -24,6 +24,8 @@ namespace CourseWork.Core.Database.Extensions
             modelBuilder.ApplyConfiguration(new PotatoReplyEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new ReplyReplyEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new BanEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new ReplyReportEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new ReportReasonEntityTypeConfiguration());
 
             return modelBuilder;
         }
