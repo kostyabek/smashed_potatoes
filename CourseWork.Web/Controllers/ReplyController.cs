@@ -3,6 +3,7 @@
     using System;
     using System.Threading.Tasks;
     using Core.Commands.Reply.CreateNewReply;
+    using Core.Commands.Reply.ReportReply;
     using LS.Helpers.Hosting.API;
     using LS.Helpers.Hosting.Extensions;
     using MediatR;
@@ -41,6 +42,35 @@
         [ProducesResponseType(typeof(ExecutionResult), 200)]
         public async Task<IActionResult> CreateNewReply([FromForm] CreateNewReplyCommand request)
         {
+            var result = await _mediator.Send(request);
+
+            return this.FromExecutionResult(result);
+        }
+
+        /// <summary>
+        /// Report a reply.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="reasonId">The reason identifier.</param>
+        /// <param name="explanation">The explanation.</param>
+        /// <returns></returns>
+        [HttpPost]
+        [SwaggerOperation("Report a reply.")]
+        [Produces("application/json", "application/xml")]
+        [Route("replies/{id:int}")]
+        [ProducesResponseType(typeof(ExecutionResult), 200)]
+        public async Task<IActionResult> ReportReply(
+            [FromRoute] int id,
+            [FromQuery] int reasonId,
+            [FromQuery] string explanation)
+        {
+            var request = new ReportReplyCommand
+            {
+                ReplyId = id,
+                ReasonId = reasonId,
+                Explanation = explanation
+            };
+
             var result = await _mediator.Send(request);
 
             return this.FromExecutionResult(result);

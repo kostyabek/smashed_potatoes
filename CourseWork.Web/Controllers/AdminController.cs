@@ -1,8 +1,11 @@
 ﻿namespace CourseWork.Web.Controllers
 {
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using Core.Commands.Admin.BanUser;
+    using Core.Commands.Admin.DeleteReply;
+    using Core.Commands.Admin.IgnoreReplyReport;
     using Core.Commands.Admin.RemoveBanFromUser;
     using Core.Commands.Board.CreateNewBoard;
     using Core.Models.Admin;
@@ -88,6 +91,51 @@
             var removeBanResult = await _mediator.Send(removeBanCommand);
 
             return this.FromExecutionResult(removeBanResult);
+        }
+
+        /// <summary>
+        /// Delete a reply.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
+        [HttpDelete]
+        [SwaggerOperation("Delete a reply.")]
+        [Produces("application/json", "application/xml")]
+        [Route("admin/replies/{id:int}")]
+        [ProducesResponseType(typeof(ExecutionResult), 200)]
+        public async Task<IActionResult> DeleteReply([FromRoute] int id)
+        {
+            var request = new DeleteReplyCommand { ReplyId = id };
+
+            var result = await _mediator.Send(request);
+
+            return this.FromExecutionResult(result);
+        }
+
+        /// <summary>
+        /// Ignore reply reports.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="ids">The ids.</param>
+        /// <returns></returns>
+        [HttpDelete]
+        [SwaggerOperation("Ignore reply reports.")]
+        [Produces("application/json", "application/xml")]
+        [Route("admin/replies/{id:int}/reports")]
+        [ProducesResponseType(typeof(ExecutionResult), 200)]
+        public async Task<IActionResult> IgnoreReplyReport(
+            [FromRoute] int id,
+            [FromBody] List<int> ids)
+        {
+            var request = new IgnoreReplyReportsCommand
+            {
+                ReportIds = ids,
+                ReplyId = id
+            };
+
+            var result = await _mediator.Send(request);
+
+            return this.FromExecutionResult(result);
         }
     }
 }
