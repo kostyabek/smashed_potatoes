@@ -36,6 +36,32 @@ namespace CourseWork.Core.Helpers
         }
 
         /// <summary>
+        /// Gets the related picture storage path.
+        /// </summary>
+        /// <param name="fileName">Name of the file.</param>
+        /// <returns></returns>
+        public static string GetRelatedPictureStoragePath(string fileName)
+        {
+            var imagesPath = GetRelatedPicturesStoragePath();
+            var relatedPicturePath = Path.Combine(imagesPath, fileName);
+
+            return relatedPicturePath;
+        }
+
+        /// <summary>
+        /// Gets the thread picture storage path.
+        /// </summary>
+        /// <param name="fileName">Name of the file.</param>
+        /// <returns></returns>
+        public static string GetThreadPictureStoragePath(string fileName)
+        {
+            var imagesPath = GetThreadPicturesStoragePath();
+            var threadPicturePath = Path.Combine(imagesPath, fileName);
+
+            return threadPicturePath;
+        }
+
+        /// <summary>
         /// Gets the avatars storage path.
         /// </summary>
         /// <returns></returns>
@@ -52,7 +78,45 @@ namespace CourseWork.Core.Helpers
             return avatarImagesDir;
         }
 
-        private static string GetImagesPath()
+        /// <summary>
+        /// Gets the related pictures storage path.
+        /// </summary>
+        /// <returns></returns>
+        public static string GetRelatedPicturesStoragePath()
+        {
+            var imagesPath = GetImagesPath();
+            var relatedPicsDir = Path.Combine(imagesPath, AppConsts.StoragePaths.RelatedPics);
+
+            if (!Directory.Exists(relatedPicsDir))
+            {
+                Directory.CreateDirectory(relatedPicsDir);
+            }
+
+            return relatedPicsDir;
+        }
+
+        /// <summary>
+        /// Gets the thread pictures storage path.
+        /// </summary>
+        /// <returns></returns>
+        public static string GetThreadPicturesStoragePath()
+        {
+            var imagesPath = GetImagesPath();
+            var threadPicsDir = Path.Combine(imagesPath, AppConsts.StoragePaths.ThreadPics);
+
+            if (!Directory.Exists(threadPicsDir))
+            {
+                Directory.CreateDirectory(threadPicsDir);
+            }
+
+            return threadPicsDir;
+        }
+
+        /// <summary>
+        /// Gets the images path.
+        /// </summary>
+        /// <returns></returns>
+        public static string GetImagesPath()
         {
             var storagePath = GetBaseStoragePath();
             var imagesDir = Path.Combine(storagePath, "images");

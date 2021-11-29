@@ -1,7 +1,6 @@
 using CourseWork.Core.Helpers;
 using CourseWork.Core.Quartz;
 using CourseWork.Core.Quartz.Jobs;
-using CourseWork.Core.Services.BannedUsersDeletionService;
 using CourseWork.Web.Extensions;
 using CourseWork.Web.Middlewares;
 using FluentValidation.AspNetCore;
@@ -15,6 +14,8 @@ using Quartz.Spi;
 
 namespace CourseWork.Web
 {
+    using Core.Services.WeeklySummaryEmailService;
+
     /// <summary>
     /// Startup class.
     /// </summary>
@@ -43,11 +44,12 @@ namespace CourseWork.Web
         /// <param name="services">The services.</param>
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers()
+            services.AddControllersWithViews()
                 .AddFluentValidation(c =>
             {
                 c.RegisterValidatorsFromAssemblyContaining<Startup>();
             });
+            services.AddRazorPages();
             services.AddCustomServices();
             services.AddSwagger();
             services.AddIdentity();
@@ -82,7 +84,7 @@ namespace CourseWork.Web
 
             app.UseStaticFiles(new StaticFileOptions
             {
-                FileProvider = new PhysicalFileProvider(StoragePathsHelper.GetAvatarsStoragePath()),
+                FileProvider = new PhysicalFileProvider(StoragePathsHelper.GetImagesPath()),
                 RequestPath = "/images"
             });
 

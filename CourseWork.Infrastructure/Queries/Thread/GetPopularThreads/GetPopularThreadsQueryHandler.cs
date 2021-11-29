@@ -22,6 +22,8 @@ using Microsoft.Extensions.Logging;
 
 namespace CourseWork.Core.Queries.Thread.GetPopularThreads
 {
+    using Common.Consts;
+
     /// <summary>
     /// GetPopularThreadsQuery handler.
     /// </summary>
@@ -106,6 +108,7 @@ limit 8;";
                         {
                             var imagePathBuilder = new StringBuilder(mainPicturePath);
                             model.MainPicturePath = imagePathBuilder
+                                .Append($"{AppConsts.StoragePaths.ThreadPics}/")
                                 .Append(fileName)
                                 .ToString();
 

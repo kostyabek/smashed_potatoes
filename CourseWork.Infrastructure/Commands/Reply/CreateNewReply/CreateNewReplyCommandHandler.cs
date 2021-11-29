@@ -84,7 +84,7 @@
                         fileNameBuilder.Append(Path.GetExtension(request.PicRelated.FileName));
                         var fileName = fileNameBuilder.ToString();
 
-                        var filePath = StoragePathsHelper.GetAvatarStoragePath(fileName);
+                        var filePath = StoragePathsHelper.GetRelatedPictureStoragePath(fileName);
 
                         using (var fileStream = new FileStream(filePath, FileMode.Create))
                         {

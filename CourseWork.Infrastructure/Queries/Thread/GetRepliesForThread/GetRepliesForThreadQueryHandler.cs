@@ -4,6 +4,7 @@
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
+    using Common.Consts;
     using Database;
     using Helpers;
     using JetBrains.Annotations;
@@ -76,8 +77,8 @@
                         Content = e.Content,
                         Created = e.Created,
                         UserDisplayName = e.User.DisplayName,
-                        UserAvatarPath = e.User.Avatar == null ? null : $"{imagesPath}{e.User.Avatar.FileName}",
-                        PicRelatedPath = e.PicRelated == null ? null : $"{imagesPath}{e.PicRelated.FileName}",
+                        UserAvatarPath = e.User.Avatar == null ? null : $"{imagesPath}{AppConsts.StoragePaths.Avatars}/{e.User.Avatar.FileName}",
+                        PicRelatedPath = e.PicRelated == null ? null : $"{imagesPath}{AppConsts.StoragePaths.RelatedPics}/{e.PicRelated.FileName}",
                         RepliedToIds = e
                                 .ReplyReplies
                                 .Select(rr => rr.PointedReplyId)

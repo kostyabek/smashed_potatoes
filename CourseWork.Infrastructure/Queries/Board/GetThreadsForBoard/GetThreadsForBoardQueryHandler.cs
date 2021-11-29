@@ -4,6 +4,7 @@
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
+    using Common.Consts;
     using Database;
     using Helpers;
     using JetBrains.Annotations;
@@ -78,8 +79,8 @@
                         Description = t.Description,
                         UserId = t.UserId,
                         UserDisplayName = t.User.DisplayName,
-                        UserAvatarPath = $"{imagesPath}{t.User.Avatar.FileName}",
-                        MainPicturePath = $"{imagesPath}{t.MainPicture.FileName}",
+                        UserAvatarPath = $"{imagesPath}{AppConsts.StoragePaths.Avatars}/{t.User.Avatar.FileName}",
+                        MainPicturePath = $"{imagesPath}{AppConsts.StoragePaths.ThreadPics}/{t.MainPicture.FileName}",
                         ThreadStarterId = t
                             .Replies
                             .Where(r => r.IsThreadStarter)
@@ -97,8 +98,8 @@
                                 Content = r.Content,
                                 Created = r.Created,
                                 UserDisplayName = r.User.DisplayName,
-                                UserAvatarPath = r.User.Avatar == null ? null : $"{imagesPath}{r.User.Avatar.FileName}",
-                                PicRelatedPath = r.PicRelated == null ? null : $"{imagesPath}{r.PicRelated.FileName}",
+                                UserAvatarPath = r.User.Avatar == null ? null : $"{imagesPath}{AppConsts.StoragePaths.Avatars}/{r.User.Avatar.FileName}",
+                                PicRelatedPath = r.PicRelated == null ? null : $"{imagesPath}{AppConsts.StoragePaths.RelatedPics}/{r.PicRelated.FileName}",
                                 RepliedToIds = r
                                     .ReplyReplies
                                     .Select(rr => rr.PointedReplyId)

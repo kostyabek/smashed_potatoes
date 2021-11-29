@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 
 namespace CourseWork.Core.Queries.Profile.GetProfileInfo
 {
+    using Common.Consts;
     using Helpers;
     using Microsoft.AspNetCore.Http;
     using Microsoft.EntityFrameworkCore;
@@ -73,7 +74,10 @@ namespace CourseWork.Core.Queries.Profile.GetProfileInfo
 
                 var httpRequest = _httpContextAccessor.HttpContext.Request;
                 var avatarPathBuilder = StoragePathsHelper.GetImagesStaticFilesPath(httpRequest);
-                var avatarPath = avatarPathBuilder.Append($"{user.Avatar.FileName}").ToString();
+                var avatarPath = avatarPathBuilder
+                    .Append($"{AppConsts.StoragePaths.Avatars}/")
+                    .Append($"{user.Avatar.FileName}")
+                    .ToString();
 
                 var result = new GetProfileInfoQueryResult
                 {
