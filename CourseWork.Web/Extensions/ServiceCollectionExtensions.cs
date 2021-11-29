@@ -1,23 +1,23 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using CourseWork.Common.Configurations;
+using CourseWork.Core.Database;
+using CourseWork.Core.Database.DatabaseConnectionHelper;
+using CourseWork.Core.Database.Entities.Identity;
+using CourseWork.Core.Helpers.EmailTemplateHelper;
+using CourseWork.Core.Services.UserService;
 using CourseWork.Infrastructure;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
-using CourseWork.Core.Database;
-using CourseWork.Core.Database.Entities.Identity;
-using CourseWork.Core.Services.UserService;
 
 namespace CourseWork.Web.Extensions
 {
-    using Common.Configurations;
-    using Core.Database.DatabaseConnectionHelper;
-    using Microsoft.AspNetCore.Authentication.Cookies;
-
     /// <summary>
     /// Contains extension methods for <see cref="IServiceCollection"/>.
     /// </summary>
@@ -160,6 +160,7 @@ namespace CourseWork.Web.Extensions
         {
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IDatabaseConnectionHelper, DatabaseConnectionHelper>();
+            services.AddScoped<IEmailTemplateHelper, EmailTemplateHelper>();
 
             return services;
         }

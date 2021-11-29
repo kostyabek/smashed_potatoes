@@ -1,10 +1,11 @@
 ﻿using System.Threading.Tasks;
-using CourseWork.Core.Services.BannedUsersDeletionService;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz;
 
 namespace CourseWork.Core.Quartz.Jobs
 {
+    using Services.WeeklySummaryEmailService;
+
     /// <summary>
     /// Weekly Summary Email Job.
     /// </summary>
@@ -28,7 +29,7 @@ namespace CourseWork.Core.Quartz.Jobs
             using var scope = _serviceScopeFactory.CreateScope();
 
             var service = scope.ServiceProvider.GetService<IWeeklySummaryEmailService>();
-            // await service.SendEmails();
+            await service.SendEmails();
         }
     }
 }

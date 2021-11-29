@@ -1,4 +1,4 @@
-﻿namespace CourseWork.Core.Services.BannedUsersDeletionService
+﻿namespace CourseWork.Core.Services.WeeklySummaryEmailService
 {
     using System.Threading.Tasks;
 
