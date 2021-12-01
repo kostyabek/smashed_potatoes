@@ -5,6 +5,7 @@
     using System.Threading.Tasks;
     using Core.Commands.Admin.BanUser;
     using Core.Commands.Admin.DeleteReply;
+    using Core.Commands.Admin.DeleteThread;
     using Core.Commands.Admin.IgnoreReplyReport;
     using Core.Commands.Admin.RemoveBanFromUser;
     using Core.Commands.Board.CreateNewBoard;
@@ -106,6 +107,25 @@
         public async Task<IActionResult> DeleteReply([FromRoute] int id)
         {
             var request = new DeleteReplyCommand { ReplyId = id };
+
+            var result = await _mediator.Send(request);
+
+            return this.FromExecutionResult(result);
+        }
+
+        /// <summary>
+        /// Delete a thread.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
+        [HttpDelete]
+        [SwaggerOperation("Delete a thread.")]
+        [Produces("application/json", "application/xml")]
+        [Route("admin/threads/{id:int}")]
+        [ProducesResponseType(typeof(ExecutionResult), 200)]
+        public async Task<IActionResult> DeleteThread([FromRoute] int id)
+        {
+            var request = new DeleteThreadCommand { Id = id };
 
             var result = await _mediator.Send(request);
 
