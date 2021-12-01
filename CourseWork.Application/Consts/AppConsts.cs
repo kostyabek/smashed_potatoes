@@ -21,7 +21,7 @@
             public static string RelatedPics = "related-pics";
 
             /// <summary>
-            /// The thread pics
+            /// The thread pics.
             /// </summary>
             public static string ThreadPics = "thread-pics";
         }
