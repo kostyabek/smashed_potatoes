@@ -1,27 +1,30 @@
-﻿namespace CourseWork.Core.Services.WeeklySummaryEmailService
+﻿using System;
+using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using System.Threading.Tasks;
+using CourseWork.Common.Configurations;
+using CourseWork.Core.Database;
+using CourseWork.Core.Database.DatabaseConnectionHelper;
+using CourseWork.Core.Database.Entities.Boards;
+using CourseWork.Core.Database.Entities.Files;
+using CourseWork.Core.Database.Entities.Identity;
+using CourseWork.Core.Database.Entities.Replies;
+using CourseWork.Core.Database.Entities.Threads;
+using CourseWork.Core.Helpers;
+using CourseWork.Core.Helpers.EmailTemplateHelper;
+using CourseWork.Core.Models.EmailTemplate;
+using CourseWork.Core.Models.Reply;
+using Dapper;
+using LS.Helpers.Hosting.Extensions;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+
+namespace CourseWork.Core.Services.WeeklySummaryEmailService
 {
-    using System;
-    using System.Linq;
-    using System.Net;
-    using System.Net.Mail;
-    using System.Threading.Tasks;
-    using Common.Configurations;
-    using Dapper;
-    using Database;
-    using Database.DatabaseConnectionHelper;
-    using Database.Entities.Boards;
-    using Database.Entities.Files;
-    using Database.Entities.Identity;
-    using Database.Entities.Replies;
-    using Database.Entities.Threads;
-    using Helpers;
-    using Helpers.EmailTemplateHelper;
-    using LS.Helpers.Hosting.Extensions;
-    using Microsoft.AspNetCore.Hosting;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Options;
-    using Models.EmailTemplate;
-    using Models.Reply;
+    using System.Collections.Generic;
+    using System.Net.Mime;
+    using Microsoft.Extensions.Logging;
 
     /// <summary>
     /// Weekly Summary Email Service.
@@ -33,7 +36,7 @@
         private readonly IOptions<SmtpClientCredentials> _smtpClientCredentials;
         private readonly IEmailTemplateHelper _emailTemplateHelper;
         private readonly IDatabaseConnectionHelper _databaseConnectionHelper;
-        private readonly IWebHostBuilder _webHostBuilder;
+        private readonly ILogger<WeeklySummaryEmailService> _logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WeeklySummaryEmailService" /> class.
@@ -42,36 +45,43 @@
         /// <param name="smtpClientCredentials">The SMTP client credentials.</param>
         /// <param name="emailTemplateHelper">The en email template helper.</param>
         /// <param name="databaseConnectionHelper">The database connection helper.</param>
-        /// <param name="webHostBuilder">The web host builder.</param>
+        /// <param name="logger">The logger.</param>
         public WeeklySummaryEmailService(BaseDbContext dbContext,
             IOptions<SmtpClientCredentials> smtpClientCredentials,
             IEmailTemplateHelper emailTemplateHelper,
             IDatabaseConnectionHelper databaseConnectionHelper,
-            IWebHostBuilder webHostBuilder)
+            ILogger<WeeklySummaryEmailService> logger)
         {
             _dbContext = dbContext;
             _smtpClientCredentials = smtpClientCredentials;
             _emailTemplateHelper = emailTemplateHelper;
             _databaseConnectionHelper = databaseConnectionHelper;
-            _webHostBuilder = webHostBuilder;
+            _logger = logger;
         }
 
         /// <inheritdoc/>
         public async Task SendEmails()
         {
-            var users = await _dbContext
-                .Users
-                .Include(e => e.BoardSubscriptions)
-                .AsNoTracking()
-                .Where(e => e.BoardSubscriptions.Any())
-                .ToListAsync();
-
-            var smtpClient = PrepareSmtpClient();
-
-            foreach (var user in users)
+            try
             {
-                var message = await PrepareEmailData(user);
-                smtpClient.SendAsync(message, null);
+                var users = await _dbContext
+                    .Users
+                    .Include(e => e.BoardSubscriptions)
+                    .AsNoTracking()
+                    .Where(e => e.BoardSubscriptions.Any())
+                    .ToListAsync();
+
+                var smtpClient = PrepareSmtpClient();
+
+                foreach (var user in users)
+                {
+                    var message = await PrepareEmailData(user);
+                    smtpClient.SendAsync(message, null);
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
             }
         }
 
@@ -92,20 +102,51 @@
 
         private async Task<MailMessage> PrepareEmailData(AppUser user)
         {
-            var body = await PrepareHtmlContent(user);
+            var (body, models) = await PrepareHtmlContentWithModels(user);
+
             var emailMessage = new MailMessage
             {
                 From = new MailAddress("unitedfamilyofficial@gmail.com", "Smashed Potatoes"),
                 Subject = "Weekly summary",
                 IsBodyHtml = true,
-                Body = body
+                Body = body,
+                Priority = MailPriority.Normal,
             };
 
             emailMessage.To.Add(new MailAddress(user.Email));
+
+            var alternateView = AlternateView.CreateAlternateViewFromString(body, null, "text/html");
+            var imageLinks = new List<LinkedResource>();
+
+            models.BoardThreadWithRepliesModels.ForEach(e =>
+                imageLinks.Add(new LinkedResource(e.ThreadMainPicturePath, "image/png")
+                {
+                    ContentId = e.ThreadMainPictureContentId,
+                    TransferEncoding = TransferEncoding.Base64
+                }));
+
+            models.BoardThreadWithRepliesModels
+                .ForEach(e =>
+                e.Replies
+                    .Where(r => !string.IsNullOrWhiteSpace(r.PicRelatedPath))
+                    .ToList()
+                    .ForEach(r =>
+                    {
+                        imageLinks.Add(new LinkedResource(r.PicRelatedPath, "image/png")
+                        {
+                            ContentId = r.PicRelatedContentId,
+                            TransferEncoding = TransferEncoding.Base64
+                        });
+                    }));
+
+            imageLinks.ForEach(e => alternateView.LinkedResources.Add(e));
+
+            emailMessage.AlternateViews.Add(alternateView);
+
             return emailMessage;
         }
 
-        private async Task<string> PrepareHtmlContent(AppUser user)
+        private async Task<Tuple<string, WeeklySummaryModel>> PrepareHtmlContentWithModels(AppUser user)
         {
             try
             {
@@ -135,7 +176,8 @@ limit 8;";
                         sql,
                         (model, fileName) =>
                         {
-                            model.ThreadMainPicturePath = StoragePathsHelper.GetRelatedPictureStoragePath(fileName);
+                            model.ThreadMainPicturePath = StoragePathsHelper.GetThreadPictureStoragePath(fileName);
+                            model.ThreadMainPictureContentId = Guid.NewGuid().ToString().Replace("-", string.Empty);
                             return model;
                         },
                         new
@@ -145,7 +187,6 @@ limit 8;";
                         splitOn: "FileName");
 
                     var models = modelsResult.ToList();
-                    var shit = _webHostBuilder.GetSetting(WebHostDefaults.ServerUrlsKey);
 
                     foreach (var model in models)
                     {
@@ -156,13 +197,15 @@ limit 8;";
                             .AsNoTracking()
                             .Where(e => e.IsThreadStarter == false && e.ThreadId == model.ThreadId)
                             .OrderByDescending(e => e.Created)
-                            .Select(e => new ReplyListModel
+                            .Select(e => new ReplyEmailModel
                             {
                                 Content = e.Content,
                                 UserDisplayName = e.User.DisplayName,
-                                PicRelatedPath = e.PicRelated == null ? null : _webHostBuilder.GetSetting(WebHostDefaults.ServerUrlsKey)
+                                PicRelatedPath = e.PicRelated == null ? null : StoragePathsHelper.GetRelatedPictureStoragePath(e.PicRelated.FileName)
                             })
                             .ToListAsync();
+
+                        model.Replies.ForEach(e => e.PicRelatedContentId = Guid.NewGuid().ToString().Replace("-", string.Empty));
                     }
 
                     var fullModel = new WeeklySummaryModel
@@ -171,13 +214,15 @@ limit 8;";
                         BoardThreadWithRepliesModels = models
                     };
 
-                    return await _emailTemplateHelper.GetEmailTemplateAsString("WeeklySummary", fullModel);
+                    var html = await _emailTemplateHelper.GetEmailTemplateAsString("WeeklySummary", fullModel);
+
+                    return new Tuple<string, WeeklySummaryModel>(html, fullModel);
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                return string.Empty;
+                return new Tuple<string, WeeklySummaryModel>(string.Empty, null);
             }
         }
     }

@@ -41,11 +41,19 @@ namespace CourseWork.Core.Models.EmailTemplate
         public string ThreadMainPicturePath { get; set; }
 
         /// <summary>
+        /// Gets or sets the thread main picture content identifier.
+        /// </summary>
+        /// <value>
+        /// The thread main picture content identifier.
+        /// </value>
+        public string ThreadMainPictureContentId { get; set; }
+
+        /// <summary>
         /// Gets or sets the replies.
         /// </summary>
         /// <value>
         /// The replies.
         /// </value>
-        public List<ReplyListModel> Replies { get; set; }
+        public List<ReplyEmailModel> Replies { get; set; }
     }
 }

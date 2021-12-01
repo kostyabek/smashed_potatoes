@@ -45,17 +45,18 @@
         {
             <h4>@entry.BoardName</h4>
             <h5>@entry.ThreadName</h5>
+            <img src="cid:@entry.ThreadMainPictureContentId" alt="pic-related" width="150" />
             <ul>
                 @foreach (var reply in entry.Replies)
                 {
-                <li>
-                    <span>@reply.UserDisplayName</span>
-                    <p>@reply.Content</p>
-                    @if (!string.IsNullOrWhiteSpace(reply.PicRelatedPath))
-                    {
-                        <img src="@reply.PicRelatedPath" alt="pic-related" width="150" />
-                    }
-                </li>
+                    <li>
+                        <span>@reply.UserDisplayName</span>
+                        <p>@reply.Content</p>
+                        @if (!string.IsNullOrWhiteSpace(reply.PicRelatedPath))
+                        {
+                            <img src="cid:@reply.PicRelatedContentId" alt="pic-related" width="150" />
+                        }
+                    </li>
                 }
             </ul>
         }
