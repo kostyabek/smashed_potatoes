@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Core.Commands.Admin.BanUser;
+    using Core.Commands.Admin.DeleteBoard;
     using Core.Commands.Admin.DeleteReply;
     using Core.Commands.Admin.DeleteThread;
     using Core.Commands.Admin.IgnoreReplyReport;
@@ -126,6 +127,25 @@
         public async Task<IActionResult> DeleteThread([FromRoute] int id)
         {
             var request = new DeleteThreadCommand { Id = id };
+
+            var result = await _mediator.Send(request);
+
+            return this.FromExecutionResult(result);
+        }
+
+        /// <summary>
+        /// Delete a board.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
+        [HttpDelete]
+        [SwaggerOperation("Delete a board.")]
+        [Produces("application/json", "application/xml")]
+        [Route("admin/boards/{id:int}")]
+        [ProducesResponseType(typeof(ExecutionResult), 200)]
+        public async Task<IActionResult> DeleteBoard([FromRoute] int id)
+        {
+            var request = new DeleteBoardCommand { Id = id };
 
             var result = await _mediator.Send(request);
 
