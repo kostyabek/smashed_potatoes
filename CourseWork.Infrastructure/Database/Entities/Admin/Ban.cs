@@ -1,8 +1,8 @@
-﻿namespace CourseWork.Core.Database.Entities.Admin
-{
-    using System;
-    using Identity;
+﻿using System;
+using CourseWork.Core.Database.Entities.Identity;
 
+namespace CourseWork.Core.Database.Entities.Admin
+{
     /// <summary>
     /// Ban record.
     /// </summary>

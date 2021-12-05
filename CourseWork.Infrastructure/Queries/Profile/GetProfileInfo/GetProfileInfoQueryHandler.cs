@@ -1,20 +1,19 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using CourseWork.Common.Consts;
 using CourseWork.Core.Database;
+using CourseWork.Core.Helpers;
+using CourseWork.Core.Services.UserService;
 using JetBrains.Annotations;
 using LS.Helpers.Hosting.API;
 using MediatR;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace CourseWork.Core.Queries.Profile.GetProfileInfo
 {
-    using Common.Consts;
-    using Helpers;
-    using Microsoft.AspNetCore.Http;
-    using Microsoft.EntityFrameworkCore;
-    using Services.UserService;
-
     /// <summary>
     /// GetProfileInfoQuery handler.
     /// </summary>

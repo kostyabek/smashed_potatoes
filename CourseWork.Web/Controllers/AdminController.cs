@@ -1,23 +1,23 @@
-﻿namespace CourseWork.Web.Controllers
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using Core.Commands.Admin.BanUser;
-    using Core.Commands.Admin.DeleteBoard;
-    using Core.Commands.Admin.DeleteReply;
-    using Core.Commands.Admin.DeleteThread;
-    using Core.Commands.Admin.IgnoreReplyReport;
-    using Core.Commands.Admin.RemoveBanFromUser;
-    using Core.Commands.Board.CreateNewBoard;
-    using Core.Models.Admin;
-    using LS.Helpers.Hosting.API;
-    using LS.Helpers.Hosting.Extensions;
-    using MediatR;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Mvc;
-    using Swashbuckle.AspNetCore.Annotations;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using CourseWork.Core.Commands.Admin.BanUser;
+using CourseWork.Core.Commands.Admin.DeleteBoard;
+using CourseWork.Core.Commands.Admin.DeleteReply;
+using CourseWork.Core.Commands.Admin.DeleteThread;
+using CourseWork.Core.Commands.Admin.IgnoreReplyReport;
+using CourseWork.Core.Commands.Admin.RemoveBanFromUser;
+using CourseWork.Core.Commands.Board.CreateNewBoard;
+using CourseWork.Core.Models.Admin;
+using LS.Helpers.Hosting.API;
+using LS.Helpers.Hosting.Extensions;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
+namespace CourseWork.Web.Controllers
+{
     /// <inheritdoc />
     [SwaggerTag("Admin")]
     [Authorize(Roles = "Admin")]
@@ -30,7 +30,7 @@
         /// Initializes a new instance of the <see cref="AdminController"/> class.
         /// </summary>
         /// <param name="mediator">The mediator.</param>
-        /// <exception cref="ArgumentNullException">mediator</exception>
+        /// <exception cref="ArgumentNullException">mediator.</exception>
         public AdminController(IMediator mediator)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));

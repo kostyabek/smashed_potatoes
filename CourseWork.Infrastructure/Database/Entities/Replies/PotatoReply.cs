@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using CourseWork.Core.Database.Entities.Files;
 using CourseWork.Core.Database.Entities.Identity;
 using CourseWork.Core.Database.Entities.Threads;
 
 namespace CourseWork.Core.Database.Entities.Replies
 {
-    using System;
-
     /// <summary>
     /// Represents a reply in a thread.
     /// </summary>

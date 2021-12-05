@@ -1,16 +1,16 @@
-﻿namespace CourseWork.Web.Controllers
-{
-    using System;
-    using System.Threading.Tasks;
-    using Core.Commands.Reply.CreateNewReply;
-    using Core.Commands.Reply.ReportReply;
-    using LS.Helpers.Hosting.API;
-    using LS.Helpers.Hosting.Extensions;
-    using MediatR;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Mvc;
-    using Swashbuckle.AspNetCore.Annotations;
+﻿using System;
+using System.Threading.Tasks;
+using CourseWork.Core.Commands.Reply.CreateNewReply;
+using CourseWork.Core.Commands.Reply.ReportReply;
+using LS.Helpers.Hosting.API;
+using LS.Helpers.Hosting.Extensions;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
+namespace CourseWork.Web.Controllers
+{
     /// <inheritdoc />
     [SwaggerTag("Reply")]
     [Authorize(Roles = "User,Admin,Moderator")]
@@ -24,7 +24,7 @@
         /// Initializes a new instance of the <see cref="ReplyController"/> class.
         /// </summary>
         /// <param name="mediator">The mediator.</param>
-        /// <exception cref="ArgumentNullException">mediator</exception>
+        /// <exception cref="ArgumentNullException">mediator.</exception>
         public ReplyController(IMediator mediator)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));

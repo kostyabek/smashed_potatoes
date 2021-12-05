@@ -1,20 +1,20 @@
-﻿namespace CourseWork.Core.Queries.Thread.GetRepliesForThread
-{
-    using System;
-    using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Common.Consts;
-    using Database;
-    using Helpers;
-    using JetBrains.Annotations;
-    using LS.Helpers.Hosting.API;
-    using MediatR;
-    using Microsoft.AspNetCore.Http;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Logging;
-    using Models.Reply;
+﻿using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using CourseWork.Common.Consts;
+using CourseWork.Core.Database;
+using CourseWork.Core.Helpers;
+using CourseWork.Core.Models.Reply;
+using JetBrains.Annotations;
+using LS.Helpers.Hosting.API;
+using MediatR;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
+namespace CourseWork.Core.Queries.Thread.GetRepliesForThread
+{
     /// <summary>
     /// GetRepliesForThreadQuery handler.
     /// </summary>

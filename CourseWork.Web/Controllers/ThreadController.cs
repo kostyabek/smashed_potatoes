@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
+using CourseWork.Application.Pagination;
 using CourseWork.Core.Commands.Thread.CreateNewThread;
 using CourseWork.Core.Queries.Thread.GetPopularThreads;
+using CourseWork.Core.Queries.Thread.GetRepliesForThread;
 using LS.Helpers.Hosting.API;
 using LS.Helpers.Hosting.Extensions;
 using MediatR;
@@ -11,9 +13,6 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace CourseWork.Web.Controllers
 {
-    using Application.Pagination;
-    using Core.Queries.Thread.GetRepliesForThread;
-
     /// <inheritdoc />
     [SwaggerTag("Thread")]
     [Authorize(Roles = "User,Admin,Moderator")]

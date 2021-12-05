@@ -1,9 +1,9 @@
-﻿namespace CourseWork.Core.Commands.Profile.SetBoardsEmailSubscription
-{
-    using System.Collections.Generic;
-    using CQRS;
-    using LS.Helpers.Hosting.API;
+﻿using System.Collections.Generic;
+using CourseWork.Core.CQRS;
+using LS.Helpers.Hosting.API;
 
+namespace CourseWork.Core.Commands.Profile.SetBoardsEmailSubscription
+{
     /// <summary>
     /// SetBoardsEmailSubscriptionCommand.
     /// </summary>

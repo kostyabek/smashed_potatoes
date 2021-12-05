@@ -1,10 +1,10 @@
-﻿namespace CourseWork.Core.Commands.Admin.DeleteBoard
-{
-    using CQRS;
-    using LS.Helpers.Hosting.API;
+﻿using CourseWork.Core.CQRS;
+using LS.Helpers.Hosting.API;
 
+namespace CourseWork.Core.Commands.Admin.DeleteBoard
+{
     /// <summary>
-    /// DeleteBoardCommand
+    /// DeleteBoardCommand.
     /// </summary>
     /// <seealso cref="ICommand{ExecutionResult}" />
     /// <inheritdoc />

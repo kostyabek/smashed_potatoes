@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using CourseWork.Core.Database.Entities.Replies;
+using CourseWork.Core.Models.Reply;
 using CourseWork.Core.Models.User;
 
 namespace CourseWork.Core.Models.Thread
 {
-    using System.Security.AccessControl;
-    using Reply;
-
     /// <summary>
     /// Thread List Model.
     /// </summary>

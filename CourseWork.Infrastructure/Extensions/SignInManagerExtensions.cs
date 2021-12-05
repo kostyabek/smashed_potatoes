@@ -1,10 +1,10 @@
-﻿namespace CourseWork.Core.Extensions
-{
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Database.Entities.Identity;
-    using Microsoft.AspNetCore.Identity;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using CourseWork.Core.Database.Entities.Identity;
+using Microsoft.AspNetCore.Identity;
 
+namespace CourseWork.Core.Extensions
+{
     /// <summary>
     /// Sign in manager extensions.
     /// </summary>

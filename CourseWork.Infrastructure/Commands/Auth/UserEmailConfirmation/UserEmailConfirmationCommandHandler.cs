@@ -1,17 +1,17 @@
-﻿namespace CourseWork.Core.Commands.Auth.UserEmailConfirmation
-{
-    using System;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Common.Consts;
-    using Database;
-    using Database.Entities.Identity;
-    using LS.Helpers.Hosting.API;
-    using MediatR;
-    using Microsoft.AspNetCore.Identity;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Logging;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+using CourseWork.Common.Consts;
+using CourseWork.Core.Database;
+using CourseWork.Core.Database.Entities.Identity;
+using LS.Helpers.Hosting.API;
+using MediatR;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
+namespace CourseWork.Core.Commands.Auth.UserEmailConfirmation
+{
     /// <summary>
     /// UserEmailConfirmationCommand handler.
     /// </summary>
@@ -47,9 +47,9 @@
         /// <summary>
         /// Handles the specified request.
         /// </summary>
-        /// <param name="request">The request: UserEmailConfirmationCommand</param>
+        /// <param name="request">The request: UserEmailConfirmationCommand.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>string</returns>
+        /// <returns>string.</returns>
         public async Task<ExecutionResult> Handle(
             UserEmailConfirmationCommand request,
             CancellationToken cancellationToken)

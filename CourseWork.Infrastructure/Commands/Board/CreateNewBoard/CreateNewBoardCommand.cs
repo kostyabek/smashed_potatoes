@@ -4,7 +4,7 @@ using LS.Helpers.Hosting.API;
 namespace CourseWork.Core.Commands.Board.CreateNewBoard
 {
     /// <summary>
-    /// CreateNewBoardCommand
+    /// CreateNewBoardCommand.
     /// </summary>
     /// <seealso cref="ICommand{ExecutionResult}" />
     /// <inheritdoc />

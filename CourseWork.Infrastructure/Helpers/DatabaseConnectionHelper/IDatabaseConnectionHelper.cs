@@ -1,7 +1,7 @@
-﻿namespace CourseWork.Core.Helpers.DatabaseConnectionHelper
-{
-    using Npgsql;
+﻿using Npgsql;
 
+namespace CourseWork.Core.Helpers.DatabaseConnectionHelper
+{
     /// <summary>
     /// Interface for database connection helper.
     /// </summary>

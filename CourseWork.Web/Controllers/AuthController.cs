@@ -9,13 +9,12 @@ using CourseWork.Core.Models.Auth;
 using LS.Helpers.Hosting.API;
 using LS.Helpers.Hosting.Extensions;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace CourseWork.Web.Controllers
 {
-    using Microsoft.AspNetCore.Authorization;
-
     /// <inheritdoc />
     [ApiController]
     [SwaggerTag("Auth")]
@@ -54,7 +53,6 @@ namespace CourseWork.Web.Controllers
         /// <summary>
         /// Resend the e-mail confirmation link.
         /// </summary>
-        /// <param name="command">The command.</param>
         /// <returns></returns>
         [Authorize(Roles = "New user")]
         [HttpPost]

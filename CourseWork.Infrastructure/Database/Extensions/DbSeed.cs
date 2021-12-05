@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using CourseWork.Common.Consts;
 using CourseWork.Core.Database.Entities.Identity;
+using CourseWork.Core.Database.Entities.Reports;
 using Microsoft.EntityFrameworkCore;
 
 namespace CourseWork.Core.Database.Extensions
 {
-    using Entities.Reports;
-
     /// <summary>
     /// Contains methods for database seed.
     /// </summary>

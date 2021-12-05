@@ -4,6 +4,8 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using CourseWork.Common.Consts;
+using CourseWork.Core.Commands.Auth.UserSignIn;
 using CourseWork.Core.Database;
 using CourseWork.Core.Database.Entities.Files;
 using CourseWork.Core.Database.Entities.Identity;
@@ -17,9 +19,6 @@ using Microsoft.Extensions.Logging;
 
 namespace CourseWork.Core.Commands.Auth.UserSignUp
 {
-    using Common.Consts;
-    using UserSignIn;
-
     /// <summary>
     /// UserSignUpCommand handler.
     /// </summary>

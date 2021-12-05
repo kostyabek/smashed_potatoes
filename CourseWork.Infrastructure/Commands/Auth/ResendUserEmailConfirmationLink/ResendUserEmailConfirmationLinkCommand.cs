@@ -1,8 +1,8 @@
-﻿namespace CourseWork.Core.Commands.Auth.ResendUserEmailConfirmationLink
-{
-    using CQRS;
-    using LS.Helpers.Hosting.API;
+﻿using CourseWork.Core.CQRS;
+using LS.Helpers.Hosting.API;
 
+namespace CourseWork.Core.Commands.Auth.ResendUserEmailConfirmationLink
+{
     /// <summary>
     /// ResendUserEmailConfirmationLinkCommand.
     /// </summary>

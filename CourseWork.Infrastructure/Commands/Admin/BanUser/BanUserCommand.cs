@@ -1,9 +1,9 @@
-﻿namespace CourseWork.Core.Commands.Admin.BanUser
-{
-    using System;
-    using CQRS;
-    using LS.Helpers.Hosting.API;
+﻿using System;
+using CourseWork.Core.CQRS;
+using LS.Helpers.Hosting.API;
 
+namespace CourseWork.Core.Commands.Admin.BanUser
+{
     /// <summary>
     /// BanUserCommand.
     /// </summary>

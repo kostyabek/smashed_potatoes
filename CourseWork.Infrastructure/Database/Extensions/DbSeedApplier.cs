@@ -1,7 +1,7 @@
-﻿namespace CourseWork.Core.Database.Extensions
-{
-    using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
+namespace CourseWork.Core.Database.Extensions
+{
     /// <summary>
     /// Contains method for centralized DB seed methods usage.
     /// </summary>

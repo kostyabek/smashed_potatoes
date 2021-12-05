@@ -4,8 +4,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using CourseWork.Core.Database;
 using CourseWork.Core.Database.Entities.Identity;
+using CourseWork.Core.Extensions;
 using CourseWork.Core.Models.Auth;
-using CourseWork.Core.Services.UserService;
 using LS.Helpers.Hosting.API;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -14,8 +14,6 @@ using Microsoft.Extensions.Logging;
 
 namespace CourseWork.Core.Commands.Auth.UserSignIn
 {
-    using Extensions;
-
     /// <summary>
     /// UserSignInCommand handler.
     /// </summary>
@@ -25,7 +23,6 @@ namespace CourseWork.Core.Commands.Auth.UserSignIn
         private readonly ILogger<UserSignInCommandHandler> _logger;
         private readonly BaseDbContext _dbContext;
         private readonly SignInManager<AppUser> _signInManager;
-        private readonly UserManager<AppUser> _userManager;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserSignInCommandHandler" /> class.
@@ -33,19 +30,14 @@ namespace CourseWork.Core.Commands.Auth.UserSignIn
         /// <param name="logger">The logger.</param>
         /// <param name="dbContext">The database context.</param>
         /// <param name="signInManager">The sign in manager.</param>
-        /// <param name="userService">The user service.</param>
-        /// <param name="userManager">The user manager.</param>
         public UserSignInCommandHandler(
             ILogger<UserSignInCommandHandler> logger,
             BaseDbContext dbContext,
-            SignInManager<AppUser> signInManager,
-            IUserService userService,
-            UserManager<AppUser> userManager)
+            SignInManager<AppUser> signInManager)
         {
             _logger = logger;
             _dbContext = dbContext;
             _signInManager = signInManager;
-            _userManager = userManager;
         }
 
         /// <summary>

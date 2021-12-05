@@ -4,8 +4,13 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace CourseWork.Web.Migrations
 {
+    /// <summary>
+    /// AddedBoardsThreadsAndReplies migration.
+    /// </summary>
+    /// <seealso cref="Migration" />
     public partial class AddedBoardsThreadsAndReplies : Migration
     {
+        /// <inheritdoc/>
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -151,6 +156,7 @@ namespace CourseWork.Web.Migrations
                 column: "main_picture_id");
         }
 
+        /// <inheritdoc/>
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(

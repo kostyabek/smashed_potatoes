@@ -1,13 +1,13 @@
 ﻿using System.Linq;
-using CourseWork.Core.Database.Entities.Identity;
-using CourseWork.Core.Database.Extensions;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
 using CourseWork.Core.Database.Entities.Admin;
 using CourseWork.Core.Database.Entities.Boards;
 using CourseWork.Core.Database.Entities.Files;
+using CourseWork.Core.Database.Entities.Identity;
 using CourseWork.Core.Database.Entities.Replies;
 using CourseWork.Core.Database.Entities.Threads;
+using CourseWork.Core.Database.Extensions;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace CourseWork.Core.Database
 {

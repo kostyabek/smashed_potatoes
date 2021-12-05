@@ -1,11 +1,11 @@
-﻿namespace CourseWork.Core.Attributes
-{
-    using System;
-    using System.ComponentModel.DataAnnotations;
-    using System.IO;
-    using System.Linq;
-    using Microsoft.AspNetCore.Http;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.IO;
+using System.Linq;
+using Microsoft.AspNetCore.Http;
 
+namespace CourseWork.Core.Attributes
+{
     /// <summary>
     /// Allowed file extensions attribute.
     /// </summary>

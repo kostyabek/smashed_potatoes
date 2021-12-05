@@ -1,7 +1,7 @@
-﻿namespace CourseWork.Core.Services.WeeklySummaryEmailService
-{
-    using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
+namespace CourseWork.Core.Services.WeeklySummaryEmailService
+{
     /// <summary>
     /// Contains method declarations for <see cref="WeeklySummaryEmailService"/>.
     /// </summary>

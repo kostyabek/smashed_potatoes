@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
-using CourseWork.Core.Commands.Board.CreateNewBoard;
 using CourseWork.Core.Queries.Board.GetAllBoards;
+using CourseWork.Core.Queries.Board.GetThreadsForBoard;
 using LS.Helpers.Hosting.API;
 using LS.Helpers.Hosting.Extensions;
 using MediatR;
@@ -11,8 +11,6 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace CourseWork.Web.Controllers
 {
-    using Core.Queries.Board.GetThreadsForBoard;
-
     /// <inheritdoc />
     [SwaggerTag("Board")]
     [ApiController]

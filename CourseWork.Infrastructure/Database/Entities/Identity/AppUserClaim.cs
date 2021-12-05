@@ -1,7 +1,7 @@
-﻿namespace CourseWork.Core.Database.Entities.Identity
-{
-    using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 
+namespace CourseWork.Core.Database.Entities.Identity
+{
     /// <summary>
     /// App user claim.
     /// </summary>

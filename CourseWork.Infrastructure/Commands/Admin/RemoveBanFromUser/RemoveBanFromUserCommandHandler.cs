@@ -1,15 +1,15 @@
-﻿namespace CourseWork.Core.Commands.Admin.RemoveBanFromUser
-{
-    using System;
-    using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Database;
-    using LS.Helpers.Hosting.API;
-    using MediatR;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Logging;
+﻿using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using CourseWork.Core.Database;
+using LS.Helpers.Hosting.API;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
+namespace CourseWork.Core.Commands.Admin.RemoveBanFromUser
+{
     /// <summary>
     /// RemoveBanFromUserCommand handler.
     /// </summary>
@@ -36,7 +36,7 @@
         /// <summary>
         /// Handles the specified request.
         /// </summary>
-        /// <param name="request">The request: RemoveBanFromUserCommand</param>
+        /// <param name="request">The request: RemoveBanFromUserCommand.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>string.</returns>
         public async Task<ExecutionResult> Handle(RemoveBanFromUserCommand request,

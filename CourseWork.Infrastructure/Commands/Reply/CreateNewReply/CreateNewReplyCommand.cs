@@ -1,13 +1,13 @@
-﻿namespace CourseWork.Core.Commands.Reply.CreateNewReply
-{
-    using System.Collections.Generic;
-    using Attributes;
-    using CQRS;
-    using LS.Helpers.Hosting.API;
-    using Microsoft.AspNetCore.Http;
+﻿using System.Collections.Generic;
+using CourseWork.Core.Attributes;
+using CourseWork.Core.CQRS;
+using LS.Helpers.Hosting.API;
+using Microsoft.AspNetCore.Http;
 
+namespace CourseWork.Core.Commands.Reply.CreateNewReply
+{
     /// <summary>
-    /// CreateNewReplyCommand
+    /// CreateNewReplyCommand.
     /// </summary>
     /// <seealso cref="ICommand{ExecutionResult}" />
     /// <inheritdoc />

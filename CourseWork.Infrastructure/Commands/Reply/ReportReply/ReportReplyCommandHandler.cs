@@ -1,16 +1,16 @@
-﻿namespace CourseWork.Core.Commands.Reply.ReportReply
-{
-    using System;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Common.Consts;
-    using Database;
-    using Database.Entities.Replies;
-    using LS.Helpers.Hosting.API;
-    using MediatR;
-    using Microsoft.Extensions.Logging;
-    using Services.UserService;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+using CourseWork.Common.Consts;
+using CourseWork.Core.Database;
+using CourseWork.Core.Database.Entities.Replies;
+using CourseWork.Core.Services.UserService;
+using LS.Helpers.Hosting.API;
+using MediatR;
+using Microsoft.Extensions.Logging;
 
+namespace CourseWork.Core.Commands.Reply.ReportReply
+{
     /// <summary>
     /// ReportReplyCommand handler.
     /// </summary>
@@ -40,9 +40,9 @@
         /// <summary>
         /// Handles the specified request.
         /// </summary>
-        /// <param name="request">The request: ReportReplyCommand</param>
+        /// <param name="request">The request: ReportReplyCommand.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>string</returns>
+        /// <returns>string.</returns>
         public async Task<ExecutionResult> Handle(ReportReplyCommand request,
             CancellationToken cancellationToken)
         {

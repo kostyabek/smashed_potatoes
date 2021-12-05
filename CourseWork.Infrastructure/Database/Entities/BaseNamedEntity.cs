@@ -1,7 +1,7 @@
-﻿namespace CourseWork.Core.Database.Entities
-{
-    using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
+namespace CourseWork.Core.Database.Entities
+{
     /// <summary>
     /// Database basic named entity.
     /// </summary>

@@ -1,9 +1,9 @@
-﻿namespace CourseWork.Core.Database.EntityConfigurations
-{
-    using Entities.Reports;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using CourseWork.Core.Database.Entities.Reports;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
+namespace CourseWork.Core.Database.EntityConfigurations
+{
     /// <summary>
     /// Report Reason Entity Type Configuration.
     /// </summary>

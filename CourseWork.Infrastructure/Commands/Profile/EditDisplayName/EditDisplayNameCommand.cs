@@ -1,8 +1,8 @@
-﻿namespace CourseWork.Core.Commands.Profile.EditDisplayName
-{
-    using CQRS;
-    using LS.Helpers.Hosting.API;
+﻿using CourseWork.Core.CQRS;
+using LS.Helpers.Hosting.API;
 
+namespace CourseWork.Core.Commands.Profile.EditDisplayName
+{
     /// <summary>
     /// EditDisplayNameCommand.
     /// </summary>

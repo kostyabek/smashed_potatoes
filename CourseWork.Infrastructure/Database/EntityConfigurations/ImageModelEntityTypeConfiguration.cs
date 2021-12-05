@@ -1,11 +1,9 @@
-﻿using CourseWork.Core.Database.Entities;
+﻿using CourseWork.Core.Database.Entities.Files;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CourseWork.Core.Database.EntityConfigurations
 {
-    using Entities.Files;
-
     /// <summary>
     /// Image Model Entity Type Configuration.
     /// </summary>

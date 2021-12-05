@@ -1,8 +1,8 @@
-﻿namespace CourseWork.Core.Queries.Board.GetAllBoards
-{
-    using System.Collections.Generic;
-    using Models.Board;
+﻿using System.Collections.Generic;
+using CourseWork.Core.Models.Board;
 
+namespace CourseWork.Core.Queries.Board.GetAllBoards
+{
     /// <summary>
     /// GetAllBoardsQuery result.
     /// </summary>

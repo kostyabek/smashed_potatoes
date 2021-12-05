@@ -1,8 +1,8 @@
-﻿namespace CourseWork.Web.Validators.Auth
-{
-    using Core.Commands.Auth.UserSignUp;
-    using FluentValidation;
+﻿using CourseWork.Core.Commands.Auth.UserSignUp;
+using FluentValidation;
 
+namespace CourseWork.Web.Validators.Auth
+{
     /// <summary>
     /// User sign up data validator.
     /// </summary>

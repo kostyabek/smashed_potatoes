@@ -1,7 +1,7 @@
-﻿namespace CourseWork.Core.Models.Admin
-{
-    using System;
+﻿using System;
 
+namespace CourseWork.Core.Models.Admin
+{
     /// <summary>
     /// User Ban Data Model.
     /// </summary>

@@ -1,9 +1,9 @@
-﻿namespace CourseWork.Core.Models.Reply
-{
-    using System;
-    using System.Collections.Generic;
-    using User;
+﻿using System;
+using System.Collections.Generic;
+using CourseWork.Core.Models.User;
 
+namespace CourseWork.Core.Models.Reply
+{
     /// <summary>
     /// Reply List Model.
     /// </summary>

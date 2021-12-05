@@ -1,9 +1,9 @@
-﻿namespace CourseWork.Core.Queries.Board.GetThreadsForBoard
-{
-    using Application.Pagination;
-    using CQRS;
-    using LS.Helpers.Hosting.API;
+﻿using CourseWork.Application.Pagination;
+using CourseWork.Core.CQRS;
+using LS.Helpers.Hosting.API;
 
+namespace CourseWork.Core.Queries.Board.GetThreadsForBoard
+{
     /// <summary>
     /// GetThreadsForBoardQuery.
     /// </summary>

@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using CourseWork.Core.Database.Entities.Identity;
 using CourseWork.Core.Helpers.EmailConfirmationHelper;
+using CourseWork.Core.Services.UserService;
 using LS.Helpers.Hosting.API;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 
 namespace CourseWork.Core.Commands.Auth.ResendUserEmailConfirmationLink
 {
-    using Services.UserService;
-
     /// <summary>
     /// ResendUserEmailConfirmationLinkCommand handler.
     /// </summary>
@@ -21,7 +18,6 @@ namespace CourseWork.Core.Commands.Auth.ResendUserEmailConfirmationLink
             ResendUserEmailConfirmationLinkCommand, ExecutionResult>
     {
         private readonly ILogger<ResendUserEmailConfirmationLinkCommandHandler> _logger;
-        private readonly UserManager<AppUser> _userManager;
         private readonly IEmailConfirmationHelper _emailConfirmationHelper;
         private readonly IUserService _userService;
 
@@ -29,17 +25,14 @@ namespace CourseWork.Core.Commands.Auth.ResendUserEmailConfirmationLink
         /// Initializes a new instance of the <see cref="ResendUserEmailConfirmationLinkCommandHandler" /> class.
         /// </summary>
         /// <param name="logger">The logger.</param>
-        /// <param name="userManager">The user manager.</param>
         /// <param name="emailConfirmationHelper">The email confirmation helper.</param>
         /// <param name="userService">The user service.</param>
         public ResendUserEmailConfirmationLinkCommandHandler(
             ILogger<ResendUserEmailConfirmationLinkCommandHandler> logger,
-            UserManager<AppUser> userManager,
             IEmailConfirmationHelper emailConfirmationHelper,
             IUserService userService)
         {
             _logger = logger;
-            _userManager = userManager;
             _emailConfirmationHelper = emailConfirmationHelper;
             _userService = userService;
         }
@@ -47,9 +40,9 @@ namespace CourseWork.Core.Commands.Auth.ResendUserEmailConfirmationLink
         /// <summary>
         /// Handles the specified request.
         /// </summary>
-        /// <param name="request">The request: ResendUserEmailConfirmationLinkCommand</param>
+        /// <param name="request">The request: ResendUserEmailConfirmationLinkCommand.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>string</returns>
+        /// <returns>string.</returns>
         public async Task<ExecutionResult> Handle(ResendUserEmailConfirmationLinkCommand request,
             CancellationToken cancellationToken)
         {

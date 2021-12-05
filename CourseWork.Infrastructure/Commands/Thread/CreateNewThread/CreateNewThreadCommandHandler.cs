@@ -5,13 +5,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using CourseWork.Core.Database;
 using CourseWork.Core.Database.Entities.Files;
+using CourseWork.Core.Database.Entities.Replies;
 using CourseWork.Core.Database.Entities.Threads;
 using CourseWork.Core.Helpers;
 using CourseWork.Core.Services.UserService;
 using LS.Helpers.Hosting.API;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using CourseWork.Core.Database.Entities.Replies;
 
 namespace CourseWork.Core.Commands.Thread.CreateNewThread
 {
@@ -44,7 +44,7 @@ namespace CourseWork.Core.Commands.Thread.CreateNewThread
         /// <summary>
         /// Handles the specified request.
         /// </summary>
-        /// <param name="request">The request: CreateNewThreadCommand</param>
+        /// <param name="request">The request: CreateNewThreadCommand.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>string.</returns>
         public async Task<ExecutionResult> Handle(CreateNewThreadCommand request,

@@ -1,9 +1,9 @@
-﻿namespace CourseWork.Core.Helpers.EmailTemplateHelper
-{
-    using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
+namespace CourseWork.Core.Helpers.EmailTemplateHelper
+{
     /// <summary>
-    /// Contains method declarations for <see cref="EmailTemplateHelper"/>
+    /// Contains method declarations for <see cref="EmailTemplateHelper"/>.
     /// </summary>
     public interface IEmailTemplateHelper
     {

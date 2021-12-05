@@ -1,11 +1,11 @@
-﻿namespace CourseWork.Core.Commands.Admin.IgnoreReplyReport
-{
-    using System.Collections.Generic;
-    using CQRS;
-    using LS.Helpers.Hosting.API;
+﻿using System.Collections.Generic;
+using CourseWork.Core.CQRS;
+using LS.Helpers.Hosting.API;
 
+namespace CourseWork.Core.Commands.Admin.IgnoreReplyReport
+{
     /// <summary>
-    /// IgnoreReplyReportCommand
+    /// IgnoreReplyReportCommand.
     /// </summary>
     /// <seealso cref="ICommand{ExecutionResult}" />
     /// <inheritdoc />

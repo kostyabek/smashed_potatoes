@@ -1,11 +1,10 @@
-﻿using CourseWork.Core.Models.Auth;
+﻿using CourseWork.Core.CQRS;
+using CourseWork.Core.Models.Auth;
 using LS.Helpers.Hosting.API;
 using MediatR;
 
 namespace CourseWork.Core.Commands.Auth.UserSignIn
 {
-    using CQRS;
-
     /// <summary>
     /// User Sign In Command.
     /// </summary>

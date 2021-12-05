@@ -1,7 +1,7 @@
-﻿namespace CourseWork.Core.Database.Entities.Files
-{
-    using System;
+﻿using System;
 
+namespace CourseWork.Core.Database.Entities.Files
+{
     /// <summary>
     /// Stored image model.
     /// </summary>

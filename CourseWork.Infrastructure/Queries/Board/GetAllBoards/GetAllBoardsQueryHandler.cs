@@ -1,18 +1,18 @@
-﻿namespace CourseWork.Core.Queries.Board.GetAllBoards
-{
-    using System;
-    using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Database;
-    using JetBrains.Annotations;
-    using LS.Helpers.Hosting.API;
-    using MediatR;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Logging;
-    using Models.Board;
-    using Services.UserService;
+﻿using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using CourseWork.Core.Database;
+using CourseWork.Core.Models.Board;
+using CourseWork.Core.Services.UserService;
+using JetBrains.Annotations;
+using LS.Helpers.Hosting.API;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
+namespace CourseWork.Core.Queries.Board.GetAllBoards
+{
     /// <summary>
     /// GetAllBoardsQuery handler.
     /// </summary>
