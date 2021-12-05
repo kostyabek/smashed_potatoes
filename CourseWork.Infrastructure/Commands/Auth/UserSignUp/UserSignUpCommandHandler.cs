@@ -1,35 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using CourseWork.Common.Consts;
-using CourseWork.Core.Commands.Auth.UserSignIn;
 using CourseWork.Core.Database;
-using CourseWork.Core.Database.Entities;
+using CourseWork.Core.Database.Entities.Files;
 using CourseWork.Core.Database.Entities.Identity;
 using CourseWork.Core.Helpers;
-using CourseWork.Core.Models.Auth;
+using CourseWork.Core.Helpers.EmailConfirmationHelper;
 using LS.Helpers.Hosting.API;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace CourseWork.Core.Commands.Auth.UserSignUp
 {
-    using System.Text;
-    using Database.Entities.Files;
-
     /// <summary>
     /// UserSignUpCommand handler.
     /// </summary>
     /// <seealso cref="IRequestHandler{UserSignUpCommand}" />
-    public class UserSignUpCommandHandler : IRequestHandler<UserSignUpCommand, ExecutionResult<SignedInUser>>
+    public class UserSignUpCommandHandler : IRequestHandler<UserSignUpCommand, ExecutionResult>
     {
         private readonly ILogger<UserSignUpCommandHandler> _logger;
         private readonly BaseDbContext _dbContext;
         private readonly UserManager<AppUser> _userManager;
-        private readonly IMediator _mediator;
+        private readonly IEmailConfirmationHelper _emailConfirmationHelper;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserSignUpCommandHandler" /> class.
@@ -37,17 +35,17 @@ namespace CourseWork.Core.Commands.Auth.UserSignUp
         /// <param name="logger">The logger.</param>
         /// <param name="dbContext">The database context.</param>
         /// <param name="userManager">The user manager.</param>
-        /// <param name="mediator">Mediator.</param>
+        /// <param name="emailConfirmationHelper">The email confirmation helper.</param>
         public UserSignUpCommandHandler(
             ILogger<UserSignUpCommandHandler> logger,
             BaseDbContext dbContext,
             UserManager<AppUser> userManager,
-            IMediator mediator)
+            IEmailConfirmationHelper emailConfirmationHelper)
         {
             _logger = logger;
             _dbContext = dbContext;
             _userManager = userManager;
-            _mediator = mediator;
+            _emailConfirmationHelper = emailConfirmationHelper;
         }
 
         /// <summary>
@@ -56,7 +54,7 @@ namespace CourseWork.Core.Commands.Auth.UserSignUp
         /// <param name="request">The request: UserSignUpCommand.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>string.</returns>
-        public async Task<ExecutionResult<SignedInUser>> Handle(UserSignUpCommand request, CancellationToken cancellationToken)
+        public async Task<ExecutionResult> Handle(UserSignUpCommand request, CancellationToken cancellationToken)
         {
             using (var transaction = await _dbContext.Database.BeginTransactionAsync(cancellationToken))
             {
@@ -68,6 +66,12 @@ namespace CourseWork.Core.Commands.Auth.UserSignUp
                         UserName = request.Username,
                         DisplayName = request.DisplayName,
                     };
+                    var existingUser = await _dbContext.Users.SingleOrDefaultAsync(e => e.UserName == request.Username, cancellationToken);
+                    if (existingUser != null)
+                    {
+                        return new ExecutionResult<AppUser>(
+                            new ErrorInfo("User with such username already exists."));
+                    }
 
                     await _userManager.CreateAsync(newUser, request.Password);
 
@@ -111,26 +115,15 @@ namespace CourseWork.Core.Commands.Auth.UserSignUp
 
                     await transaction.CommitAsync(cancellationToken);
 
-                    var signInCommand = new UserSignInCommand
-                    {
-                        Username = request.Username,
-                        Password = request.Password
-                    };
+                    await _emailConfirmationHelper.SendEmailConfirmationLink(newUser);
 
-                    var signInResult = await _mediator.Send(signInCommand, cancellationToken);
-
-                    if (!signInResult.Success)
-                    {
-                        return new ExecutionResult<SignedInUser>(signInResult);
-                    }
-
-                    return new ExecutionResult<SignedInUser>(new InfoMessage("You have successfully signed up!"));
+                    return new ExecutionResult(new InfoMessage("You have signed up successfully. Check your e-mail for confirmation link, please."));
                 }
                 catch (Exception e)
                 {
                     _logger.LogError(e.Message);
                     await transaction.RollbackAsync(cancellationToken);
-                    return new ExecutionResult<SignedInUser>(
+                    return new ExecutionResult(
                         new ErrorInfo($"Error while executing {nameof(UserSignUpCommandHandler)}"));
                 }
             }

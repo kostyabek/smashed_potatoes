@@ -1,20 +1,18 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using CourseWork.Core.Attributes;
 using CourseWork.Core.CQRS;
-using CourseWork.Core.Models.Auth;
 using LS.Helpers.Hosting.API;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 
 namespace CourseWork.Core.Commands.Auth.UserSignUp
 {
-    using Attributes;
-
     /// <summary>
     /// User Sign Up Command.
     /// </summary>
     /// <seealso cref="ICommand{T}" />
     /// <inheritdoc />
-    public sealed class UserSignUpCommand : IRequest<ExecutionResult<SignedInUser>>
+    public sealed class UserSignUpCommand : IRequest<ExecutionResult>
     {
         /// <summary>
         /// Gets or sets the username.

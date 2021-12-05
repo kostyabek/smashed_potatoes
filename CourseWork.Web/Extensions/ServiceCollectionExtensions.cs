@@ -3,7 +3,6 @@ using System.IO;
 using System.Reflection;
 using CourseWork.Common.Configurations;
 using CourseWork.Core.Database;
-using CourseWork.Core.Database.DatabaseConnectionHelper;
 using CourseWork.Core.Database.Entities.Identity;
 using CourseWork.Core.Helpers.EmailTemplateHelper;
 using CourseWork.Core.Services.UserService;
@@ -18,6 +17,9 @@ using Microsoft.OpenApi.Models;
 
 namespace CourseWork.Web.Extensions
 {
+    using Core.Helpers.DatabaseConnectionHelper;
+    using Core.Helpers.EmailConfirmationHelper;
+
     /// <summary>
     /// Contains extension methods for <see cref="IServiceCollection"/>.
     /// </summary>
@@ -31,6 +33,7 @@ namespace CourseWork.Web.Extensions
         public static IServiceCollection AddIdentity(this IServiceCollection services)
         {
             services.AddIdentity<AppUser, AppRole>()
+                .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<BaseDbContext>();
 
             services.Configure<IdentityOptions>(o =>
@@ -42,7 +45,7 @@ namespace CourseWork.Web.Extensions
                 o.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(60);
                 o.Lockout.MaxFailedAccessAttempts = 7;
 
-                o.SignIn.RequireConfirmedEmail = false;
+                o.SignIn.RequireConfirmedEmail = true;
             });
 
             return services;
@@ -161,6 +164,7 @@ namespace CourseWork.Web.Extensions
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IDatabaseConnectionHelper, DatabaseConnectionHelper>();
             services.AddScoped<IEmailTemplateHelper, EmailTemplateHelper>();
+            services.AddScoped<IEmailConfirmationHelper, EmailConfirmationHelper>();
 
             return services;
         }
