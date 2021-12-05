@@ -8,7 +8,6 @@ using CourseWork.Core.Helpers.DatabaseConnectionHelper;
 using CourseWork.Core.Helpers.EmailConfirmationHelper;
 using CourseWork.Core.Helpers.EmailTemplateHelper;
 using CourseWork.Core.Services.UserService;
-using CourseWork.Infrastructure;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
@@ -19,6 +18,8 @@ using Microsoft.OpenApi.Models;
 
 namespace CourseWork.Web.Extensions
 {
+    using Core;
+
     /// <summary>
     /// Contains extension methods for <see cref="IServiceCollection"/>.
     /// </summary>
