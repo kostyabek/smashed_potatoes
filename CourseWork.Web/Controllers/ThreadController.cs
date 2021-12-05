@@ -16,7 +16,7 @@ namespace CourseWork.Web.Controllers
 
     /// <inheritdoc />
     [SwaggerTag("Thread")]
-    [Authorize]
+    [Authorize(Roles = "User,Admin,Moderator")]
     [ApiController]
     [ApiExplorerSettings(GroupName = "v1")]
     public sealed class ThreadController : Controller

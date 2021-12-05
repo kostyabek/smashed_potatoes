@@ -15,7 +15,7 @@
 
     /// <inheritdoc />
     [SwaggerTag("Profile")]
-    [Authorize]
+    [Authorize(Roles = "User,Admin,Moderator")]
     [ApiController]
     [ApiExplorerSettings(GroupName = "v1")]
     public sealed class ProfileController : Controller

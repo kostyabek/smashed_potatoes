@@ -10,6 +10,8 @@ using Microsoft.Extensions.Logging;
 
 namespace CourseWork.Core.Commands.Auth.ResendUserEmailConfirmationLink
 {
+    using Services.UserService;
+
     /// <summary>
     /// ResendUserEmailConfirmationLinkCommand handler.
     /// </summary>
@@ -21,6 +23,7 @@ namespace CourseWork.Core.Commands.Auth.ResendUserEmailConfirmationLink
         private readonly ILogger<ResendUserEmailConfirmationLinkCommandHandler> _logger;
         private readonly UserManager<AppUser> _userManager;
         private readonly IEmailConfirmationHelper _emailConfirmationHelper;
+        private readonly IUserService _userService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ResendUserEmailConfirmationLinkCommandHandler" /> class.
@@ -28,14 +31,17 @@ namespace CourseWork.Core.Commands.Auth.ResendUserEmailConfirmationLink
         /// <param name="logger">The logger.</param>
         /// <param name="userManager">The user manager.</param>
         /// <param name="emailConfirmationHelper">The email confirmation helper.</param>
+        /// <param name="userService">The user service.</param>
         public ResendUserEmailConfirmationLinkCommandHandler(
             ILogger<ResendUserEmailConfirmationLinkCommandHandler> logger,
             UserManager<AppUser> userManager,
-            IEmailConfirmationHelper emailConfirmationHelper)
+            IEmailConfirmationHelper emailConfirmationHelper,
+            IUserService userService)
         {
             _logger = logger;
             _userManager = userManager;
             _emailConfirmationHelper = emailConfirmationHelper;
+            _userService = userService;
         }
 
         /// <summary>
@@ -49,13 +55,7 @@ namespace CourseWork.Core.Commands.Auth.ResendUserEmailConfirmationLink
         {
             try
             {
-                var user = await _userManager.FindByEmailAsync(request.Email);
-
-                if (user is null)
-                {
-                    return new ExecutionResult(new ErrorInfo("No such user found."));
-                }
-
+                var user = await _userService.GetCurrentUserAsync();
                 await _emailConfirmationHelper.SendEmailConfirmationLink(user);
 
                 return new ExecutionResult(new InfoMessage("E-mail confirmation link has been resent successfully."));

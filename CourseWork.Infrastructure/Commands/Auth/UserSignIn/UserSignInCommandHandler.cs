@@ -68,11 +68,6 @@ namespace CourseWork.Core.Commands.Auth.UserSignIn
                     return new ExecutionResult<SignedInUser>(new ErrorInfo("No such user found!"));
                 }
 
-                if (!await _userManager.IsEmailConfirmedAsync(userInitial))
-                {
-                    return new ExecutionResult<SignedInUser>(new ErrorInfo("Invalid login attempt."));
-                }
-
                 var signInResult = await _signInManager.PasswordSignInWithBanCheckAsync(userInitial, request.Password, true, false);
 
                 if (signInResult.IsNotAllowed)

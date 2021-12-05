@@ -16,7 +16,7 @@ namespace CourseWork.Web.Controllers
     /// <inheritdoc />
     [SwaggerTag("Board")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = "User,Admin,Moderator")]
     [ApiExplorerSettings(GroupName = "v1")]
     public sealed class BoardController : Controller
     {

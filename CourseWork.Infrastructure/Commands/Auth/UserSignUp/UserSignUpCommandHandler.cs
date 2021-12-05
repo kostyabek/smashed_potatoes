@@ -4,7 +4,6 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using CourseWork.Common.Consts;
 using CourseWork.Core.Database;
 using CourseWork.Core.Database.Entities.Files;
 using CourseWork.Core.Database.Entities.Identity;
@@ -18,6 +17,9 @@ using Microsoft.Extensions.Logging;
 
 namespace CourseWork.Core.Commands.Auth.UserSignUp
 {
+    using Common.Consts;
+    using UserSignIn;
+
     /// <summary>
     /// UserSignUpCommand handler.
     /// </summary>
@@ -28,6 +30,7 @@ namespace CourseWork.Core.Commands.Auth.UserSignUp
         private readonly BaseDbContext _dbContext;
         private readonly UserManager<AppUser> _userManager;
         private readonly IEmailConfirmationHelper _emailConfirmationHelper;
+        private readonly IMediator _mediator;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserSignUpCommandHandler" /> class.
@@ -36,16 +39,19 @@ namespace CourseWork.Core.Commands.Auth.UserSignUp
         /// <param name="dbContext">The database context.</param>
         /// <param name="userManager">The user manager.</param>
         /// <param name="emailConfirmationHelper">The email confirmation helper.</param>
+        /// <param name="mediator">The mediator.</param>
         public UserSignUpCommandHandler(
             ILogger<UserSignUpCommandHandler> logger,
             BaseDbContext dbContext,
             UserManager<AppUser> userManager,
-            IEmailConfirmationHelper emailConfirmationHelper)
+            IEmailConfirmationHelper emailConfirmationHelper,
+            IMediator mediator)
         {
             _logger = logger;
             _dbContext = dbContext;
             _userManager = userManager;
             _emailConfirmationHelper = emailConfirmationHelper;
+            _mediator = mediator;
         }
 
         /// <summary>
@@ -114,6 +120,14 @@ namespace CourseWork.Core.Commands.Auth.UserSignUp
                     }
 
                     await transaction.CommitAsync(cancellationToken);
+
+                    var signInCommand = new UserSignInCommand
+                    {
+                        Username = newUser.UserName,
+                        Password = request.Password
+                    };
+
+                    await _mediator.Send(signInCommand, cancellationToken);
 
                     await _emailConfirmationHelper.SendEmailConfirmationLink(newUser);
 

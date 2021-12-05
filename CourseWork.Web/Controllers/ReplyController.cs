@@ -13,7 +13,7 @@
 
     /// <inheritdoc />
     [SwaggerTag("Reply")]
-    [Authorize]
+    [Authorize(Roles = "User,Admin,Moderator")]
     [ApiController]
     [ApiExplorerSettings(GroupName = "v1")]
     public sealed class ReplyController : Controller
