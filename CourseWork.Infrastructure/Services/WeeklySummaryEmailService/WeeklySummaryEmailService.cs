@@ -36,6 +36,7 @@ namespace CourseWork.Core.Services.WeeklySummaryEmailService
         private readonly IEmailTemplateHelper _emailTemplateHelper;
         private readonly IDatabaseConnectionHelper _databaseConnectionHelper;
         private readonly ILogger<WeeklySummaryEmailService> _logger;
+        private readonly IOptions<HostingSettings> _hostingSettings;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WeeklySummaryEmailService" /> class.
@@ -45,17 +46,20 @@ namespace CourseWork.Core.Services.WeeklySummaryEmailService
         /// <param name="emailTemplateHelper">The en email template helper.</param>
         /// <param name="databaseConnectionHelper">The database connection helper.</param>
         /// <param name="logger">The logger.</param>
+        /// <param name="hostingSettings">The hosting settings.</param>
         public WeeklySummaryEmailService(BaseDbContext dbContext,
             IOptions<SmtpClientCredentials> smtpClientCredentials,
             IEmailTemplateHelper emailTemplateHelper,
             IDatabaseConnectionHelper databaseConnectionHelper,
-            ILogger<WeeklySummaryEmailService> logger)
+            ILogger<WeeklySummaryEmailService> logger,
+            IOptions<HostingSettings> hostingSettings)
         {
             _dbContext = dbContext;
             _smtpClientCredentials = smtpClientCredentials;
             _emailTemplateHelper = emailTemplateHelper;
             _databaseConnectionHelper = databaseConnectionHelper;
             _logger = logger;
+            _hostingSettings = hostingSettings;
         }
 
         /// <inheritdoc/>
@@ -125,29 +129,6 @@ namespace CourseWork.Core.Services.WeeklySummaryEmailService
                     TransferEncoding = TransferEncoding.Base64
                 }));
 
-            models.BoardThreadWithRepliesModels
-                .ForEach(e =>
-                e.Replies
-                    .Where(r => !string.IsNullOrWhiteSpace(r.PicRelatedPath))
-                    .ToList()
-                    .ForEach(r =>
-                    {
-                        imageLinks.Add(new LinkedResource(r.PicRelatedPath, "image/png")
-                        {
-                            ContentId = r.PicRelatedContentId,
-                            TransferEncoding = TransferEncoding.Base64
-                        });
-
-                        if (!string.IsNullOrWhiteSpace(r.UserAvatarPath))
-                        {
-                            imageLinks.Add(new LinkedResource(r.UserAvatarPath, "image/png")
-                            {
-                                ContentId = r.UserAvatarContentId,
-                                TransferEncoding = TransferEncoding.Base64
-                            });
-                        }
-                    }));
-
             imageLinks.ForEach(e => alternateView.LinkedResources.Add(e));
 
             emailMessage.AlternateViews.Add(alternateView);
@@ -164,14 +145,14 @@ namespace CourseWork.Core.Services.WeeklySummaryEmailService
                     var sql = $@"
 select distinct t.id           as ThreadId,
                 t.{nameof(PotatoThread.Name).ToSnakeCase()}         as ThreadName,
-                b.{nameof(PotatoBoard.DisplayName).ToSnakeCase()} as BoardName,
-                i.{nameof(ImageModel.FileName).ToSnakeCase()}    as FileName,
+                b.{nameof(PotatoBoard.Name).ToSnakeCase()} as BoardName,
                 (
                     select count(r1.id)
                     from {nameof(BaseDbContext.Replies).ToSnakeCase()} r1
                     where r1.{nameof(PotatoReply.ThreadId).ToSnakeCase()} = t.id
-                      and r1.{nameof(PotatoReply.Created).ToSnakeCase()} >= now() - INTERVAL '24 HOURS'
-                )              as NumberOfReplies
+                      and r1.{nameof(PotatoReply.Created).ToSnakeCase()} >= now() - INTERVAL '7 DAYS'
+                )              as NumberOfReplies,
+                i.{nameof(ImageModel.FileName).ToSnakeCase()}    as FileName
 from {nameof(BaseDbContext.Threads).ToSnakeCase()} t
          inner join {nameof(BaseDbContext.Replies).ToSnakeCase()} r
                     on t.id = r.{nameof(PotatoReply.ThreadId).ToSnakeCase()}
@@ -179,7 +160,7 @@ from {nameof(BaseDbContext.Threads).ToSnakeCase()} t
          inner join {nameof(BaseDbContext.Images).ToSnakeCase()} i on t.{nameof(PotatoThread.MainPictureId).ToSnakeCase()} = i.id
          where {nameof(PotatoThread.BoardId).ToSnakeCase()} = ANY(@boardsUserSubscribedTo)
 order by NumberOfReplies desc
-limit 5;";
+limit 8;";
 
                     var modelsResult = await connection.QueryAsync<BoardThreadWithRepliesModel, string, BoardThreadWithRepliesModel>(
                         sql,
@@ -197,36 +178,10 @@ limit 5;";
 
                     var models = modelsResult.ToList();
 
-                    foreach (var model in models)
-                    {
-                        model.Replies = await _dbContext
-                            .Replies
-                            .Include(e => e.User)
-                            .Include(e => e.PicRelated)
-                            .AsNoTracking()
-                            .Where(e => e.IsThreadStarter == false && e.ThreadId == model.ThreadId)
-                            .OrderByDescending(e => e.Created)
-                            .Take(3)
-                            .OrderBy(e => e.Created)
-                            .Select(e => new ReplyEmailModel
-                            {
-                                Content = e.Content,
-                                UserDisplayName = e.User.DisplayName,
-                                PicRelatedPath = e.PicRelated == null ? null : StoragePathsHelper.GetRelatedPictureStoragePath(e.PicRelated.FileName),
-                                UserAvatarPath = e.User.Avatar == null ? null : StoragePathsHelper.GetAvatarStoragePath(e.User.Avatar.FileName)
-                            })
-                            .ToListAsync();
-
-                        model.Replies.ForEach(e =>
-                        {
-                            e.PicRelatedContentId = Guid.NewGuid().ToString().Replace("-", string.Empty);
-                            e.UserAvatarContentId = Guid.NewGuid().ToString().Replace("-", string.Empty);
-                        });
-                    }
-
                     var fullModel = new WeeklySummaryModel
                     {
                         User = user,
+                        Domain = _hostingSettings.Value.DomainName,
                         BoardThreadWithRepliesModels = models
                     };
 

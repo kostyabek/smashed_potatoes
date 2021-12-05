@@ -121,6 +121,7 @@ namespace CourseWork.Web.Extensions
         {
             services.Configure<HashingSecrets>(configuration.GetSection("HashingSecrets"));
             services.Configure<SmtpClientCredentials>(configuration.GetSection("SmtpClientCredentials"));
+            services.Configure<HostingSettings>(configuration.GetSection("HostingSettings"));
             return services;
         }
 

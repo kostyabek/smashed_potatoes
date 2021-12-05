@@ -49,11 +49,11 @@ namespace CourseWork.Core.Models.EmailTemplate
         public string ThreadMainPictureContentId { get; set; }
 
         /// <summary>
-        /// Gets or sets the replies.
+        /// Gets or sets the number of replies.
         /// </summary>
         /// <value>
-        /// The replies.
+        /// The number of replies.
         /// </value>
-        public List<ReplyEmailModel> Replies { get; set; }
+        public int NumberOfReplies { get; set; }
     }
 }

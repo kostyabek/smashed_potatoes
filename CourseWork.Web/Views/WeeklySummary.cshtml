@@ -1,94 +1,65 @@
 ﻿<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        body {
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
-        }
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <style>
+            .bcolor {
+                background-color: lightyellow;
+            }
 
-        .bcolor {
-            background-color: lightyellow;
-        }
+            .greetings {
+                text-align: center;
+                border-bottom: 1px solid lightgray;
+                padding: 10px;
+            }
 
-        .greetings {
-            text-align: center;
-            border-bottom: 1px solid lightgray;
-            padding: 10px;
-        }
+            .main {
+                border-bottom: 1px solid lightgray;
+                padding: 21.28px;
+            }
 
-        .main {
-            border-bottom: 1px solid lightgray;
-            padding: 21.28px;
-        }
+            img {
+                border-radius: 5px;
+            }
 
-        img {
-            border-radius: 5px;
-            vertical-align: middle;
-        }
+            .thread-name {
+                font-size: 18px;
+                color: black;
+            }
 
-        .board-name {
-            text-align: center;
-        }
+            a {
+                text-decoration: none;
+            }
 
-        .thread-pic {
-            margin-right: 5px;
-            vertical-align: baseline;
-        }
-
-        .thread-name {
-            font-size: 18px;
-        }
-
-        .thread-board-header-container {
-            margin-bottom: 15px;
-        }
-
-        .replies-wrapper {
-            border-left: 3px solid lightgray;
-        }
-
-        .reply-container {
-            margin-left: 5px;
-            margin-top: 10px;
-        }
-
-        .reply-container:nth-child(2n) {
-            text-align: right;
-        }
-    </style>
-</head>
-<body>
-    <section class="greetings bcolor">
-        <h1>Hello, @Model.User.DisplayName!</h1>
-        <h3>Here is our weekly summary, specially for you</h3>
-    </section>
-
-    <section class="main bcolor">
-        @foreach (var entry in Model.BoardThreadWithRepliesModels)
-        {
-            <h3 class="board-name">@entry.BoardName.ToUpper()</h3>
-            <div class="thread-board-header-container">
-                <img class="thread-pic" src="cid:@entry.ThreadMainPictureContentId" alt="pic-related" width="150" />
-                <span class="thread-name">@entry.ThreadName</span>
-            </div>
-            <div class="replies-wrapper">
-                @foreach (var reply in entry.Replies)
-                {
-                    <div class="reply-container">
-                        <img src="cid:@reply.UserAvatarContentId" alt="avatar" width="30" />
-                        <span>@reply.UserDisplayName</span>
-                        <p>@reply.Content</p>
-                        @if (!string.IsNullOrWhiteSpace(reply.PicRelatedPath))
-                        {
-                            <img src="cid:@reply.PicRelatedContentId" alt="pic-related" width="100" />
-                        }
-                    </div>
+                p:hover {
+                    font-size: 19px;
+                    color: brown;
                 }
-            </div>
-        }
-    </section>
-</body>
+
+            .thread-board-header-container {
+                text-align: center;
+                margin-bottom: 15px;
+            }
+        </style>
+    </head>
+    <body>
+        <section class="greetings bcolor">
+            <h1>Hello, @Model.User.DisplayName!</h1>
+            <h3>Here is our weekly summary, specially for you</h3>
+        </section>
+        
+        <section class="main bcolor">
+            @foreach (var entry in Model.BoardThreadWithRepliesModels)
+            {
+                <a href="https://@Model.Domain/threads/@entry.ThreadId/replies?PageNumber=1&PageSize=100">
+                    <div class="thread-board-header-container">
+                        <img src="cid:@entry.ThreadMainPictureContentId" alt="pic-related" width="150" />
+                        <p class="thread-name">/@entry.BoardName @entry.ThreadName (+@entry.NumberOfReplies)</p>
+                    </div>
+                </a>
+            }
+        </section>
+    </body>
 </html>

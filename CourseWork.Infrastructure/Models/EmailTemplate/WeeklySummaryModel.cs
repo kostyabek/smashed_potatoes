@@ -17,6 +17,14 @@ namespace CourseWork.Core.Models.EmailTemplate
         public AppUser User { get; set; }
 
         /// <summary>
+        /// Gets or sets the domain.
+        /// </summary>
+        /// <value>
+        /// The domain.
+        /// </value>
+        public string Domain { get; set; }
+
+        /// <summary>
         /// Gets or sets the board thread with replies models.
         /// </summary>
         /// <value>
