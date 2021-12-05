@@ -1,31 +1,30 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using CourseWork.Common.Configurations;
 using CourseWork.Core.Database;
-using CourseWork.Core.Database.DatabaseConnectionHelper;
 using CourseWork.Core.Database.Entities.Boards;
 using CourseWork.Core.Database.Entities.Files;
 using CourseWork.Core.Database.Entities.Identity;
 using CourseWork.Core.Database.Entities.Replies;
 using CourseWork.Core.Database.Entities.Threads;
 using CourseWork.Core.Helpers;
+using CourseWork.Core.Helpers.DatabaseConnectionHelper;
 using CourseWork.Core.Helpers.EmailTemplateHelper;
 using CourseWork.Core.Models.EmailTemplate;
 using CourseWork.Core.Models.Reply;
 using Dapper;
 using LS.Helpers.Hosting.Extensions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace CourseWork.Core.Services.WeeklySummaryEmailService
 {
-    using System.Collections.Generic;
-    using System.Net.Mime;
-    using Microsoft.Extensions.Logging;
-
     /// <summary>
     /// Weekly Summary Email Service.
     /// </summary>
@@ -67,6 +66,7 @@ namespace CourseWork.Core.Services.WeeklySummaryEmailService
                 var users = await _dbContext
                     .Users
                     .Include(e => e.BoardSubscriptions)
+                    .Include(e => e.Avatar)
                     .AsNoTracking()
                     .Where(e => e.BoardSubscriptions.Any())
                     .ToListAsync();
@@ -137,6 +137,15 @@ namespace CourseWork.Core.Services.WeeklySummaryEmailService
                             ContentId = r.PicRelatedContentId,
                             TransferEncoding = TransferEncoding.Base64
                         });
+
+                        if (!string.IsNullOrWhiteSpace(r.UserAvatarPath))
+                        {
+                            imageLinks.Add(new LinkedResource(r.UserAvatarPath, "image/png")
+                            {
+                                ContentId = r.UserAvatarContentId,
+                                TransferEncoding = TransferEncoding.Base64
+                            });
+                        }
                     }));
 
             imageLinks.ForEach(e => alternateView.LinkedResources.Add(e));
@@ -170,7 +179,7 @@ from {nameof(BaseDbContext.Threads).ToSnakeCase()} t
          inner join {nameof(BaseDbContext.Images).ToSnakeCase()} i on t.{nameof(PotatoThread.MainPictureId).ToSnakeCase()} = i.id
          where {nameof(PotatoThread.BoardId).ToSnakeCase()} = ANY(@boardsUserSubscribedTo)
 order by NumberOfReplies desc
-limit 8;";
+limit 5;";
 
                     var modelsResult = await connection.QueryAsync<BoardThreadWithRepliesModel, string, BoardThreadWithRepliesModel>(
                         sql,
@@ -197,15 +206,22 @@ limit 8;";
                             .AsNoTracking()
                             .Where(e => e.IsThreadStarter == false && e.ThreadId == model.ThreadId)
                             .OrderByDescending(e => e.Created)
+                            .Take(3)
+                            .OrderBy(e => e.Created)
                             .Select(e => new ReplyEmailModel
                             {
                                 Content = e.Content,
                                 UserDisplayName = e.User.DisplayName,
-                                PicRelatedPath = e.PicRelated == null ? null : StoragePathsHelper.GetRelatedPictureStoragePath(e.PicRelated.FileName)
+                                PicRelatedPath = e.PicRelated == null ? null : StoragePathsHelper.GetRelatedPictureStoragePath(e.PicRelated.FileName),
+                                UserAvatarPath = e.User.Avatar == null ? null : StoragePathsHelper.GetAvatarStoragePath(e.User.Avatar.FileName)
                             })
                             .ToListAsync();
 
-                        model.Replies.ForEach(e => e.PicRelatedContentId = Guid.NewGuid().ToString().Replace("-", string.Empty));
+                        model.Replies.ForEach(e =>
+                        {
+                            e.PicRelatedContentId = Guid.NewGuid().ToString().Replace("-", string.Empty);
+                            e.UserAvatarContentId = Guid.NewGuid().ToString().Replace("-", string.Empty);
+                        });
                     }
 
                     var fullModel = new WeeklySummaryModel
