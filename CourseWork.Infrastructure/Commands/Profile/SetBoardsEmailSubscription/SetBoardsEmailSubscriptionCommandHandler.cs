@@ -64,7 +64,7 @@ namespace CourseWork.Core.Commands.Profile.SetBoardsEmailSubscription
                     .Select(e => e.Id)
                     .ToListAsync(cancellationToken);
 
-                if (user.BoardSubscriptions.Count + request.BoardIds.Count > 3)
+                if (request.BoardIds.Count > 3)
                 {
                     return new ExecutionResult(new ErrorInfo("Only 3 or less board subscriptions are allowed."));
                 }
