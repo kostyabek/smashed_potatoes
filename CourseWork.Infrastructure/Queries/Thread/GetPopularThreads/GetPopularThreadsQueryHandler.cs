@@ -4,7 +4,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using CourseWork.Core.Database;
-using CourseWork.Core.Database.DatabaseConnectionHelper;
 using CourseWork.Core.Database.Entities.Boards;
 using CourseWork.Core.Database.Entities.Files;
 using CourseWork.Core.Database.Entities.Replies;
@@ -22,6 +21,9 @@ using Microsoft.Extensions.Logging;
 
 namespace CourseWork.Core.Queries.Thread.GetPopularThreads
 {
+    using Common.Consts;
+    using Helpers.DatabaseConnectionHelper;
+
     /// <summary>
     /// GetPopularThreadsQuery handler.
     /// </summary>
@@ -106,6 +108,7 @@ limit 8;";
                         {
                             var imagePathBuilder = new StringBuilder(mainPicturePath);
                             model.MainPicturePath = imagePathBuilder
+                                .Append($"{AppConsts.StoragePaths.ThreadPics}/")
                                 .Append(fileName)
                                 .ToString();
 

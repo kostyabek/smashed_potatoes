@@ -13,6 +13,7 @@
     using Helpers;
     using LS.Helpers.Hosting.API;
     using MediatR;
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
     using Services.UserService;
 
@@ -59,13 +60,30 @@
 
                     if (user is null)
                     {
-                        return new ExecutionResult(new ErrorInfo("The user is not authorized"));
+                        return new ExecutionResult(new ErrorInfo("The user is not authorized."));
                     }
 
                     if (!request.RepliedToIds.Any())
                     {
                         return new ExecutionResult(
-                            new ErrorInfo("Every reply must refer to at least one post on the thread!"));
+                            new ErrorInfo("Every reply must refer to at least one post on the thread."));
+                    }
+
+                    if (request.RepliedToIds.Count > 5)
+                    {
+                        return new ExecutionResult(
+                            new ErrorInfo("The maximum of 5 replies can be referenced from a reply."));
+                    }
+
+                    var countRepliesFromRequestFromTheThread = await _dbContext
+                        .Replies
+                        .AsNoTracking()
+                        .Where(e => request.RepliedToIds.Contains(e.Id) && e.ThreadId == request.ThreadId)
+                        .CountAsync(cancellationToken);
+
+                    if (request.RepliedToIds.Count != countRepliesFromRequestFromTheThread)
+                    {
+                        return new ExecutionResult(new ErrorInfo("Cannot reference replies from different threads."));
                     }
 
                     var newReplyRecord = new PotatoReply
@@ -84,7 +102,7 @@
                         fileNameBuilder.Append(Path.GetExtension(request.PicRelated.FileName));
                         var fileName = fileNameBuilder.ToString();
 
-                        var filePath = StoragePathsHelper.GetAvatarStoragePath(fileName);
+                        var filePath = StoragePathsHelper.GetRelatedPictureStoragePath(fileName);
 
                         using (var fileStream = new FileStream(filePath, FileMode.Create))
                         {

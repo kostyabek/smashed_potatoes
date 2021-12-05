@@ -14,6 +14,16 @@
             /// The avatars.
             /// </summary>
             public static string Avatars = "avatars";
+
+            /// <summary>
+            /// The related pics.
+            /// </summary>
+            public static string RelatedPics = "related-pics";
+
+            /// <summary>
+            /// The thread pics.
+            /// </summary>
+            public static string ThreadPics = "thread-pics";
         }
 
         /// <summary>

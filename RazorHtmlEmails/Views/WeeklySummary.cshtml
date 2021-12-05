@@ -1,0 +1,63 @@
+﻿@model CourseWork.Core.Models.EmailTemplate.WeeklySummaryModel
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body {
+        background-color: lightgoldenrodyellow;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+    }
+
+    .greetings {
+        text-align: center;
+        border-bottom: 1px solid lightgray;
+    }
+
+    .main {
+        display: block;
+        border-bottom: 1px solid lightgray;
+        text-align: center;
+        padding-bottom: 21.28px;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    li {
+        display: block;
+        padding: 10px;
+    }
+</style>
+<body>
+<section class="greetings">
+    <h1>Hello, @Model.User.DisplayName!</h1>
+    <h3>Here is our weekly summary, specially for you</h3>
+</section>
+    
+<section class="main">
+    @foreach (var entry in Model.BoardThreadWithRepliesModels)
+    {
+        <h4>@entry.BoardName</h4>
+        <h5>@entry.ThreadName</h5>
+        <ul>
+            @foreach (var reply in entry.Replies)
+            {
+                <li>
+                    <span>@reply.UserDisplayName</span>
+                    <p>@reply.Content</p>
+                    <img src="@reply.PicRelatedPath" alt="pic-related"/>
+                </li>
+            }
+        </ul>
+    }
+</section>
+</body>
+</html>

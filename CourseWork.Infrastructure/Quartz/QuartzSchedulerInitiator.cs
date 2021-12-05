@@ -40,12 +40,12 @@
             var bannedUsersDeletionJobTrigger = TriggerBuilder
                 .Create()
                 .WithIdentity("Banned users deletion job")
-                .StartAt(DateBuilder.EvenMinuteDate(DateTimeOffset.UtcNow))
-                .WithSimpleSchedule(e =>
+                .StartNow()//DateBuilder.EvenMinuteDate(DateTimeOffset.UtcNow)
+                /*.WithSimpleSchedule(e =>
                 {
                     e.WithIntervalInMinutes(1);
                     e.RepeatForever();
-                })
+                })*/
                 .Build();
 
             await scheduler.ScheduleJob(bannedUsersDeletionJobDetail, bannedUsersDeletionJobTrigger);

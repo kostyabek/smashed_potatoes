@@ -8,9 +8,11 @@
     <PackageReference Include="Dapper" Version="2.0.123" />
     <PackageReference Include="LS.Helpers.Hosting" Version="5.0.3" />
     <PackageReference Include="MediatR" Version="9.0.0" />
+    <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.7" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.11" />
     <PackageReference Include="Quartz" Version="3.3.3" />
+    <PackageReference Include="RazorEngine.NetCore" Version="3.1.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -25,6 +27,7 @@
 
   <ItemGroup>
     <Folder Include="Commands\Admin\DeleteReply\" />
+    <Folder Include="Commands\Admin\DeleteBoard\" />
     <Folder Include="Commands\Auth\UserLogout\" />
     <Folder Include="Commands\Profile\ChangeAvatar\" />
     <Folder Include="Commands\Reply\CreateNewReply\" />

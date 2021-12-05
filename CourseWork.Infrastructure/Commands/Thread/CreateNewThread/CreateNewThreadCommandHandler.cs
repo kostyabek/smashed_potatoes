@@ -80,7 +80,7 @@ namespace CourseWork.Core.Commands.Thread.CreateNewThread
                     fileNameBuilder.Append(Path.GetExtension(request.MainPicture.FileName));
                     var fileName = fileNameBuilder.ToString();
 
-                    var filePath = StoragePathsHelper.GetAvatarStoragePath(fileName);
+                    var filePath = StoragePathsHelper.GetThreadPictureStoragePath(fileName);
 
                     using (var fileStream = new FileStream(filePath, FileMode.Create))
                     {

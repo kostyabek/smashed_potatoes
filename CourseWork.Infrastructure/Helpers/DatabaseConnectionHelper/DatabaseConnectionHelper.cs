@@ -1,4 +1,4 @@
-﻿namespace CourseWork.Core.Database.DatabaseConnectionHelper
+﻿namespace CourseWork.Core.Helpers.DatabaseConnectionHelper
 {
     using Microsoft.Extensions.Configuration;
     using Npgsql;
