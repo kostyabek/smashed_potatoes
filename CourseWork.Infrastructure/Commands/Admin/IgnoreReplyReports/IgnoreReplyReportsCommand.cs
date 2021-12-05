@@ -2,7 +2,7 @@
 using CourseWork.Core.CQRS;
 using LS.Helpers.Hosting.API;
 
-namespace CourseWork.Core.Commands.Admin.IgnoreReplyReport
+namespace CourseWork.Core.Commands.Admin.IgnoreReplyReports
 {
     /// <summary>
     /// IgnoreReplyReportCommand.

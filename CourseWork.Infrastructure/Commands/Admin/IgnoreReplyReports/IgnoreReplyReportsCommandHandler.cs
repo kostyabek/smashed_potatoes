@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using CourseWork.Core.Commands.Admin.IgnoreReplyReport;
 using CourseWork.Core.Database;
 using LS.Helpers.Hosting.API;
 using MediatR;

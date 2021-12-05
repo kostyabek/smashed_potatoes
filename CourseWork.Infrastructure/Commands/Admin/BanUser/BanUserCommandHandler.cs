@@ -81,16 +81,6 @@ namespace CourseWork.Core.Commands.Admin.BanUser
 
                 if (!request.IsBanPermanent)
                 {
-                    if (!request.BannedUntil.HasValue)
-                    {
-                        return new ExecutionResult(new ErrorInfo("Non-permanent bans must have due date and time."));
-                    }
-
-                    if ((int)(request.BannedUntil.Value - DateTime.UtcNow).TotalMinutes < 5)
-                    {
-                        return new ExecutionResult(new ErrorInfo("Ban timespan must be at least 5 minutes."));
-                    }
-
                     banRecord.IsPermanent = false;
                     banRecord.Until = request.BannedUntil;
                 }
