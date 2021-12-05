@@ -53,7 +53,7 @@
         <section class="main bcolor">
             @foreach (var entry in Model.BoardThreadWithRepliesModels)
             {
-                <a href="https://@Model.Domain/threads/@entry.ThreadId/replies?PageNumber=1&PageSize=100">
+                <a href="http://@Model.Domain/threads/@entry.ThreadId/replies?PageNumber=1&PageSize=100">
                     <div class="thread-board-header-container">
                         <img src="cid:@entry.ThreadMainPictureContentId" alt="pic-related" width="150" />
                         <p class="thread-name">/@entry.BoardName @entry.ThreadName (+@entry.NumberOfReplies)</p>

@@ -80,7 +80,7 @@ namespace CourseWork.Core.Services.WeeklySummaryEmailService
                 foreach (var user in users)
                 {
                     var message = await PrepareEmailData(user);
-                    smtpClient.SendAsync(message, null);
+                    await smtpClient.SendMailAsync(message);
                 }
             }
             catch (Exception e)
