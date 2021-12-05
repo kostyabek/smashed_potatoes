@@ -73,19 +73,24 @@ namespace CourseWork.Core.Queries.Profile.GetProfileInfo
                 }
 
                 var httpRequest = _httpContextAccessor.HttpContext.Request;
-                var avatarPathBuilder = StoragePathsHelper.GetImagesStaticFilesPath(httpRequest);
-                var avatarPath = avatarPathBuilder
-                    .Append($"{AppConsts.StoragePaths.Avatars}/")
-                    .Append($"{user.Avatar.FileName}")
-                    .ToString();
 
                 var result = new GetProfileInfoQueryResult
                 {
                     Id = userId,
                     Email = user.Email,
                     DisplayName = user.DisplayName,
-                    AvatarPath = avatarPath,
                 };
+
+                if (user.Avatar != null)
+                {
+                    var avatarPathBuilder = StoragePathsHelper.GetImagesStaticFilesPath(httpRequest);
+                    var avatarPath = avatarPathBuilder
+                        .Append($"{AppConsts.StoragePaths.Avatars}/")
+                        .Append($"{user.Avatar.FileName}")
+                        .ToString();
+
+                    result.AvatarPath = avatarPath;
+                }
 
                 return new ExecutionResult<GetProfileInfoQueryResult>(result);
             }
