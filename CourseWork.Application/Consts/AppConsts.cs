@@ -37,19 +37,14 @@
             public static int Admin = 1;
 
             /// <summary>
-            /// The moderator.
-            /// </summary>
-            public static int Moderator = 2;
-
-            /// <summary>
             /// The user.
             /// </summary>
-            public static int User = 3;
+            public static int User = 2;
 
             /// <summary>
             /// Creates new user.
             /// </summary>
-            public static int NewUser = 4;
+            public static int NewUser = 3;
         }
 
         /// <summary>

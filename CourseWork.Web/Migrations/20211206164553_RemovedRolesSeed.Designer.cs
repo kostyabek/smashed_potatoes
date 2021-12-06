@@ -3,15 +3,17 @@ using System;
 using CourseWork.Core.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace CourseWork.Web.Migrations
 {
     [DbContext(typeof(BaseDbContext))]
-    partial class BaseDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211206164553_RemovedRolesSeed")]
+    partial class RemovedRolesSeed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -148,29 +150,6 @@ namespace CourseWork.Web.Migrations
                         .HasDatabaseName("role_name_index");
 
                     b.ToTable("roles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ConcurrencyStamp = "2e6e4c4b-43d0-4a0d-9a9c-320c24260476",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            ConcurrencyStamp = "07c3c173-38c0-444a-a5a6-511507b5e590",
-                            Name = "User",
-                            NormalizedName = "USER"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            ConcurrencyStamp = "ab109c0f-d32f-4615-9ae2-b928afdc8088",
-                            Name = "New user",
-                            NormalizedName = "NEW USER"
-                        });
                 });
 
             modelBuilder.Entity("CourseWork.Core.Database.Entities.Identity.AppRoleClaim", b =>

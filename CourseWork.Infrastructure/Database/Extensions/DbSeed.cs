@@ -29,13 +29,6 @@ namespace CourseWork.Core.Database.Extensions
                 },
                 new ()
                 {
-                    Id = AppConsts.UserRoles.Moderator,
-                    Name = "Moderator",
-                    NormalizedName = "Moderator".ToUpper(),
-                    ConcurrencyStamp = "41b26433-bda8-4fd6-954e-e6b947810df2",
-                },
-                new ()
-                {
                     Id = AppConsts.UserRoles.User,
                     Name = "User",
                     NormalizedName = "User".ToUpper(),
