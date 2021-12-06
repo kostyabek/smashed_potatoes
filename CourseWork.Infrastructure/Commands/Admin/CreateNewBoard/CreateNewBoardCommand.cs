@@ -1,7 +1,7 @@
 ﻿using CourseWork.Core.CQRS;
 using LS.Helpers.Hosting.API;
 
-namespace CourseWork.Core.Commands.Board.CreateNewBoard
+namespace CourseWork.Core.Commands.Admin.CreateNewBoard
 {
     /// <summary>
     /// CreateNewBoardCommand.

@@ -2,6 +2,7 @@
 using System.IO;
 using System.Reflection;
 using CourseWork.Common.Configurations;
+using CourseWork.Core;
 using CourseWork.Core.Database;
 using CourseWork.Core.Database.Entities.Identity;
 using CourseWork.Core.Helpers.DatabaseConnectionHelper;
@@ -18,8 +19,6 @@ using Microsoft.OpenApi.Models;
 
 namespace CourseWork.Web.Extensions
 {
-    using Core;
-
     /// <summary>
     /// Contains extension methods for <see cref="IServiceCollection"/>.
     /// </summary>

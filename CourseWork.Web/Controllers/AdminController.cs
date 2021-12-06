@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CourseWork.Core.Commands.Admin.BanUser;
+using CourseWork.Core.Commands.Admin.CreateNewBoard;
 using CourseWork.Core.Commands.Admin.DeleteBoard;
 using CourseWork.Core.Commands.Admin.DeleteReply;
 using CourseWork.Core.Commands.Admin.DeleteThread;
 using CourseWork.Core.Commands.Admin.IgnoreReplyReports;
 using CourseWork.Core.Commands.Admin.RemoveBanFromUser;
-using CourseWork.Core.Commands.Board.CreateNewBoard;
 using CourseWork.Core.Models.Admin;
 using LS.Helpers.Hosting.API;
 using LS.Helpers.Hosting.Extensions;

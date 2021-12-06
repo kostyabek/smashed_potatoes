@@ -1,4 +1,4 @@
-﻿using CourseWork.Core.Commands.Board.CreateNewBoard;
+﻿using CourseWork.Core.Commands.Admin.CreateNewBoard;
 using FluentValidation;
 
 namespace CourseWork.Web.Validators.Board

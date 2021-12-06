@@ -8,7 +8,7 @@ using LS.Helpers.Hosting.API;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace CourseWork.Core.Commands.Board.CreateNewBoard
+namespace CourseWork.Core.Commands.Admin.CreateNewBoard
 {
     /// <summary>
     /// CreateNewBoardCommand handler.
