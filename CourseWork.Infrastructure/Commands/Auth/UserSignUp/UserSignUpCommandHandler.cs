@@ -78,6 +78,13 @@ namespace CourseWork.Core.Commands.Auth.UserSignUp
                             new ErrorInfo("User with such username already exists."));
                     }
 
+                    existingUser = await _dbContext.Users.SingleOrDefaultAsync(e => e.Email == request.Email, cancellationToken);
+                    if (existingUser != null)
+                    {
+                        return new ExecutionResult<AppUser>(
+                            new ErrorInfo("User with such e-mail already exists."));
+                    }
+
                     await _userManager.CreateAsync(newUser, request.Password);
 
                     newUser.UserRoles = new List<AppUserRole>
