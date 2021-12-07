@@ -79,6 +79,7 @@ namespace CourseWork.Core.Queries.Admin.GetReplyReports
                     .Take(limit)
                     .Select(e => new ReplyReportDataModel
                     {
+                        Id = e.Id,
                         ReplyId = e.ReplyId,
                         DateTime = e.CreatedAt,
                         Explanation = e.Explanation,

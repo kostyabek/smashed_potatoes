@@ -8,6 +8,14 @@ namespace CourseWork.Core.Models.Admin
     public class ReplyReportDataModel
     {
         /// <summary>
+        /// Gets or sets the identifier.
+        /// </summary>
+        /// <value>
+        /// The identifier.
+        /// </value>
+        public int Id { get; set; }
+
+        /// <summary>
         /// Gets or sets the reply identifier.
         /// </summary>
         /// <value>
