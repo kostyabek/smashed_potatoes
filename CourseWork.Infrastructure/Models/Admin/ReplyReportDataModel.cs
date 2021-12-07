@@ -1,7 +1,7 @@
-﻿namespace CourseWork.Core.Models.Admin
-{
-    using System;
+﻿using System;
 
+namespace CourseWork.Core.Models.Admin
+{
     /// <summary>
     /// Reply Report Data Model.
     /// </summary>

@@ -1,11 +1,10 @@
 ﻿using CourseWork.Application.Pagination;
 using CourseWork.Core.CQRS;
 using LS.Helpers.Hosting.API;
+using System;
 
 namespace CourseWork.Core.Queries.Admin.GetReplyReports
 {
-    using System;
-
     /// <summary>
     /// GetReplyReportsQuery.
     /// </summary>

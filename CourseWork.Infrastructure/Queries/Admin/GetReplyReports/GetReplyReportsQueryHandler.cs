@@ -3,6 +3,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
+using CourseWork.Common.Consts;
 using CourseWork.Core.Database;
 using CourseWork.Core.Database.Entities.Replies;
 using CourseWork.Core.Helpers;
@@ -10,14 +11,12 @@ using CourseWork.Core.Models.Admin;
 using JetBrains.Annotations;
 using LS.Helpers.Hosting.API;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace CourseWork.Core.Queries.Admin.GetReplyReports
 {
-    using Common.Consts;
-    using Microsoft.AspNetCore.Http;
-
     /// <summary>
     /// GetReplyReportsQuery handler.
     /// </summary>
