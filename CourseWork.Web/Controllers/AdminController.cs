@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CourseWork.Application.Pagination;
 using CourseWork.Core.Commands.Admin.BanUser;
 using CourseWork.Core.Commands.Admin.CreateNewBoard;
 using CourseWork.Core.Commands.Admin.DeleteBoard;
@@ -9,6 +10,7 @@ using CourseWork.Core.Commands.Admin.DeleteThread;
 using CourseWork.Core.Commands.Admin.IgnoreReplyReports;
 using CourseWork.Core.Commands.Admin.RemoveBanFromUser;
 using CourseWork.Core.Models.Admin;
+using CourseWork.Core.Queries.Admin.GetReplyReports;
 using LS.Helpers.Hosting.API;
 using LS.Helpers.Hosting.Extensions;
 using MediatR;
@@ -18,8 +20,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace CourseWork.Web.Controllers
 {
-    using Application.Pagination;
-    using Core.Queries.Admin.GetReplyReports;
+    using Core.Queries.Admin.GetBannedUsers;
 
     /// <inheritdoc />
     [SwaggerTag("Admin")]
@@ -96,6 +97,39 @@ namespace CourseWork.Web.Controllers
             var removeBanResult = await _mediator.Send(removeBanCommand);
 
             return this.FromExecutionResult(removeBanResult);
+        }
+
+        /// <summary>
+        /// Get banned users.
+        /// </summary>
+        /// <param name="paginationFilter">The pagination filter.</param>
+        /// <param name="email">The email.</param>
+        /// <param name="displayName">The display name.</param>
+        /// <param name="banEndDate">The ban end date.</param>
+        /// <returns></returns>
+        [HttpGet]
+        [SwaggerOperation("Get banned users.")]
+        [Produces("application/json", "application/xml")]
+        [Route("admin/banned-users")]
+        [ProducesResponseType(typeof(ExecutionResult), 200)]
+        public async Task<IActionResult> GetBannedUsers(
+            [FromQuery] PaginatedQuery paginationFilter,
+            [FromQuery] string email,
+            [FromQuery] string displayName,
+            [FromQuery] DateTime? banEndDate)
+        {
+            var request = new GetBannedUsersQuery
+            {
+                PageNumber = paginationFilter.PageNumber,
+                PageSize = paginationFilter.PageSize,
+                Email = email,
+                DisplayName = displayName,
+                BanEndDate = banEndDate,
+            };
+
+            var result = await _mediator.Send(request);
+
+            return this.FromExecutionResult(result);
         }
 
         /// <summary>
