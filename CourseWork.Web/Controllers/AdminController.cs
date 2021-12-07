@@ -18,6 +18,9 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace CourseWork.Web.Controllers
 {
+    using Application.Pagination;
+    using Core.Queries.Admin.GetReplyReports;
+
     /// <inheritdoc />
     [SwaggerTag("Admin")]
     [Authorize(Roles = "Admin")]
@@ -146,6 +149,36 @@ namespace CourseWork.Web.Controllers
         public async Task<IActionResult> DeleteBoard([FromRoute] int id)
         {
             var request = new DeleteBoardCommand { Id = id };
+
+            var result = await _mediator.Send(request);
+
+            return this.FromExecutionResult(result);
+        }
+
+        /// <summary>
+        /// Get reply reports.
+        /// </summary>
+        /// <param name="paginationFilter">The pagination filter.</param>
+        /// <param name="boardId">The board identifier.</param>
+        /// <param name="date">The date.</param>
+        /// <returns></returns>
+        [HttpGet]
+        [SwaggerOperation("Get reply reports.")]
+        [Produces("application/json", "application/xml")]
+        [Route("admin/reply-reports")]
+        [ProducesResponseType(typeof(ExecutionResult), 200)]
+        public async Task<IActionResult> GetReplyReports(
+            [FromQuery] PaginatedQuery paginationFilter,
+            [FromQuery] int? boardId,
+            [FromQuery] DateTime? date)
+        {
+            var request = new GetReplyReportsQuery
+            {
+                PageSize = paginationFilter.PageSize,
+                PageNumber = paginationFilter.PageNumber,
+                BoardId = boardId,
+                Date = date
+            };
 
             var result = await _mediator.Send(request);
 
