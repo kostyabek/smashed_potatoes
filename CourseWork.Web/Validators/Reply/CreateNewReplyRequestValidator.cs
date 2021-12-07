@@ -1,8 +1,8 @@
-﻿namespace CourseWork.Web.Validators.Reply
-{
-    using Core.Commands.Reply.CreateNewReply;
-    using FluentValidation;
+﻿using CourseWork.Core.Commands.Reply.CreateNewReply;
+using FluentValidation;
 
+namespace CourseWork.Web.Validators.Reply
+{
     /// <summary>
     /// Create New Reply Request Validator.
     /// </summary>

@@ -1,8 +1,8 @@
-﻿namespace CourseWork.Core.Database.Entities.Profile
-{
-    using Boards;
-    using Identity;
+﻿using CourseWork.Core.Database.Entities.Boards;
+using CourseWork.Core.Database.Entities.Identity;
 
+namespace CourseWork.Core.Database.Entities.Profile
+{
     /// <summary>
     /// User Board Subscription.
     /// </summary>

@@ -1,10 +1,10 @@
-﻿namespace CourseWork.Core.Commands.Thread.CreateNewThread
-{
-    using Attributes;
-    using CQRS;
-    using LS.Helpers.Hosting.API;
-    using Microsoft.AspNetCore.Http;
+﻿using CourseWork.Core.Attributes;
+using CourseWork.Core.CQRS;
+using LS.Helpers.Hosting.API;
+using Microsoft.AspNetCore.Http;
 
+namespace CourseWork.Core.Commands.Thread.CreateNewThread
+{
     /// <summary>
     /// CreateNewThreadCommand.
     /// </summary>

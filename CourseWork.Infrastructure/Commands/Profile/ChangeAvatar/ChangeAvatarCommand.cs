@@ -1,12 +1,12 @@
-﻿namespace CourseWork.Core.Commands.Profile.ChangeAvatar
-{
-    using Attributes;
-    using CQRS;
-    using LS.Helpers.Hosting.API;
-    using Microsoft.AspNetCore.Http;
+﻿using CourseWork.Core.Attributes;
+using CourseWork.Core.CQRS;
+using LS.Helpers.Hosting.API;
+using Microsoft.AspNetCore.Http;
 
+namespace CourseWork.Core.Commands.Profile.ChangeAvatar
+{
     /// <summary>
-    /// ChangeAvatarCommand
+    /// ChangeAvatarCommand.
     /// </summary>
     /// <seealso cref="ICommand{ExecutionResult}" />
     /// <inheritdoc />

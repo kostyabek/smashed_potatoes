@@ -42,7 +42,7 @@ namespace CourseWork.Core.Commands.Profile.ChangeAvatar
         /// <summary>
         /// Handles the specified request.
         /// </summary>
-        /// <param name="request">The request: ChangeAvatarCommand</param>
+        /// <param name="request">The request: ChangeAvatarCommand.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>
         /// string.

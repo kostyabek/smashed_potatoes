@@ -1,9 +1,9 @@
-﻿namespace CourseWork.Core.Database.Entities.Replies
-{
-    using System;
-    using Identity;
-    using Reports;
+﻿using System;
+using CourseWork.Core.Database.Entities.Identity;
+using CourseWork.Core.Database.Entities.Reports;
 
+namespace CourseWork.Core.Database.Entities.Replies
+{
     /// <summary>
     /// Reply Report.
     /// </summary>

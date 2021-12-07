@@ -1,10 +1,10 @@
-﻿namespace CourseWork.Core.Commands.Admin.DeleteReply
-{
-    using CQRS;
-    using LS.Helpers.Hosting.API;
+﻿using CourseWork.Core.CQRS;
+using LS.Helpers.Hosting.API;
 
+namespace CourseWork.Core.Commands.Admin.DeleteReply
+{
     /// <summary>
-    /// DeleteReplyCommand
+    /// DeleteReplyCommand.
     /// </summary>
     /// <seealso cref="ICommand{ExecutionResult}" />
     /// <inheritdoc />

@@ -1,16 +1,15 @@
-﻿namespace CourseWork.Core.Commands.Admin.IgnoreReplyReports
-{
-    using System;
-    using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Database;
-    using IgnoreReplyReport;
-    using LS.Helpers.Hosting.API;
-    using MediatR;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Logging;
+﻿using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using CourseWork.Core.Database;
+using LS.Helpers.Hosting.API;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
+namespace CourseWork.Core.Commands.Admin.IgnoreReplyReports
+{
     /// <summary>
     /// IgnoreReplyReportCommand handler.
     /// </summary>
@@ -37,9 +36,9 @@
         /// <summary>
         /// Handles the specified request.
         /// </summary>
-        /// <param name="request">The request: IgnoreReplyReportCommand</param>
+        /// <param name="request">The request: IgnoreReplyReportCommand.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>string</returns>
+        /// <returns>string.</returns>
         public async Task<ExecutionResult> Handle(IgnoreReplyReportsCommand request,
             CancellationToken cancellationToken)
         {

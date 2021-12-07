@@ -1,26 +1,26 @@
-﻿namespace CourseWork.Core.Commands.Reply.CreateNewReply
-{
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Text;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Database;
-    using Database.Entities.Files;
-    using Database.Entities.Replies;
-    using Helpers;
-    using LS.Helpers.Hosting.API;
-    using MediatR;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Logging;
-    using Services.UserService;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using CourseWork.Core.Database;
+using CourseWork.Core.Database.Entities.Files;
+using CourseWork.Core.Database.Entities.Replies;
+using CourseWork.Core.Helpers;
+using CourseWork.Core.Services.UserService;
+using LS.Helpers.Hosting.API;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
+namespace CourseWork.Core.Commands.Reply.CreateNewReply
+{
     /// <summary>
     /// CreateNewReplyCommand handler.
     /// </summary>
-    /// <seealso cref="MediatR.IRequestHandler{CreateNewReplyCommand}" />
+    /// <seealso cref="IRequestHandler{CreateNewReplyCommand}" />
     public class CreateNewReplyCommandHandler : IRequestHandler<CreateNewReplyCommand, ExecutionResult>
     {
         private readonly ILogger<CreateNewReplyCommandHandler> _logger;
@@ -46,9 +46,9 @@
         /// <summary>
         /// Handles the specified request.
         /// </summary>
-        /// <param name="request">The request: CreateNewReplyCommand</param>
+        /// <param name="request">The request: CreateNewReplyCommand.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>string</returns>
+        /// <returns>string.</returns>
         public async Task<ExecutionResult> Handle(CreateNewReplyCommand request,
             CancellationToken cancellationToken)
         {

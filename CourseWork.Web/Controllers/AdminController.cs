@@ -1,22 +1,26 @@
-﻿namespace CourseWork.Web.Controllers
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using CourseWork.Application.Pagination;
+using CourseWork.Core.Commands.Admin.BanUser;
+using CourseWork.Core.Commands.Admin.CreateNewBoard;
+using CourseWork.Core.Commands.Admin.DeleteBoard;
+using CourseWork.Core.Commands.Admin.DeleteReply;
+using CourseWork.Core.Commands.Admin.DeleteThread;
+using CourseWork.Core.Commands.Admin.IgnoreReplyReports;
+using CourseWork.Core.Commands.Admin.RemoveBanFromUser;
+using CourseWork.Core.Models.Admin;
+using CourseWork.Core.Queries.Admin.GetReplyReports;
+using LS.Helpers.Hosting.API;
+using LS.Helpers.Hosting.Extensions;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
+
+namespace CourseWork.Web.Controllers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using Core.Commands.Admin.BanUser;
-    using Core.Commands.Admin.DeleteBoard;
-    using Core.Commands.Admin.DeleteReply;
-    using Core.Commands.Admin.DeleteThread;
-    using Core.Commands.Admin.IgnoreReplyReport;
-    using Core.Commands.Admin.RemoveBanFromUser;
-    using Core.Commands.Board.CreateNewBoard;
-    using Core.Models.Admin;
-    using LS.Helpers.Hosting.API;
-    using LS.Helpers.Hosting.Extensions;
-    using MediatR;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Mvc;
-    using Swashbuckle.AspNetCore.Annotations;
+    using Core.Queries.Admin.GetBannedUsers;
 
     /// <inheritdoc />
     [SwaggerTag("Admin")]
@@ -30,7 +34,7 @@
         /// Initializes a new instance of the <see cref="AdminController"/> class.
         /// </summary>
         /// <param name="mediator">The mediator.</param>
-        /// <exception cref="ArgumentNullException">mediator</exception>
+        /// <exception cref="ArgumentNullException">mediator.</exception>
         public AdminController(IMediator mediator)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
@@ -96,6 +100,39 @@
         }
 
         /// <summary>
+        /// Get banned users.
+        /// </summary>
+        /// <param name="paginationFilter">The pagination filter.</param>
+        /// <param name="email">The email.</param>
+        /// <param name="displayName">The display name.</param>
+        /// <param name="banEndDate">The ban end date.</param>
+        /// <returns></returns>
+        [HttpGet]
+        [SwaggerOperation("Get banned users.")]
+        [Produces("application/json", "application/xml")]
+        [Route("admin/banned-users")]
+        [ProducesResponseType(typeof(ExecutionResult), 200)]
+        public async Task<IActionResult> GetBannedUsers(
+            [FromQuery] PaginatedQuery paginationFilter,
+            [FromQuery] string email,
+            [FromQuery] string displayName,
+            [FromQuery] DateTime? banEndDate)
+        {
+            var request = new GetBannedUsersQuery
+            {
+                PageNumber = paginationFilter.PageNumber,
+                PageSize = paginationFilter.PageSize,
+                Email = email,
+                DisplayName = displayName,
+                BanEndDate = banEndDate,
+            };
+
+            var result = await _mediator.Send(request);
+
+            return this.FromExecutionResult(result);
+        }
+
+        /// <summary>
         /// Delete a reply.
         /// </summary>
         /// <param name="id">The identifier.</param>
@@ -146,6 +183,36 @@
         public async Task<IActionResult> DeleteBoard([FromRoute] int id)
         {
             var request = new DeleteBoardCommand { Id = id };
+
+            var result = await _mediator.Send(request);
+
+            return this.FromExecutionResult(result);
+        }
+
+        /// <summary>
+        /// Get reply reports.
+        /// </summary>
+        /// <param name="paginationFilter">The pagination filter.</param>
+        /// <param name="boardId">The board identifier.</param>
+        /// <param name="date">The date.</param>
+        /// <returns></returns>
+        [HttpGet]
+        [SwaggerOperation("Get reply reports.")]
+        [Produces("application/json", "application/xml")]
+        [Route("admin/reply-reports")]
+        [ProducesResponseType(typeof(ExecutionResult), 200)]
+        public async Task<IActionResult> GetReplyReports(
+            [FromQuery] PaginatedQuery paginationFilter,
+            [FromQuery] int? boardId,
+            [FromQuery] DateTime? date)
+        {
+            var request = new GetReplyReportsQuery
+            {
+                PageSize = paginationFilter.PageSize,
+                PageNumber = paginationFilter.PageNumber,
+                BoardId = boardId,
+                Date = date
+            };
 
             var result = await _mediator.Send(request);
 

@@ -2,11 +2,13 @@
 using System.IO;
 using System.Reflection;
 using CourseWork.Common.Configurations;
+using CourseWork.Core;
 using CourseWork.Core.Database;
 using CourseWork.Core.Database.Entities.Identity;
+using CourseWork.Core.Helpers.DatabaseConnectionHelper;
+using CourseWork.Core.Helpers.EmailConfirmationHelper;
 using CourseWork.Core.Helpers.EmailTemplateHelper;
 using CourseWork.Core.Services.UserService;
-using CourseWork.Infrastructure;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
@@ -17,9 +19,6 @@ using Microsoft.OpenApi.Models;
 
 namespace CourseWork.Web.Extensions
 {
-    using Core.Helpers.DatabaseConnectionHelper;
-    using Core.Helpers.EmailConfirmationHelper;
-
     /// <summary>
     /// Contains extension methods for <see cref="IServiceCollection"/>.
     /// </summary>
@@ -45,7 +44,7 @@ namespace CourseWork.Web.Extensions
                 o.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(60);
                 o.Lockout.MaxFailedAccessAttempts = 7;
 
-                o.SignIn.RequireConfirmedEmail = true;
+                o.SignIn.RequireConfirmedEmail = false;
             });
 
             return services;
@@ -121,6 +120,7 @@ namespace CourseWork.Web.Extensions
         {
             services.Configure<HashingSecrets>(configuration.GetSection("HashingSecrets"));
             services.Configure<SmtpClientCredentials>(configuration.GetSection("SmtpClientCredentials"));
+            services.Configure<HostingSettings>(configuration.GetSection("HostingSettings"));
             return services;
         }
 

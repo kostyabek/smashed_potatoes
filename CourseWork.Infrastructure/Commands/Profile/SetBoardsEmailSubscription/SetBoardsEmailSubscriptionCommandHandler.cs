@@ -1,18 +1,18 @@
-﻿namespace CourseWork.Core.Commands.Profile.SetBoardsEmailSubscription
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Database;
-    using Database.Entities.Profile;
-    using LS.Helpers.Hosting.API;
-    using MediatR;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Logging;
-    using Services.UserService;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using CourseWork.Core.Database;
+using CourseWork.Core.Database.Entities.Profile;
+using CourseWork.Core.Services.UserService;
+using LS.Helpers.Hosting.API;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
+namespace CourseWork.Core.Commands.Profile.SetBoardsEmailSubscription
+{
     /// <summary>
     /// SetBoardsEmailSubscriptionCommand handler.
     /// </summary>
@@ -44,9 +44,9 @@
         /// <summary>
         /// Handles the specified request.
         /// </summary>
-        /// <param name="request">The request: SetBoardsEmailSubscriptionCommand</param>
+        /// <param name="request">The request: SetBoardsEmailSubscriptionCommand.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>string</returns>
+        /// <returns>string.</returns>
         public async Task<ExecutionResult> Handle(SetBoardsEmailSubscriptionCommand request,
             CancellationToken cancellationToken)
         {
@@ -64,7 +64,7 @@
                     .Select(e => e.Id)
                     .ToListAsync(cancellationToken);
 
-                if (user.BoardSubscriptions.Count + request.BoardIds.Count > 3)
+                if (request.BoardIds.Count > 3)
                 {
                     return new ExecutionResult(new ErrorInfo("Only 3 or less board subscriptions are allowed."));
                 }

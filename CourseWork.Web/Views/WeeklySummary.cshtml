@@ -1,65 +1,65 @@
 ﻿<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        body {
-            background-color: lightgoldenrodyellow;
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
-        }
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <style>
+            .bcolor {
+                background-color: lightyellow;
+            }
 
-        .greetings {
-            text-align: center;
-            border-bottom: 1px solid lightgray;
-        }
+            .greetings {
+                text-align: center;
+                border-bottom: 1px solid lightgray;
+                padding: 10px;
+            }
 
-        .main {
-            display: block;
-            border-bottom: 1px solid lightgray;
-            text-align: center;
-            padding-bottom: 21.28px;
-        }
+            .main {
+                border-bottom: 1px solid lightgray;
+                padding: 21.28px;
+            }
 
-        ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
+            img {
+                border-radius: 5px;
+            }
 
-        li {
-            display: block;
-            padding: 10px;
-        }
-    </style>
-</head>
-<body>
-    <section class="greetings">
-        <h1>Hello, @Model.User.DisplayName!</h1>
-        <h3>Here is our weekly summary, specially for you</h3>
-    </section>
+            .thread-name {
+                font-size: 18px;
+                color: black;
+            }
 
-    <section class="main">
-        @foreach (var entry in Model.BoardThreadWithRepliesModels)
-        {
-            <h4>@entry.BoardName</h4>
-            <h5>@entry.ThreadName</h5>
-            <img src="cid:@entry.ThreadMainPictureContentId" alt="pic-related" width="150" />
-            <ul>
-                @foreach (var reply in entry.Replies)
-                {
-                    <li>
-                        <span>@reply.UserDisplayName</span>
-                        <p>@reply.Content</p>
-                        @if (!string.IsNullOrWhiteSpace(reply.PicRelatedPath))
-                        {
-                            <img src="cid:@reply.PicRelatedContentId" alt="pic-related" width="150" />
-                        }
-                    </li>
+            a {
+                text-decoration: none;
+            }
+
+                p:hover {
+                    font-size: 19px;
+                    color: brown;
                 }
-            </ul>
-        }
-    </section>
-</body>
+
+            .thread-board-header-container {
+                text-align: center;
+                margin-bottom: 15px;
+            }
+        </style>
+    </head>
+    <body>
+        <section class="greetings bcolor">
+            <h1>Hello, @Model.User.DisplayName!</h1>
+            <h3>Here is our weekly summary, specially for you</h3>
+        </section>
+        
+        <section class="main bcolor">
+            @foreach (var entry in Model.BoardThreadWithRepliesModels)
+            {
+                <a href="http://@Model.Domain/threads/@entry.ThreadId/replies?PageNumber=1&PageSize=100">
+                    <div class="thread-board-header-container">
+                        <img src="cid:@entry.ThreadMainPictureContentId" alt="pic-related" width="150" />
+                        <p class="thread-name">/@entry.BoardName @entry.ThreadName (+@entry.NumberOfReplies)</p>
+                    </div>
+                </a>
+            }
+        </section>
+    </body>
 </html>

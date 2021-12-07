@@ -1,14 +1,13 @@
-﻿using System.Security.Claims;
+﻿using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using CourseWork.Core.Database;
+using CourseWork.Core.Database.Entities.Identity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using CourseWork.Core.Database.Entities.Identity;
 
 namespace CourseWork.Core.Services.UserService
 {
-    using System.Linq;
-
     /// <summary>
     /// Contains methods for user management.
     /// </summary>

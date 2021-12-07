@@ -1,8 +1,8 @@
-﻿namespace CourseWork.Core.Database.Entities.Identity
-{
-    using System.Collections.Generic;
-    using Microsoft.AspNetCore.Identity;
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
 
+namespace CourseWork.Core.Database.Entities.Identity
+{
     /// <summary>
     /// App role.
     /// </summary>

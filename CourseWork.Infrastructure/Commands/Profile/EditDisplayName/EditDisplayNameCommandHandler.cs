@@ -1,14 +1,14 @@
-﻿namespace CourseWork.Core.Commands.Profile.EditDisplayName
-{
-    using System;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Database;
-    using LS.Helpers.Hosting.API;
-    using MediatR;
-    using Microsoft.Extensions.Logging;
-    using Services.UserService;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+using CourseWork.Core.Database;
+using CourseWork.Core.Services.UserService;
+using LS.Helpers.Hosting.API;
+using MediatR;
+using Microsoft.Extensions.Logging;
 
+namespace CourseWork.Core.Commands.Profile.EditDisplayName
+{
     /// <summary>
     /// EditDisplayNameCommand handler.
     /// </summary>
@@ -38,9 +38,9 @@
         /// <summary>
         /// Handles the specified request.
         /// </summary>
-        /// <param name="request">The request: EditGeneralInfoCommand</param>
+        /// <param name="request">The request: EditGeneralInfoCommand.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>string</returns>
+        /// <returns>string.</returns>
         public async Task<ExecutionResult> Handle(EditDisplayNameCommand request,
             CancellationToken cancellationToken)
         {

@@ -1,9 +1,9 @@
-﻿namespace CourseWork.Core.Database.EntityConfigurations
-{
-    using Entities.Admin;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using CourseWork.Core.Database.Entities.Admin;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
+namespace CourseWork.Core.Database.EntityConfigurations
+{
     /// <summary>
     /// Ban Entity Type Configuration.
     /// </summary>

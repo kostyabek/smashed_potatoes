@@ -1,9 +1,9 @@
-﻿namespace CourseWork.Core.Database.EntityConfigurations
-{
-    using Entities.Replies;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using CourseWork.Core.Database.Entities.Replies;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
+namespace CourseWork.Core.Database.EntityConfigurations
+{
     /// <summary>
     /// Reply Report Entity Type Configuration.
     /// </summary>

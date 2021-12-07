@@ -1,8 +1,8 @@
-﻿namespace CourseWork.Core.Queries.Thread.GetRepliesForThread
-{
-    using System.Collections.Generic;
-    using Models.Reply;
+﻿using System.Collections.Generic;
+using CourseWork.Core.Models.Reply;
 
+namespace CourseWork.Core.Queries.Thread.GetRepliesForThread
+{
     /// <summary>
     /// GetRepliesForThreadQuery result.
     /// </summary>

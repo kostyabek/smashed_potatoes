@@ -2,15 +2,14 @@
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using CourseWork.Core.Database.Entities.Identity;
 using CourseWork.Core.Services.UserService;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CourseWork.Web.Middlewares
 {
-    using Core.Database.Entities.Identity;
-    using Microsoft.AspNetCore.Identity;
-
     /// <summary>
     /// Ban middleware.
     /// </summary>

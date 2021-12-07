@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using CourseWork.Common.Consts;
 using CourseWork.Core.Database.Entities.Identity;
+using CourseWork.Core.Database.Entities.Reports;
 using Microsoft.EntityFrameworkCore;
 
 namespace CourseWork.Core.Database.Extensions
 {
-    using Entities.Reports;
-
     /// <summary>
     /// Contains methods for database seed.
     /// </summary>
@@ -28,13 +26,6 @@ namespace CourseWork.Core.Database.Extensions
                     Name = "Admin",
                     NormalizedName = "Admin".ToUpper(),
                     ConcurrencyStamp = "2e6e4c4b-43d0-4a0d-9a9c-320c24260476",
-                },
-                new ()
-                {
-                    Id = AppConsts.UserRoles.Moderator,
-                    Name = "Moderator",
-                    NormalizedName = "Moderator".ToUpper(),
-                    ConcurrencyStamp = "41b26433-bda8-4fd6-954e-e6b947810df2",
                 },
                 new ()
                 {

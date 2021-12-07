@@ -1,12 +1,11 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 using CourseWork.Common.Consts;
+using Microsoft.AspNetCore.Http;
 
 namespace CourseWork.Core.Helpers
 {
-    using System.Text;
-    using Microsoft.AspNetCore.Http;
-
     /// <summary>
     /// Contains methods for getting image storage paths.
     /// </summary>

@@ -1,21 +1,21 @@
-﻿namespace CourseWork.Core.Queries.Board.GetThreadsForBoard
-{
-    using System;
-    using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Common.Consts;
-    using Database;
-    using Helpers;
-    using JetBrains.Annotations;
-    using LS.Helpers.Hosting.API;
-    using MediatR;
-    using Microsoft.AspNetCore.Http;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Logging;
-    using Models.Reply;
-    using Models.Thread;
+﻿using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using CourseWork.Common.Consts;
+using CourseWork.Core.Database;
+using CourseWork.Core.Helpers;
+using CourseWork.Core.Models.Reply;
+using CourseWork.Core.Models.Thread;
+using JetBrains.Annotations;
+using LS.Helpers.Hosting.API;
+using MediatR;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
+namespace CourseWork.Core.Queries.Board.GetThreadsForBoard
+{
     /// <summary>
     /// GetThreadsForBoardQuery handler.
     /// </summary>

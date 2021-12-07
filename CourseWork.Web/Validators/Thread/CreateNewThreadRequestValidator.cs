@@ -1,8 +1,8 @@
-﻿namespace CourseWork.Web.Validators.Thread
-{
-    using Core.Commands.Thread.CreateNewThread;
-    using FluentValidation;
+﻿using CourseWork.Core.Commands.Thread.CreateNewThread;
+using FluentValidation;
 
+namespace CourseWork.Web.Validators.Thread
+{
     /// <summary>
     /// Create New Thread Request Validator.
     /// </summary>

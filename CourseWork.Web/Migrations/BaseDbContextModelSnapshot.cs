@@ -160,20 +160,13 @@ namespace CourseWork.Web.Migrations
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "41b26433-bda8-4fd6-954e-e6b947810df2",
-                            Name = "Moderator",
-                            NormalizedName = "MODERATOR"
-                        },
-                        new
-                        {
-                            Id = 3,
                             ConcurrencyStamp = "07c3c173-38c0-444a-a5a6-511507b5e590",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = 4,
+                            Id = 3,
                             ConcurrencyStamp = "ab109c0f-d32f-4615-9ae2-b928afdc8088",
                             Name = "New user",
                             NormalizedName = "NEW USER"

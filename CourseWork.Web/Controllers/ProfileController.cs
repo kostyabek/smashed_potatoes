@@ -1,21 +1,21 @@
-﻿namespace CourseWork.Web.Controllers
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using Core.Commands.Profile.ChangeAvatar;
-    using Core.Commands.Profile.SetBoardsEmailSubscription;
-    using Core.Queries.Profile.GetProfileInfo;
-    using LS.Helpers.Hosting.API;
-    using LS.Helpers.Hosting.Extensions;
-    using MediatR;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Mvc;
-    using Swashbuckle.AspNetCore.Annotations;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using CourseWork.Core.Commands.Profile.ChangeAvatar;
+using CourseWork.Core.Commands.Profile.SetBoardsEmailSubscription;
+using CourseWork.Core.Queries.Profile.GetProfileInfo;
+using LS.Helpers.Hosting.API;
+using LS.Helpers.Hosting.Extensions;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
+namespace CourseWork.Web.Controllers
+{
     /// <inheritdoc />
     [SwaggerTag("Profile")]
-    [Authorize]
+    [Authorize(Roles = "User,Admin,Moderator")]
     [ApiController]
     [ApiExplorerSettings(GroupName = "v1")]
     public sealed class ProfileController : Controller
@@ -26,7 +26,7 @@
         /// Initializes a new instance of the <see cref="ProfileController"/> class.
         /// </summary>
         /// <param name="mediator">The mediator.</param>
-        /// <exception cref="ArgumentNullException">mediator</exception>
+        /// <exception cref="ArgumentNullException">mediator.</exception>
         public ProfileController(IMediator mediator)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));

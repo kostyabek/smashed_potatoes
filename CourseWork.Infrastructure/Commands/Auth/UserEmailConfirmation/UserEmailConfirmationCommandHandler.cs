@@ -1,16 +1,17 @@
-﻿namespace CourseWork.Core.Commands.Auth.UserEmailConfirmation
-{
-    using System;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Database;
-    using Database.Entities.Identity;
-    using LS.Helpers.Hosting.API;
-    using MediatR;
-    using Microsoft.AspNetCore.Identity;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Logging;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+using CourseWork.Common.Consts;
+using CourseWork.Core.Database;
+using CourseWork.Core.Database.Entities.Identity;
+using LS.Helpers.Hosting.API;
+using MediatR;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
+namespace CourseWork.Core.Commands.Auth.UserEmailConfirmation
+{
     /// <summary>
     /// UserEmailConfirmationCommand handler.
     /// </summary>
@@ -22,6 +23,7 @@
         private readonly ILogger<UserEmailConfirmationCommandHandler> _logger;
         private readonly BaseDbContext _dbContext;
         private readonly UserManager<AppUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserEmailConfirmationCommandHandler" /> class.
@@ -29,51 +31,71 @@
         /// <param name="logger">The logger.</param>
         /// <param name="dbContext">The database context.</param>
         /// <param name="userManager">The user manager.</param>
+        /// <param name="signInManager">The sign in manager.</param>
         public UserEmailConfirmationCommandHandler(
             ILogger<UserEmailConfirmationCommandHandler> logger,
             BaseDbContext dbContext,
-            UserManager<AppUser> userManager)
+            UserManager<AppUser> userManager,
+            SignInManager<AppUser> signInManager)
         {
             _logger = logger;
             _dbContext = dbContext;
             _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         /// <summary>
         /// Handles the specified request.
         /// </summary>
-        /// <param name="request">The request: UserEmailConfirmationCommand</param>
+        /// <param name="request">The request: UserEmailConfirmationCommand.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>string</returns>
+        /// <returns>string.</returns>
         public async Task<ExecutionResult> Handle(
             UserEmailConfirmationCommand request,
             CancellationToken cancellationToken)
         {
-            try
+            using (var transaction = await _dbContext.Database.BeginTransactionAsync(cancellationToken))
             {
-                var user = await _dbContext
-                    .Users
-                    .SingleOrDefaultAsync(e => e.Id == request.Model.UserId, cancellationToken);
-
-                if (user is null)
+                try
                 {
-                    return new ExecutionResult(new InfoMessage("Invalid data."));
+                    var user = await _dbContext
+                        .Users
+                        .Include(e => e.UserRoles)
+                        .SingleOrDefaultAsync(e => e.Id == request.Model.UserId, cancellationToken);
+
+                    if (user is null)
+                    {
+                        return new ExecutionResult(new InfoMessage("Invalid data."));
+                    }
+
+                    var confirmationResult = await _userManager.ConfirmEmailAsync(user, request.Model.Token);
+
+                    if (!confirmationResult.Succeeded)
+                    {
+                        await transaction.RollbackAsync(cancellationToken);
+                        return new ExecutionResult(new InfoMessage("Invalid data."));
+                    }
+
+                    user.UserRoles.Add(new AppUserRole
+                    {
+                        UserId = user.Id,
+                        RoleId = AppConsts.UserRoles.User
+                    });
+
+                    await _dbContext.SaveChangesAsync(cancellationToken);
+                    await transaction.CommitAsync(cancellationToken);
+
+                    await _signInManager.SignOutAsync();
+
+                    return new ExecutionResult(new InfoMessage("E-mail has been confirmed successfully."));
                 }
-
-                var confirmationResult = await _userManager.ConfirmEmailAsync(user, request.Model.Token);
-
-                if (!confirmationResult.Succeeded)
+                catch (Exception e)
                 {
-                    return new ExecutionResult(new InfoMessage("Invalid data."));
+                    await transaction.RollbackAsync(cancellationToken);
+                    _logger.LogError(e.Message);
+                    return new ExecutionResult(
+                        new ErrorInfo($"Error while executing {nameof(UserEmailConfirmationCommandHandler)}"));
                 }
-
-                return new ExecutionResult(new InfoMessage("E-mail has been confirmed successfully."));
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e.Message);
-                return new ExecutionResult(
-                    new ErrorInfo($"Error while executing {nameof(UserEmailConfirmationCommandHandler)}"));
             }
         }
     }

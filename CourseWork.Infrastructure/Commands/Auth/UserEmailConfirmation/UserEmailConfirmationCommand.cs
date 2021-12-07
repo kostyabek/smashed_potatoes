@@ -1,11 +1,11 @@
-﻿namespace CourseWork.Core.Commands.Auth.UserEmailConfirmation
-{
-    using CQRS;
-    using LS.Helpers.Hosting.API;
-    using Models.Auth;
+﻿using CourseWork.Core.CQRS;
+using CourseWork.Core.Models.Auth;
+using LS.Helpers.Hosting.API;
 
+namespace CourseWork.Core.Commands.Auth.UserEmailConfirmation
+{
     /// <summary>
-    /// UserEmailConfirmationCommand
+    /// UserEmailConfirmationCommand.
     /// </summary>
     /// <seealso cref="ICommand{ExecutionResult}" />
     /// <inheritdoc />

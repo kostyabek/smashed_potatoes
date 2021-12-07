@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using CourseWork.Core.Database.Entities.Threads;
 
 namespace CourseWork.Core.Database.Entities.Boards
 {
-    using System;
-
     /// <summary>
     /// Board type.
     /// </summary>

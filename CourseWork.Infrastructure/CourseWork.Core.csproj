@@ -33,6 +33,7 @@
     <Folder Include="Commands\Reply\CreateNewReply\" />
     <Folder Include="Commands\Reply\ReportReply\" />
     <Folder Include="Commands\Thread\CreateNewThread\" />
+    <Folder Include="Queries\Admin\GetBannedUsers\" />
     <Folder Include="Queries\Thread\GetRepliesForThread\" />
   </ItemGroup>
 

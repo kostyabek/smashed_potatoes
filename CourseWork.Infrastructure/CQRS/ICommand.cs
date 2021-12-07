@@ -1,12 +1,12 @@
-﻿namespace CourseWork.Core.CQRS
-{
-    using MediatR;
+﻿using MediatR;
 
+namespace CourseWork.Core.CQRS
+{
     /// <summary>
     /// CQRS command.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    /// <seealso cref="MediatR.IRequest&lt;T&gt;" />
+    /// <seealso cref="IRequest&lt;T&gt;" />
     public interface ICommand<out T> : IRequest<T>
     {
     }

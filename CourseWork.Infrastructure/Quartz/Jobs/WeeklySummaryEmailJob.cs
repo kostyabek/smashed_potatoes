@@ -1,11 +1,10 @@
 ﻿using System.Threading.Tasks;
+using CourseWork.Core.Services.WeeklySummaryEmailService;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz;
 
 namespace CourseWork.Core.Quartz.Jobs
 {
-    using Services.WeeklySummaryEmailService;
-
     /// <summary>
     /// Weekly Summary Email Job.
     /// </summary>

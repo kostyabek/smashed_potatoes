@@ -1,8 +1,8 @@
-﻿namespace CourseWork.Core.Queries.Thread.GetPopularThreads
-{
-    using System.Collections.Generic;
-    using Models.Thread;
+﻿using System.Collections.Generic;
+using CourseWork.Core.Models.Thread;
 
+namespace CourseWork.Core.Queries.Thread.GetPopularThreads
+{
     /// <summary>
     /// GetPopularThreadsQuery result.
     /// </summary>

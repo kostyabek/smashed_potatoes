@@ -3,12 +3,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using CourseWork.Core.Database;
 using CourseWork.Core.Database.Entities.Boards;
+using CourseWork.Core.Services.UserService;
 using LS.Helpers.Hosting.API;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using CourseWork.Core.Services.UserService;
 
-namespace CourseWork.Core.Commands.Board.CreateNewBoard
+namespace CourseWork.Core.Commands.Admin.CreateNewBoard
 {
     /// <summary>
     /// CreateNewBoardCommand handler.
@@ -39,9 +39,9 @@ namespace CourseWork.Core.Commands.Board.CreateNewBoard
         /// <summary>
         /// Handles the specified request.
         /// </summary>
-        /// <param name="request">The request: CreateNewBoardCommand</param>
+        /// <param name="request">The request: CreateNewBoardCommand.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>string</returns>
+        /// <returns>string.</returns>
         public async Task<ExecutionResult> Handle(CreateNewBoardCommand request,
             CancellationToken cancellationToken)
         {

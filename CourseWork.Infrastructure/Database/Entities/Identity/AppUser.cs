@@ -1,15 +1,13 @@
 ﻿using System.Collections.Generic;
-using Microsoft.AspNetCore.Identity;
+using CourseWork.Core.Database.Entities.Admin;
 using CourseWork.Core.Database.Entities.Files;
+using CourseWork.Core.Database.Entities.Profile;
 using CourseWork.Core.Database.Entities.Replies;
+using CourseWork.Core.Database.Entities.Threads;
+using Microsoft.AspNetCore.Identity;
 
 namespace CourseWork.Core.Database.Entities.Identity
 {
-    using System;
-    using Admin;
-    using Profile;
-    using Threads;
-
     /// <summary>
     /// App user.
     /// </summary>

@@ -1,10 +1,10 @@
-﻿namespace CourseWork.Core.Commands.Admin.DeleteThread
-{
-    using CQRS;
-    using LS.Helpers.Hosting.API;
+﻿using CourseWork.Core.CQRS;
+using LS.Helpers.Hosting.API;
 
+namespace CourseWork.Core.Commands.Admin.DeleteThread
+{
     /// <summary>
-    /// DeleteThreadCommand
+    /// DeleteThreadCommand.
     /// </summary>
     /// <seealso cref="ICommand{ExecutionResult}" />
     /// <inheritdoc />

@@ -1,16 +1,15 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CourseWork.Core.Database;
 using LS.Helpers.Hosting.API;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace CourseWork.Core.Commands.Admin.DeleteBoard
 {
-    using System.Linq;
-    using Microsoft.EntityFrameworkCore;
-
     /// <summary>
     /// DeleteBoardCommand handler.
     /// </summary>
@@ -36,9 +35,9 @@ namespace CourseWork.Core.Commands.Admin.DeleteBoard
         /// <summary>
         /// Handles the specified request.
         /// </summary>
-        /// <param name="request">The request: DeleteBoardCommand</param>
+        /// <param name="request">The request: DeleteBoardCommand.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>string</returns>
+        /// <returns>string.</returns>
         public async Task<ExecutionResult> Handle(DeleteBoardCommand request,
             CancellationToken cancellationToken)
         {

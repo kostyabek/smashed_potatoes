@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using CourseWork.Common.Consts;
+using CourseWork.Core.Commands.Auth.UserSignIn;
 using CourseWork.Core.Database;
 using CourseWork.Core.Database.Entities.Files;
 using CourseWork.Core.Database.Entities.Identity;
@@ -28,6 +29,7 @@ namespace CourseWork.Core.Commands.Auth.UserSignUp
         private readonly BaseDbContext _dbContext;
         private readonly UserManager<AppUser> _userManager;
         private readonly IEmailConfirmationHelper _emailConfirmationHelper;
+        private readonly IMediator _mediator;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserSignUpCommandHandler" /> class.
@@ -36,16 +38,19 @@ namespace CourseWork.Core.Commands.Auth.UserSignUp
         /// <param name="dbContext">The database context.</param>
         /// <param name="userManager">The user manager.</param>
         /// <param name="emailConfirmationHelper">The email confirmation helper.</param>
+        /// <param name="mediator">The mediator.</param>
         public UserSignUpCommandHandler(
             ILogger<UserSignUpCommandHandler> logger,
             BaseDbContext dbContext,
             UserManager<AppUser> userManager,
-            IEmailConfirmationHelper emailConfirmationHelper)
+            IEmailConfirmationHelper emailConfirmationHelper,
+            IMediator mediator)
         {
             _logger = logger;
             _dbContext = dbContext;
             _userManager = userManager;
             _emailConfirmationHelper = emailConfirmationHelper;
+            _mediator = mediator;
         }
 
         /// <summary>
@@ -71,6 +76,13 @@ namespace CourseWork.Core.Commands.Auth.UserSignUp
                     {
                         return new ExecutionResult<AppUser>(
                             new ErrorInfo("User with such username already exists."));
+                    }
+
+                    existingUser = await _dbContext.Users.SingleOrDefaultAsync(e => e.Email == request.Email, cancellationToken);
+                    if (existingUser != null)
+                    {
+                        return new ExecutionResult<AppUser>(
+                            new ErrorInfo("User with such e-mail already exists."));
                     }
 
                     await _userManager.CreateAsync(newUser, request.Password);
@@ -114,6 +126,14 @@ namespace CourseWork.Core.Commands.Auth.UserSignUp
                     }
 
                     await transaction.CommitAsync(cancellationToken);
+
+                    var signInCommand = new UserSignInCommand
+                    {
+                        Username = newUser.UserName,
+                        Password = request.Password
+                    };
+
+                    await _mediator.Send(signInCommand, cancellationToken);
 
                     await _emailConfirmationHelper.SendEmailConfirmationLink(newUser);
 

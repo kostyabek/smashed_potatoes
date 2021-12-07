@@ -1,10 +1,10 @@
-﻿namespace CourseWork.Core.Helpers.EmailTemplateHelper
-{
-    using System.IO;
-    using System.Threading.Tasks;
-    using RazorEngine;
-    using RazorEngine.Templating;
+﻿using System.IO;
+using System.Threading.Tasks;
+using RazorEngine;
+using RazorEngine.Templating;
 
+namespace CourseWork.Core.Helpers.EmailTemplateHelper
+{
     /// <summary>
     /// Email Template Helper.
     /// </summary>

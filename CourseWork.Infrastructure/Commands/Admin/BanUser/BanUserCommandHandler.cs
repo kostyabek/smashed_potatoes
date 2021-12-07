@@ -1,21 +1,18 @@
-﻿namespace CourseWork.Core.Commands.Admin.BanUser
-{
-    using System;
-    using System.Linq;
-    using System.Net;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Common.Consts;
-    using Database;
-    using Database.Entities.Admin;
-    using LS.Helpers.Hosting.API;
-    using MediatR;
-    using Microsoft.AspNetCore.Authentication.Cookies;
-    using Microsoft.AspNetCore.Http;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Logging;
-    using Services.UserService;
+﻿using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using CourseWork.Common.Consts;
+using CourseWork.Core.Database;
+using CourseWork.Core.Database.Entities.Admin;
+using CourseWork.Core.Services.UserService;
+using LS.Helpers.Hosting.API;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
+namespace CourseWork.Core.Commands.Admin.BanUser
+{
     /// <summary>
     /// BanUserCommand handler.
     /// </summary>
@@ -25,7 +22,6 @@
         private readonly ILogger<BanUserCommandHandler> _logger;
         private readonly BaseDbContext _dbContext;
         private readonly IUserService _userService;
-        private readonly IHttpContextAccessor _httpContextAccessor;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BanUserCommandHandler" /> class.
@@ -33,23 +29,20 @@
         /// <param name="logger">The logger.</param>
         /// <param name="dbContext">The database context.</param>
         /// <param name="userService">The user service.</param>
-        /// <param name="httpContextAccessor">The HTTP context accessor.</param>
         public BanUserCommandHandler(
             ILogger<BanUserCommandHandler> logger,
             BaseDbContext dbContext,
-            IUserService userService,
-            IHttpContextAccessor httpContextAccessor)
+            IUserService userService)
         {
             _logger = logger;
             _dbContext = dbContext;
             _userService = userService;
-            _httpContextAccessor = httpContextAccessor;
         }
 
         /// <summary>
         /// Handles the specified request.
         /// </summary>
-        /// <param name="request">The request: BanUserCommand</param>
+        /// <param name="request">The request: BanUserCommand.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>string.</returns>
         public async Task<ExecutionResult> Handle(BanUserCommand request, CancellationToken cancellationToken)
@@ -88,16 +81,6 @@
 
                 if (!request.IsBanPermanent)
                 {
-                    if (!request.BannedUntil.HasValue)
-                    {
-                        return new ExecutionResult(new ErrorInfo("Non-permanent bans must have due date and time."));
-                    }
-
-                    if ((int)(request.BannedUntil.Value - DateTime.UtcNow).TotalMinutes < 5)
-                    {
-                        return new ExecutionResult(new ErrorInfo("Ban timespan must be at least 5 minutes."));
-                    }
-
                     banRecord.IsPermanent = false;
                     banRecord.Until = request.BannedUntil;
                 }

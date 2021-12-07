@@ -1,9 +1,9 @@
-﻿namespace CourseWork.Core.Quartz
-{
-    using global::Quartz;
-    using global::Quartz.Spi;
-    using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Quartz;
+using Quartz.Spi;
 
+namespace CourseWork.Core.Quartz
+{
     /// <summary>
     /// Quartz Job Factory.
     /// </summary>

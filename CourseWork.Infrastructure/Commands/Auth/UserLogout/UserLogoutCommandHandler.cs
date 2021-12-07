@@ -1,12 +1,12 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
+using CourseWork.Core.Database.Entities.Identity;
+using CourseWork.Core.Services.UserService;
 using LS.Helpers.Hosting.API;
 using MediatR;
-using Microsoft.Extensions.Logging;
-using System;
-using CourseWork.Core.Database.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
-using CourseWork.Core.Services.UserService;
+using Microsoft.Extensions.Logging;
 
 namespace CourseWork.Core.Commands.Auth.UserLogout
 {
@@ -39,9 +39,9 @@ namespace CourseWork.Core.Commands.Auth.UserLogout
         /// <summary>
         /// Handles the specified request.
         /// </summary>
-        /// <param name="request">The request: UserLogoutCommand</param>
+        /// <param name="request">The request: UserLogoutCommand.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>string</returns>
+        /// <returns>string.</returns>
         public async Task<ExecutionResult> Handle(UserLogoutCommand request, CancellationToken cancellationToken)
         {
             try

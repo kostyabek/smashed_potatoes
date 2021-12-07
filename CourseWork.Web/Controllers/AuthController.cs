@@ -1,22 +1,20 @@
 ﻿using System;
 using System.Threading.Tasks;
+using CourseWork.Core.Commands.Auth.ResendUserEmailConfirmationLink;
+using CourseWork.Core.Commands.Auth.UserEmailConfirmation;
+using CourseWork.Core.Commands.Auth.UserLogout;
 using CourseWork.Core.Commands.Auth.UserSignIn;
 using CourseWork.Core.Commands.Auth.UserSignUp;
+using CourseWork.Core.Models.Auth;
 using LS.Helpers.Hosting.API;
 using LS.Helpers.Hosting.Extensions;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace CourseWork.Web.Controllers
 {
-    using Core.Commands.Auth.ResendUserEmailConfirmationLink;
-    using Core.Commands.Auth.UserEmailConfirmation;
-    using Core.Commands.Auth.UserLogout;
-    using Core.Database.Entities.Identity;
-    using Core.Models.Auth;
-    using Microsoft.AspNetCore.Identity;
-
     /// <inheritdoc />
     [ApiController]
     [SwaggerTag("Auth")]
@@ -24,19 +22,15 @@ namespace CourseWork.Web.Controllers
     public sealed class AuthController : Controller
     {
         private readonly IMediator _mediator;
-        private readonly UserManager<AppUser> _userManager;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AuthController" /> class.
         /// </summary>
         /// <param name="mediator">The mediator.</param>
-        /// <param name="userManager">The user manager.</param>
         /// <exception cref="ArgumentNullException">mediator.</exception>
-        public AuthController(IMediator mediator,
-            UserManager<AppUser> userManager)
+        public AuthController(IMediator mediator)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-            _userManager = userManager;
         }
 
         /// <summary>
@@ -59,15 +53,16 @@ namespace CourseWork.Web.Controllers
         /// <summary>
         /// Resend the e-mail confirmation link.
         /// </summary>
-        /// <param name="command">The command.</param>
         /// <returns></returns>
+        [Authorize(Roles = "New user")]
         [HttpPost]
         [SwaggerOperation("Resend e-mail confirmation link")]
         [Produces("application/json", "application/xml")]
         [Route("auth/e-mail-confirmation-link")]
         [ProducesResponseType(typeof(ExecutionResult), 200)]
-        public async Task<IActionResult> ResendEmailConfirmationLink([FromBody] ResendUserEmailConfirmationLinkCommand command)
+        public async Task<IActionResult> ResendEmailConfirmationLink()
         {
+            var command = new ResendUserEmailConfirmationLinkCommand();
             var result = await _mediator.Send(command);
 
             return this.FromExecutionResult(result);

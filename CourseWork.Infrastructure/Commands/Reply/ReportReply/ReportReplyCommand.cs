@@ -1,10 +1,10 @@
-﻿namespace CourseWork.Core.Commands.Reply.ReportReply
-{
-    using CQRS;
-    using LS.Helpers.Hosting.API;
+﻿using CourseWork.Core.CQRS;
+using LS.Helpers.Hosting.API;
 
+namespace CourseWork.Core.Commands.Reply.ReportReply
+{
     /// <summary>
-    /// ReportReplyCommand
+    /// ReportReplyCommand.
     /// </summary>
     /// <seealso cref="ICommand{ExecutionResult}" />
     /// <inheritdoc />

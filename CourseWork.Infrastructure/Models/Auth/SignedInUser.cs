@@ -1,7 +1,7 @@
-﻿namespace CourseWork.Core.Models.Auth
-{
-    using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
+namespace CourseWork.Core.Models.Auth
+{
     /// <summary>
     /// Signed In User model.
     /// </summary>

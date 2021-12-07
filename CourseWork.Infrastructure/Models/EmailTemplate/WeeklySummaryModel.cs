@@ -1,8 +1,8 @@
-﻿namespace CourseWork.Core.Models.EmailTemplate
-{
-    using System.Collections.Generic;
-    using Database.Entities.Identity;
+﻿using System.Collections.Generic;
+using CourseWork.Core.Database.Entities.Identity;
 
+namespace CourseWork.Core.Models.EmailTemplate
+{
     /// <summary>
     /// Weekly Summary Model.
     /// </summary>
@@ -15,6 +15,14 @@
         /// The user.
         /// </value>
         public AppUser User { get; set; }
+
+        /// <summary>
+        /// Gets or sets the domain.
+        /// </summary>
+        /// <value>
+        /// The domain.
+        /// </value>
+        public string Domain { get; set; }
 
         /// <summary>
         /// Gets or sets the board thread with replies models.

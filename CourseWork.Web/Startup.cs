@@ -1,6 +1,7 @@
 using CourseWork.Core.Helpers;
 using CourseWork.Core.Quartz;
 using CourseWork.Core.Quartz.Jobs;
+using CourseWork.Core.Services.WeeklySummaryEmailService;
 using CourseWork.Web.Extensions;
 using CourseWork.Web.Middlewares;
 using FluentValidation.AspNetCore;
@@ -14,8 +15,6 @@ using Quartz.Spi;
 
 namespace CourseWork.Web
 {
-    using Core.Services.WeeklySummaryEmailService;
-
     /// <summary>
     /// Startup class.
     /// </summary>
