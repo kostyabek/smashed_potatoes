@@ -60,9 +60,16 @@ namespace CourseWork.Core.Queries.Board.GetAllBoards
                     return new ExecutionResult<GetAllBoardsQueryResult>(new ErrorInfo("The user is not authorized"));
                 }
 
-                var boardModels = await _dbContext
+                var offset = request.PageSize * (request.PageNumber - 1);
+                var limit = request.PageSize;
+
+                var query = _dbContext
                     .Boards
-                    .AsNoTracking()
+                    .AsNoTracking();
+
+                var boardModels = await query
+                    .Skip(offset)
+                    .Take(limit)
                     .Select(f => new BoardModel
                     {
                         Id = f.Id,
@@ -71,7 +78,13 @@ namespace CourseWork.Core.Queries.Board.GetAllBoards
                     })
                     .ToListAsync(cancellationToken);
 
-                var result = new GetAllBoardsQueryResult { Models = boardModels };
+                var totalCount = await query.CountAsync(cancellationToken);
+
+                var result = new GetAllBoardsQueryResult
+                {
+                    Models = boardModels,
+                    TotalCount = totalCount
+                };
 
                 return new ExecutionResult<GetAllBoardsQueryResult>(result);
             }

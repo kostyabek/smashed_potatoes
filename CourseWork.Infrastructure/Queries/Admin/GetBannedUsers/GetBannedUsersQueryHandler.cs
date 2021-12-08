@@ -68,20 +68,24 @@ namespace CourseWork.Core.Queries.Admin.GetBannedUsers
                 var offset = request.PageSize * (request.PageNumber - 1);
                 var limit = request.PageSize;
 
-                var bannedUsers = await _dbContext
+                var query = _dbContext
                     .Bans
                     .Include(e => e.User)
                     .ThenInclude(e => e.Avatar)
                     .AsNoTracking()
                     .Where(displayNameFilter)
                     .Where(banEndDateFilter)
-                    .Where(emailFilter)
+                    .Where(emailFilter);
+
+                var bannedUsers = await query
                     .Skip(offset)
                     .Take(limit)
                     .Select(e => new BannedUserListItemModel
                     {
                         UserId = e.UserId,
-                        AvatarPath = e.User.Avatar == null ? null : $"{imagesPath}{AppConsts.StoragePaths.Avatars}/{e.User.Avatar.FileName}",
+                        AvatarPath = e.User.Avatar == null
+                            ? null
+                            : $"{imagesPath}{AppConsts.StoragePaths.Avatars}/{e.User.Avatar.FileName}",
                         BannedUntil = e.Until,
                         Reason = e.Reason,
                         IsBanPermanent = e.IsPermanent,
@@ -90,7 +94,13 @@ namespace CourseWork.Core.Queries.Admin.GetBannedUsers
                     })
                     .ToListAsync(cancellationToken);
 
-                var result = new GetBannedUsersQueryResult { Models = bannedUsers };
+                var totalCount = await query.CountAsync(cancellationToken);
+
+                var result = new GetBannedUsersQueryResult
+                {
+                    Models = bannedUsers,
+                    TotalCount = totalCount,
+                };
 
                 return new ExecutionResult<GetBannedUsersQueryResult>(result);
             }

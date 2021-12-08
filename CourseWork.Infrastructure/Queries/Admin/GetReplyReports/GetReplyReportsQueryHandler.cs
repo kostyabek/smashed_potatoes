@@ -67,14 +67,16 @@ namespace CourseWork.Core.Queries.Admin.GetReplyReports
                 var offset = request.PageSize * (request.PageNumber - 1);
                 var limit = request.PageSize;
 
-                var reports = await _dbContext
+                var query = _dbContext
                     .ReplyReports
                     .Include(e => e.ReportReason)
                     .Include(e => e.Reporter)
                     .Include(e => e.Reply.Thread)
                     .AsNoTracking()
                     .Where(boardFilter)
-                    .Where(dateFilter)
+                    .Where(dateFilter);
+
+                var reports = await query
                     .Skip(offset)
                     .Take(limit)
                     .Select(e => new ReplyReportDataModel
@@ -85,11 +87,19 @@ namespace CourseWork.Core.Queries.Admin.GetReplyReports
                         Explanation = e.Explanation,
                         Reason = e.ReportReason.Name,
                         ReporterId = e.ReporterId,
-                        ReporterAvatarPath = e.Reporter.Avatar == null ? null : $"{imagesPath}{AppConsts.StoragePaths.Avatars}/{e.Reporter.Avatar.FileName}"
+                        ReporterAvatarPath = e.Reporter.Avatar == null
+                            ? null
+                            : $"{imagesPath}{AppConsts.StoragePaths.Avatars}/{e.Reporter.Avatar.FileName}"
                     })
                     .ToListAsync(cancellationToken);
 
-                var result = new GetReplyReportsQueryResult { Models = reports };
+                var totalCount = await query.CountAsync(cancellationToken);
+
+                var result = new GetReplyReportsQueryResult
+                {
+                    Models = reports,
+                    TotalCount = totalCount
+                };
 
                 return new ExecutionResult<GetReplyReportsQueryResult>(result);
             }

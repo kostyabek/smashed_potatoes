@@ -15,5 +15,13 @@ namespace CourseWork.Core.Queries.Admin.GetBannedUsers
         /// The models.
         /// </value>
         public List<BannedUserListItemModel> Models { get; set; }
+
+        /// <summary>
+        /// Gets or sets the total count.
+        /// </summary>
+        /// <value>
+        /// The total count.
+        /// </value>
+        public long TotalCount { get; set; }
     }
 }
