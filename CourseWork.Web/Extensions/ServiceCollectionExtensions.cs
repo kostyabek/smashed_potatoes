@@ -118,7 +118,6 @@ namespace CourseWork.Web.Extensions
         /// <returns></returns>
         public static IServiceCollection AddConfigurations(this IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<HashingSecrets>(configuration.GetSection("HashingSecrets"));
             services.Configure<SmtpClientCredentials>(configuration.GetSection("SmtpClientCredentials"));
             services.Configure<HostingSettings>(configuration.GetSection("HostingSettings"));
             return services;
