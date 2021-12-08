@@ -15,5 +15,13 @@ namespace CourseWork.Core.Queries.Board.GetAllBoards
         /// The models.
         /// </value>
         public List<BoardModel> Models { get; set; }
+
+        /// <summary>
+        /// Gets or sets the total count.
+        /// </summary>
+        /// <value>
+        /// The total count.
+        /// </value>
+        public int TotalCount { get; set; }
     }
 }

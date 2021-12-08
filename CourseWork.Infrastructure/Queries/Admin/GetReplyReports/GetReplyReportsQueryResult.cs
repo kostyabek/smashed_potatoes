@@ -15,5 +15,13 @@ namespace CourseWork.Core.Queries.Admin.GetReplyReports
         /// The models.
         /// </value>
         public List<ReplyReportDataModel> Models { get; set; }
+
+        /// <summary>
+        /// Gets or sets the total count.
+        /// </summary>
+        /// <value>
+        /// The total count.
+        /// </value>
+        public int TotalCount { get; set; }
     }
 }
